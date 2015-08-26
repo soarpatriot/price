@@ -21,16 +21,10 @@
 //= require nprogress-turbolinks
 
 //= require bootstrap
-//= require imagesloaded.pkgd.min
 //= require fastclick
 //= require animo
 
-//= require blueimp-helper
-//= require blueimp-gallery
-//= require blueimp-gallery-fullscreen
-//= require blueimp-gallery-indicator
-//= require jquery.blueimp-gallery
-
+//= require map
 
 
 

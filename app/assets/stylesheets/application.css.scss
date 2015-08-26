@@ -34,46 +34,9 @@
 .alert-alert{
   @extend .alert-warning
 }
-.enter-shop-btn{
-  color: #FF0000;
-}
 
-.img-inline{
-  display: inline-block;
-  
-}
 
-.media-head{
-  width: 54px;
-}
 
-.wanted-head{
-  width: 36px;
-  margin: 0 5px;
-}
-.comments-head{
-  width: 36px;
-}
-.like-area{
-  @extend .clearfix;
-  margin: 5px 0;
-  padding: 5px;
-  background-color: #f9f9f9;
-}
-.like-opt{
-  float:left;
-  width: 45px 
-}
-
-.voters{
-  float: left;
-  
-}
-
-.comments-text{
-    padding-top:5px;
-}
-
-.comments-btn{
-  font-size: 20px
+#map-container{
+  height: 500px;
 }
