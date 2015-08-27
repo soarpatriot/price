@@ -17,9 +17,7 @@
  *= require ngprogress
  *= require animate+animo
 
- *= require blueimp-gallery.min
- *= require jquery.fileupload
- *= require jquery.fileupload-ui
+ *= require map
 
  */
 @import "bootstrap-sprockets";
@@ -39,4 +37,16 @@
 
 #map-container{
   height: 500px;
+  .operation-container{
+    position: absolute; 
+    z-index:  1024;
+    background: #fff;
+    width: 300px;
+    height: 60px;
+    top: 0;
+    right: 0;
+  }
 }
+
+
+

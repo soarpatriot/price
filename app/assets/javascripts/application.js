@@ -24,7 +24,7 @@
 //= require fastclick
 //= require animo
 
-//= require map
+//= require draw
 
 
 
