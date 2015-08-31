@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-
+  resources :stations
   patch '/photos' => 'photos#upload'
   resources :photos, :only => [:index, :create, :destroy, :update] do
     member do
@@ -13,17 +13,6 @@ Rails.application.routes.draw do
     end
 
   end
-  resources :posts do 
-      collection do 
-        get 'upload'
-      end
-      member do 
-        patch "commented"
-        post "like"
-        patch "sent"
-      end 
-  end
-
   resources :users do 
     member do 
       get 'posts'

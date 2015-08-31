@@ -3,12 +3,7 @@ html
     head
         = render "shared/meta"
         = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-        = stylesheet_link_tag    'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css', media: 'all', 'data-turbolinks-track' => true
-        = javascript_include_tag 'http://api.map.baidu.com/api?v=1.5&ak=00bf4cd7474f3f7dea81118417aa3c88', 'data-turbolinks-track' => true
-        = javascript_include_tag 'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js', 'data-turbolinks-track' => true
-        = stylesheet_link_tag    'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css', media: 'all', 'data-turbolinks-track' => true
-        = javascript_include_tag 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js', 'data-turbolinks-track' => true
-        = stylesheet_link_tag    'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css', media: 'all', 'data-turbolinks-track' => true
+        = render "shared/baidu_map_assets"
         = javascript_include_tag 'application', 'data-turbolinks-track' => true
         = csrf_meta_tags
     body
