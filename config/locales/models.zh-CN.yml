@@ -6,7 +6,10 @@ zh-CN:
         shop: "商店"
         activity: "商品促销"
         post: "闲置"
+        city: "市"
       attributes:
+        city: 
+           province: "省，直辖市"
         shop:
            title: "商店名称"
            description: "经营描述"

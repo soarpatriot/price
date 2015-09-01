@@ -1,0 +1,15 @@
+
+= simple_form_for @city, html:{class:"form-inline"} do |f| 
+ 
+  = f.association :province, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3"
+table.table 
+  thead
+    tr 
+      th 省 
+      th 市
+      th 操作
+  tbody 
+    tr
+      td 
+      td 
+      td

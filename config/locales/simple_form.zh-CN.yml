@@ -11,6 +11,10 @@ zh-CN:
     error_notification:
       default_message: "请检查如下问题："
     # Labels and hints examples
+    labels: 
+      city:
+        province: '省，直辖市：' 
+
     # labels:
     #   defaults:
     #     password: 'Password'

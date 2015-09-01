@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   resources :stations
+  resources :cities
   patch '/photos' => 'photos#upload'
   resources :photos, :only => [:index, :create, :destroy, :update] do
     member do
