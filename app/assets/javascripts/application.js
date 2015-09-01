@@ -23,6 +23,7 @@
 //= require bootstrap
 //= require fastclick
 //= require animo
+//= require jquery-json
 
 //= require draw
 

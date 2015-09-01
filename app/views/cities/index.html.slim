@@ -9,7 +9,12 @@ table.table
       th 市
       th 操作
   tbody 
-    tr
-      td 
-      td 
-      td
+    - @cities.each do |city|
+      tr
+        td #{city.description}
+        td 
+        td 
+         .btn-group
+           = link_to  "编辑", map_city_path(city), class:"btn btn-warning"
+
+

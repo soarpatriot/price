@@ -9,6 +9,10 @@ class CitiesController < ApplicationController
      @cities = City.where(province_id: city_params[:province_id]).page params[:page]
    end 
 
+   def map 
+     @city = City.find(params[:id])
+   end
+
    def about
    	 
    end

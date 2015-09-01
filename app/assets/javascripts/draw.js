@@ -6,28 +6,8 @@ $(function(){
   // 百度地图API功能
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
-    
-    var ps=[
-      {lat:40.06664,lng:116.296857},
-      {lat:40.065149,lng:116.303684},
-      {lat:40.059848,lng:116.299444},
-      {lat:40.062774,lng:116.283131},
-      {lat:40.067468,lng:116.286365},
-      {lat:40.06664,lng:116.296857}
-    ];
-
-    var ps1= [
-      {lat:40.06167,lng:116.325315},
-      {lat:40.057197,lng:116.324453},
-      {lat:40.057197,lng:116.331136},
-      {lat:40.060676,lng:116.333005},
-      {lat:40.06167,lng:116.325315}
-
-    ];
-    var p;
-    var i=0;
-    var pointsArr = []
-   
+    var cityId = $("#city-id").val();
+  
     var overlays = [];
     var overlaycomplete = function(e){
         console.log(e.overlay);
@@ -61,6 +41,85 @@ $(function(){
 
     map.centerAndZoom(poi, 15);
     map.enableScrollWheelZoom();  
+    var ploygons = [];
+    $.get("http://localhost:9000/v1/stations/city.json",{city_id:cityId},function(data){
+      console.log(data); 
+      $.each(data,function(key,station){
+        //console.log(station); 
+        var arr = convertToPointsOjeArray(station.points);
+        var ploygon = new BMap.Polygon(arr,styleOptions);
+        ploygon.stationId = station.id;
+        ploygon.addEventListener("dblclick",function(){
+          ploygon.enableEditing()
+          //console.log("edit");
+        });
+        ploygon.addEventListener("lineupdate",function(type,target){
+          
+          //console.log("type:"+type);
+          //console.log("type:"+ploygon.stationId);
+          var points = ploygon.getPath();
+          //console.log("points:"+points);
+          var pos = convertObjToDataPoints(points);
+
+          var data = {id:ploygon.stationId,points:pos}
+           
+          //console.log("data:"+JSON.stringify(data));
+
+        });
+        ploygons.push(ploygon);
+        map.addOverlay(ploygon);
+      });
+
+      $("#save-btn").click(function(){
+         var i=0;
+         var data;
+         var points;
+         var pos;
+         var stationId;
+         var dataStr;
+         for(i=0; i<ploygons.length;i++){
+            points = ploygons[i].getPath();
+            pos = convertObjToDataPoints(points);
+
+            stationId = ploygons[i].stationId;
+            dataStr = "{id:"+stationId+",points:"+pos+"}"
+            data = {id:ploygons[i].stationId,points:pos}
+            console.log("data:"+data);
+            var dataStr= JSON.stringify(data);
+            console.log("data:" + JSON.stringify(data));
+            $.ajax({
+              type:"put",
+              dataType: "json",
+              contentType: "application/json",
+              url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+              headers: {"X-HTTP-Method-Override": "put"}, 
+              data: JSON.stringify(data)
+            }); 
+         }
+      });
+
+    });   
+
+    function convertObjToDataPoints(points){
+      //console.log("points:"+points);
+      var pos = [];
+      var str = "["
+      var p1 = "[";
+      $.each(points,function(key,point){
+        var p = {lantitude:point.lat,longitude:point.lng};
+        //console.log("type:"+point.lng);
+        //console.log("type:"+point.lat);
+        //p1 = p1 + "{\"lantitude\":"+point.lat+",\"longitude\":"+point.lng+"}," 
+        p1 = p1 + "{lantitude:"+point.lat+",longitude:"+point.lng+"}," 
+        pos.push(p);
+      })
+      p1 = p1.substr(0,p1.length-1);
+      p1 = p1 + "]"
+      console.log("pos:"+p1);
+      return pos;
+      //return pos;
+    } 
+    /** 
     var arr = poArr(ps)
     var ploygon = new BMap.Polygon(arr,styleOptions);
     ploygon.addEventListener("dblclick",function(){
@@ -84,7 +143,7 @@ $(function(){
       console.log(point);
     })
 
-    map.addOverlay(ploygon1)
+    map.addOverlay(ploygon1)**/
 
     //实例化鼠标绘制工具
     var drawingManager = new BMapLib.DrawingManager(map, {
@@ -105,12 +164,21 @@ $(function(){
 
        
     function clearAll() {
-    for(var i = 0; i < overlays.length; i++){
+        for(var i = 0; i < overlays.length; i++){
             map.removeOverlay(overlays[i]);
         }
         overlays.length = 0   
     }
-
+    
+    function convertToPointsOjeArray(ps){
+      var pointsArr = []
+      var p;
+      for(i=0;i< ps.length ;i++){
+        p = new BMap.Point(ps[i].longitude,ps[i].lantitude); 
+        pointsArr.push(p); 
+      }
+      return pointsArr;
+    }
     function poArr(ps){
       var pointsArr = []
       var p;
