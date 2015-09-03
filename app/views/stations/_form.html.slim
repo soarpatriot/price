@@ -1,0 +1,9 @@
+
+= simple_form_for @station do |f|
+  = f.error_notification
+  = f.association :stationable, require: true, collection: City.all, label_method: :description, value_method: :id 
+  = f.input :description
+  = f.input :lantitude 
+  = f.input :longitude 
+  = f.button :submit, class: "btn btn-primary"
+

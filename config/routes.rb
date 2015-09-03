@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  resources :stations
+  resources :stations do 
+    member do 
+      get 'area'
+    end
+  end
   resources :cities do 
     member do 
       get 'map'

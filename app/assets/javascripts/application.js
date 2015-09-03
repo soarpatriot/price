@@ -25,7 +25,9 @@
 //= require animo
 //= require jquery-json
 
+//= require map-utils
 //= require draw
+//= require station-areas
 
 
 
