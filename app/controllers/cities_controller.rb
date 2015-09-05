@@ -2,7 +2,13 @@ class CitiesController < ApplicationController
 
    def index
      @city = City.new 
-     @cities = City.page params[:page]
+     unless params[:province_id].blank?
+       province_id = params[:province_id]
+       @city.province_id = province_id
+       @cities = City.where(province_id: province_id).page params[:page] unless province_id.blank?
+     else 
+       @cities = City.page params[:page]
+     end
    end
   
    def province 

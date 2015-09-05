@@ -8,28 +8,27 @@ $(function(){
     var poi = new BMap.Point(116.307852,40.057031);
     var cityId = $("#city-id").val();
   
-    var overlays = [];
+    var ploygons = [];
     var overlaycomplete = function(e){
-        var overlay = e.overlay;
-        overlay.addEventListener("click",function(){
-          var points = overlay.getPath();
-          var pos  =  convertObjToDataPoints(points)
-          $("#unsaved-points").val(JSON.stringify(pos));
-          $("#station-modal").modal("show");
 
-          console.log("aa"); 
-        });
+        var ploygon = e.overlay;
+        ploygons.push(ploygon);
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
+        var ployMenu = new BMap.ContextMenu();
+        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+        var saveItem = new BMap.MenuItem('保存',setPloygonStation.bind(ploygon));
+        var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
+        ployMenu.addItem(editItem);
+        ployMenu.addItem(saveItem);
+        ployMenu.addItem(deleteItem);
         
-        /** 
-        $.map(points,function(p,i){
-          console.log(i);
-          console.log("lat:"+p.lat+",lng:"+p.lng);
-        })**/
-        
-        //console.log(e.overlay.Q);
-        overlays.push(e.overlay);
+        ploygon.addContextMenu(ployMenu);
+   
+        console.log(index);
     };
     $("#station-modal").on("show.bs.modal",function(e){
+      /**
       $.get("http://localhost:9000/v1/stations/nopoints.json",{city_id:cityId},function(data){
         var optionStr = ""
         $.each(data,function(key,station){
@@ -38,35 +37,70 @@ $(function(){
         });
         $("#station-select").empty();
         $("#station-select").append(optionStr);
-      });
+      });**/
       console.log("absdf");  
     });
 
     $("#station-save").click(function(){
       console.log("save...")
-      var pointsStr = $("#unsaved-points").val();
-      var stationId = $("#station-select").val();
-      var dataStr = '{"id":'+stationId+',"points":'+pointsStr+'}';
-      console.log("dataStr"+dataStr);
-      $.ajax({
-        type:"put",
-        dataType: "json",
-        contentType: "application/json",
-        url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-        headers: {"X-HTTP-Method-Override": "put"}, 
-        data: dataStr
-      }); 
+      var data = {};
+      var index = $("#ploygon-index").val();
+      var ploygon = ploygons[index];
+      var points = ploygon.getPath();
+      var pos  =  convertObjToDataPoints(points)
+      var stationName = $("#station-name").val();
+      var cityId = $("#city-id").val();
+      var dataStr = ""
+      if(ploygon.stationId){
+        var stationId = ploygon.stationId;
+        data = {id:stationId,description: stationName, points: pos }
+        dataStr = JSON.stringify(data);
+        console.log("dataStr2342"+dataStr);
+        $.ajax({
+          type:"put",
+          dataType: "json",
+          contentType: "application/json",
+          url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+          headers: {"X-HTTP-Method-Override": "put"}, 
+          success: function(station){
+            ploygons[index].stationId = station.id
+            ploygons[index].stationName = station.description; 
+          },
+ 
+          data: dataStr
+        }); 
+        ploygon.disableEditing();
+      }else{
+        data = {stationable_id:cityId,stationable_type:"City", description: stationName, points: pos }
+        dataStr = JSON.stringify(data);
+        console.log("dataStr121"+dataStr);
+        $.ajax({
+          type:"post",
+          dataType: "json",
+          contentType: "application/json",
+          url: "http://localhost:9000/v1/stations.json", 
+          success: function(station){
+            ploygons[index].stationId = station.id
+            ploygons[index].stationName = station.description; 
+          },
+          data: dataStr
+        }); 
+        ploygon.disableEditing();
+      }
+      $("#station-modal").modal("hide");
     });
 
     map.centerAndZoom(poi, 15);
     map.enableScrollWheelZoom();  
-    var ploygons = [];
     $.get("http://localhost:9000/v1/stations/city.json",{city_id:cityId},function(data){
       console.log(data); 
       $.each(data,function(key,station){
         console.log(station); 
         var arr = convertToPointsOjeArray(station.points);
         var ploygon = new BMap.Polygon(arr,styleOptions);
+        ploygons.push(ploygon);
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
         
         var markerPoint = new BMap.Point(station.longitude,station.lantitude);
         var marker = new BMap.Marker(markerPoint);
@@ -75,47 +109,20 @@ $(function(){
         map.addOverlay(marker);
         //.setLabel(label);
         ploygon.stationId = station.id;
-        ploygon.addEventListener("dblclick",function(){
-          ploygon.enableEditing()
-          //console.log("edit");
-        });
-        ploygon.addEventListener("lineupdate",function(type,target){
-          
-          //console.log("type:"+type);
-          //console.log("type:"+ploygon.stationId);
-          //console.log("points:"+points);
-           
-          //console.log("data:"+JSON.stringify(data));
-
-        });
-        ploygons.push(ploygon);
+        ploygon.stationName = station.description; 
+        var ployMenu = new BMap.ContextMenu();
+        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+        var saveItem = new BMap.MenuItem('保存',setPloygonStation.bind(ploygon));
+        var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
+ 
+        ployMenu.addItem(editItem);
+        ployMenu.addItem(saveItem);
+        ployMenu.addItem(deleteItem);
+        
+        //ploygons.push(ploygon);
         map.addOverlay(ploygon);
-      });
-
-      $("#save-btn").click(function(){
-         var i=0;
-         var data;
-         var points;
-         var pos;
-         var stationId;
-         var dataStr;
-         for(i=0; i<ploygons.length;i++){
-            points = ploygons[i].getPath();
-            pos = convertObjToDataPoints(points);
-
-            stationId = ploygons[i].stationId;
-            data = {id:stationId,points:pos}
-            dataStr= JSON.stringify(data);
-            console.log("data:" + JSON.stringify(data));
-            $.ajax({
-              type:"put",
-              dataType: "json",
-              contentType: "application/json",
-              url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-              headers: {"X-HTTP-Method-Override": "put"}, 
-              data: dataStr
-            }); 
-         }
+        ploygon.addContextMenu(ployMenu);
+ 
       });
 
     });   
@@ -127,12 +134,11 @@ $(function(){
         drawingToolOptions: {
             anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
             offset: new BMap.Size(5, 5), //偏离值
+            drawingModes: [BMAP_DRAWING_POLYGON]
         },
-        circleOptions: styleOptions, //圆的样式
-        polylineOptions: styleOptions, //线的样式
-        polygonOptions: drawOptions, //多边形的样式
-        rectangleOptions: styleOptions //矩形的样式
+        polygonOptions: drawOptions //多边形的样式
     });  
+
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
 

@@ -19,6 +19,109 @@ var drawOptions = {
     strokeStyle: 'solid' //边线的样式，solid或dashed。
 }
 
+var editPloygon = function(e,ee,ploygon){
+  ploygon.enableEditing()
+};
+var savePloygon = function(e,ee,ploygon){
+    var points = ploygon.getPath();
+    var pos = convertObjToDataPoints(points);
+
+    var stationId = ploygon.stationId;
+    var data = {id:stationId,points:pos}
+    var dataStr= JSON.stringify(data);
+    console.log("data:" + JSON.stringify(data));
+    $.ajax({
+      type:"put",
+      dataType: "json",
+      contentType: "application/json",
+      url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+      headers: {"X-HTTP-Method-Override": "put"}, 
+      success: function(station){
+        ploygon.stationId = station.id; 
+      },
+      data: dataStr
+    }); 
+    ploygon.disableEditing();
+
+};
+var deletePloygon = function(e,ee,ploygon){
+
+    var stationId = ploygon.stationId;
+    var data = {id:stationId}
+    var dataStr= JSON.stringify(data);
+    console.log("data:" + JSON.stringify(data));
+    if(stationId){
+      var data = {id:stationId}
+      var dataStr= JSON.stringify(data);
+      $.ajax({
+        type:"delete",
+        dataType: "json",
+        contentType: "application/json",
+        url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+        headers: {"X-HTTP-Method-Override": "delete"}, 
+        data: dataStr
+      }); 
+    }
+    var map = ploygon.getMap();
+    map.removeOverlay(ploygon);
+
+}
+var saveAreaPloygon = function(e,ee,ploygon){
+    var points = ploygon.getPath();
+    var pos = convertObjToDataPoints(points);
+
+    var stationId = ploygon.stationId;
+    var data = {id:stationId,points:pos}
+    var dataStr= JSON.stringify(data);
+    console.log("data:" + JSON.stringify(data));
+    $.ajax({
+      type:"put",
+      dataType: "json",
+      contentType: "application/json",
+      url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+      headers: {"X-HTTP-Method-Override": "put"}, 
+      data: dataStr
+    }); 
+    ploygon.disableEditing();
+
+};
+
+function deletePloygonArea(e,ee,ploygon){
+  var areaId = ploygon.areaId; 
+  if(areaId){
+    var dataStr = '{"id":'+areaId+'}'
+    $.ajax({
+      type:"delete",
+      dataType: "json",
+      contentType: "application/json",
+      url: "http://localhost:9000/v1/areas/"+areaId+".json", 
+      headers: {"X-HTTP-Method-Override": "delete"}, 
+      data: dataStr
+    }); 
+  }
+  var map = ploygon.getMap();
+  map.removeOverlay(ploygon);
+};
+
+function setPloygonArea(e,ee,ploygon) {
+  var points = ploygon.getPath();
+  var pos  =  convertObjToDataPoints(points)
+  $("#area-id").val(ploygon.areaId);
+  $("#unsaved-points").val(JSON.stringify(pos));
+  $("#commission-modal").modal("show");
+  ploygon.disableEditing();
+}
+
+
+function setPloygonStation(e,ee,ploygon) {
+  console.log("index:"+ploygon.index);
+  var points = ploygon.getPath();
+  var pos  =  convertObjToDataPoints(points)
+  $("#ploygon-index").val(ploygon.index);
+  $("#station-name").val(ploygon.stationName);
+  $("#station-modal").modal("show");
+}
+
 
 function convertObjToDataPoints(points){
 

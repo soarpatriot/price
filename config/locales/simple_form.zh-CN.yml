@@ -14,7 +14,16 @@ zh-CN:
     labels: 
       city:
         province: '省，直辖市：' 
-
+      station: 
+        stationable: '所属省：'
+        description: '站点名称'
+        lantitude: '经度'
+        longitude: '纬度'
+        edit: 
+          sumbit: '站点'
+      commission:
+        name: '名称'
+        price: '提成'
     # labels:
     #   defaults:
     #     password: 'Password'

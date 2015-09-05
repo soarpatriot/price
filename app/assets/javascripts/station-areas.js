@@ -6,56 +6,86 @@ $(function(){
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
     var stationId = $("#station-id").val();
-  
+    var ploygons = [];
+    var stationUrl = "http://localhost:9000/v1/stations/"+stationId+".json"
+    var areaUrl = "http://localhost:9000/v1/stations/"+stationId+"/areas.json"
+
+ 
     var overlays = [];
     var overlaycomplete = function(e){
-        var overlay = e.overlay;
-        overlay.addEventListener("click",function(){
-          var points = overlay.getPath();
-          var pos  =  convertObjToDataPoints(points)
-          $("#unsaved-points").val(JSON.stringify(pos));
-          $("#station-modal").modal("show");
-
-          console.log("aa"); 
-        });
+        var ploygon = e.overlay;
+        var ployMenu = new BMap.ContextMenu();
+        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+        var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
+        var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
+        //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
+        ployMenu.addItem(editItem);
+        ployMenu.addItem(saveItem);
+        ployMenu.addItem(deleteItem);
+        // ployMenu.addItem(editAreaItem);
         
-        //console.log(e.overlay.Q);
-        overlays.push(e.overlay);
+        ploygon.addContextMenu(ployMenu);
+       
+        // overlays.push(e.overlay);
     };
-    $("#station-modal").on("show.bs.modal",function(e){
-      $.get("http://localhost:9000/v1/stations/nopoints.json",{station_id:cityId},function(data){
+    $("#commission-modal").on("show.bs.modal",function(e){
+      $.get("http://localhost:9000/v1/commissions.json",function(data){
         var optionStr = ""
-        $.each(data,function(key,station){
-          console.log(station); 
-          optionStr += "<option value='"+station.id+"'>"+station.description+"</option>"
+        $.each(data,function(key,commission){
+          console.log(commission); 
+          optionStr += "<option value='"+commission.id+"'>"+commission.name+"</option>"
         });
-        $("#station-select").empty();
-        $("#station-select").append(optionStr);
+        $("#commission-select").empty();
+        $("#commission-select").append(optionStr);
       });
       console.log("absdf");  
     });
 
-    $("#station-save").click(function(){
+    $("#commission-save").click(function(){
       console.log("save...")
       var pointsStr = $("#unsaved-points").val();
-      var stationId = $("#station-select").val();
-      var dataStr = '{"id":'+stationId+',"points":'+pointsStr+'}';
+      var areaId = $("#area-id").val();
+      var commessionId = $("#commission-select").val();
+      var label = "abc";
+      var dataStr = "";
       console.log("dataStr"+dataStr);
-      $.ajax({
-        type:"put",
-        dataType: "json",
-        contentType: "application/json",
-        url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-        headers: {"X-HTTP-Method-Override": "put"}, 
-        data: dataStr
-      }); 
+      var areaSaveUrl = "http://localhost:9000/v1/areas.json" 
+      var updateAreaUrl = "";
+      //$.post(areaSaveUrl)
+      console.log("area id:"+areaId); 
+      if(areaId){
+        console.log("if area id:"+areaId); 
+        updateAreaUrl = "http://localhost:9000/v1/areas/"+areaId+".json"
+        dataStr = '{"label":"'+label+'","station_id":'+stationId+',"area_id":'+areaId+',"points":'+pointsStr+'}';
+        $.ajax({
+          type:"put",
+          dataType: "json",
+          contentType: "application/json",
+          url: updateAreaUrl, 
+          headers: {"X-HTTP-Method-Override": "put"}, 
+          crossDomain: true,
+          data: dataStr
+        }); 
+      
+      }else{
+        dataStr = '{"label":"'+label+'","station_id":'+stationId+',"points":'+pointsStr+'}';
+        $.ajax({
+          type:"post",
+          dataType: "json",
+          contentType: "application/json",
+          url: areaSaveUrl, 
+          headers: {"Access-Control-Allow-Origin": "*"}, 
+          crossDomain: true,
+          data: dataStr
+        }); 
+      
+      } 
+      $("#commission-modal").modal("hide");
+
     });
 
     map.centerAndZoom(poi, 15);
     map.enableScrollWheelZoom();  
-    var ploygons = [];
-    var stationUrl = "http://localhost:9000/v1/stations/"+stationId+".json"
-
     $.get(stationUrl,{id:stationId},function(station){
       console.log(station.points); 
       var arr = convertToPointsOjeArray(station.points);
@@ -70,31 +100,26 @@ $(function(){
       map.addOverlay(ploygon);
 
     });   
+    $.get(areaUrl,{station_id:stationId},function(data){
+      $.each(data,function(key,area){
+        console.log(area); 
+        var arr = convertToPointsOjeArray(area.points);
+        var ploygon = new BMap.Polygon(arr,styleOptions);
+        ploygon.areaId = area.id; 
+         
+        var ployMenu = new BMap.ContextMenu();
+        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+        var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
+        var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
+        //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
+        map.addOverlay(ploygon);
+        ployMenu.addItem(editItem);
+        ployMenu.addItem(saveItem);
+        ployMenu.addItem(deleteItem);
+        
+        ploygon.addContextMenu(ployMenu);
 
-    $("#save-btn").click(function(){
-       var i=0;
-       var data;
-       var points;
-       var pos;
-       var stationId;
-       var dataStr;
-       for(i=0; i<ploygons.length;i++){
-          points = ploygons[i].getPath();
-          pos = convertObjToDataPoints(points);
-
-          stationId = ploygons[i].stationId;
-          data = {id:stationId,points:pos}
-          dataStr= JSON.stringify(data);
-          console.log("data:" + JSON.stringify(data));
-          $.ajax({
-            type:"put",
-            dataType: "json",
-            contentType: "application/json",
-            url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-            headers: {"X-HTTP-Method-Override": "put"}, 
-            data: dataStr
-          }); 
-       }
+      });
     });
 
  
@@ -105,11 +130,9 @@ $(function(){
         drawingToolOptions: {
             anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
             offset: new BMap.Size(5, 5), //偏离值
+            drawingModes: [BMAP_DRAWING_POLYGON]
         },
-        circleOptions: styleOptions, //圆的样式
-        polylineOptions: styleOptions, //线的样式
-        polygonOptions: drawOptions, //多边形的样式
-        rectangleOptions: styleOptions //矩形的样式
+        polygonOptions: drawOptions //多边形的样式
     });  
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);

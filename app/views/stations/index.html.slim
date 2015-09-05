@@ -1,7 +1,11 @@
 
-p 
-  = link_to "添加", new_station_path, class: "btn btn-primary"
+= simple_form_for @station, html:{class:"form-inline",id:"district-select-form"},method:"get" do |f| 
+  = f.association :stationable, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3",input_html:{ name:"province_id"}
+//
+  p.pull-right 
+    = link_to "添加", new_station_path, class: "btn btn-primary"
 
+p
 table.table 
  tr 
    th 省

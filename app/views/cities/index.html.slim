@@ -1,7 +1,6 @@
 
-= simple_form_for @city, html:{class:"form-inline"} do |f| 
- 
-  = f.association :province, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3"
+= simple_form_for @city, html:{class:"form-inline",id:"district-select-form"},method:"get" do |f| 
+  = f.association :province, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3",input_html:{ name:"province_id"}
 table.table 
   thead
     tr 

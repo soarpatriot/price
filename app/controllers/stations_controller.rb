@@ -1,8 +1,9 @@
 class StationsController < ApplicationController
 
-   before_action :set_station, only: [:update,:edit,:area]
+   before_action :set_station, only: [:update,:edit,:area,:destroy]
 
    def index
+     @station = Station.new
      @stations = Station.all 
    end
    
@@ -33,10 +34,11 @@ class StationsController < ApplicationController
      end
 
    end
-   def about
-
+   def destroy
+     @station.destroy
+     redirect_to stations_path
    end
-   
+    
    def set_station
      @station = Station.find(params[:id])
    end

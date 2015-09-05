@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831145945) do
+ActiveRecord::Schema.define(version: 20150903115128) do
 
   create_table "areas", force: true do |t|
     t.integer  "station_id"
     t.float    "price",      limit: 24
-    t.string   "lable"
+    t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(version: 20150831145945) do
     t.float    "lantitude",   limit: 24
     t.float    "langitude",   limit: 24
     t.integer  "province_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "commissions", force: true do |t|
+    t.string   "name"
+    t.float    "price",      limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -23,11 +23,14 @@
 //= require bootstrap
 //= require fastclick
 //= require animo
+//= require underscore
 //= require jquery-json
 
 //= require map-utils
 //= require draw
 //= require station-areas
+
+//= require district-select
 
 
 

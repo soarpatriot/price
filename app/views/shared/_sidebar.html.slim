@@ -1,0 +1,8 @@
+
+ul.nav.nav-sidebar 
+ li class="#{params[:controller].end_with?('cities')? 'active':''}"
+   = link_to "省市区域", cities_path
+ li class="#{params[:controller].end_with?('stations')? 'active':''}"
+   = link_to "站点区域", stations_path
+ li class="#{params[:controller].end_with?('commissions')? 'active':''}"
+   = link_to "区域定价", commissions_path

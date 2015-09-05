@@ -1,0 +1,22 @@
+
+table.table
+  thead
+    tr
+      th 名称
+      th 提成
+      th
+      th
+      th
+
+  tbody
+    - @commissions.each do |commission|
+      tr
+        td = commission.name
+        td = commission.price
+        td = link_to '查看', commission
+        td = link_to '编辑', edit_commission_path(commission)
+        td = link_to '删除', commission, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to '新建', new_commission_path
