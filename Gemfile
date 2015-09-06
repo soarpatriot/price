@@ -3,6 +3,8 @@ source 'http://ruby.taobao.org'
 gem 'rails', '4.1.6'
 gem 'mysql2'
 
+gem 'spreadsheet'
+
 gem 'rails_config'
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'

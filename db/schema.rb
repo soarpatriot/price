@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906011137) do
+ActiveRecord::Schema.define(version: 20150906064543) do
 
   create_table "areas", force: true do |t|
     t.integer  "station_id"
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20150906011137) do
   end
 
   create_table "points", force: true do |t|
-    t.float    "lantitude",      limit: 24
-    t.float    "longitude",      limit: 24
+    t.decimal  "lantitude",      precision: 15, scale: 10
+    t.decimal  "longitude",      precision: 15, scale: 10
     t.integer  "pointable_id"
     t.string   "pointable_type"
     t.datetime "created_at"

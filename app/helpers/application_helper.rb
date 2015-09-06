@@ -1,5 +1,8 @@
 module ApplicationHelper
 
+  def hello_help
+    puts "hello"
+  end
   def human_file_size bytes_size
     kb_size = bytes_size / 1024.0
     if kb_size < 1024

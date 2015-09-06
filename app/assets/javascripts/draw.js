@@ -7,7 +7,8 @@ $(function(){
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
     var cityId = $("#city-id").val();
-  
+    var cityStationsUrl = api.baseUrl + "/stations/city.json";  
+    var stationsUrl = api.baseUrl + "/stations.json";
     var ploygons = [];
     var overlaycomplete = function(e){
 
@@ -53,14 +54,16 @@ $(function(){
       var dataStr = ""
       if(ploygon.stationId){
         var stationId = ploygon.stationId;
+        var stationUpdateUrl = api.baseUrl + "/stations/"+stationId+".json";
         data = {id:stationId,description: stationName, points: pos }
         dataStr = JSON.stringify(data);
         console.log("dataStr2342"+dataStr);
+        
         $.ajax({
           type:"put",
           dataType: "json",
           contentType: "application/json",
-          url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+          url: stationUpdateUrl, 
           headers: {"X-HTTP-Method-Override": "put"}, 
           success: function(station){
             ploygons[index].stationId = station.id
@@ -78,7 +81,7 @@ $(function(){
           type:"post",
           dataType: "json",
           contentType: "application/json",
-          url: "http://localhost:9000/v1/stations.json", 
+          url: stationsUrl, 
           success: function(station){
             ploygons[index].stationId = station.id
             ploygons[index].stationName = station.description; 
@@ -92,7 +95,7 @@ $(function(){
 
     map.centerAndZoom(poi, 15);
     map.enableScrollWheelZoom();  
-    $.get("http://localhost:9000/v1/stations/city.json",{city_id:cityId},function(data){
+    $.get(cityStationsUrl,{city_id:cityId},function(data){
       console.log(data); 
       $.each(data,function(key,station){
         console.log(station); 

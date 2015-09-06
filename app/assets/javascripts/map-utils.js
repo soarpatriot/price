@@ -1,4 +1,7 @@
 
+var api = api || {}
+api.baseUrl = "http://localhost:9000/v1";
+
 var styleOptions = {
   
     strokeColor:"green",    //边线颜色。
@@ -22,34 +25,14 @@ var drawOptions = {
 var editPloygon = function(e,ee,ploygon){
   ploygon.enableEditing()
 };
-var savePloygon = function(e,ee,ploygon){
-    var points = ploygon.getPath();
-    var pos = convertObjToDataPoints(points);
 
-    var stationId = ploygon.stationId;
-    var data = {id:stationId,points:pos}
-    var dataStr= JSON.stringify(data);
-    console.log("data:" + JSON.stringify(data));
-    $.ajax({
-      type:"put",
-      dataType: "json",
-      contentType: "application/json",
-      url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-      headers: {"X-HTTP-Method-Override": "put"}, 
-      success: function(station){
-        ploygon.stationId = station.id; 
-      },
-      data: dataStr
-    }); 
-    ploygon.disableEditing();
-
-};
 var deletePloygon = function(e,ee,ploygon){
 
     var stationId = ploygon.stationId;
     var data = {id:stationId}
     var dataStr= JSON.stringify(data);
     console.log("data:" + JSON.stringify(data));
+    var deleteUrl = api.baseUrl + "/stations/" + stationId + ".json";
     if(stationId){
       var data = {id:stationId}
       var dataStr= JSON.stringify(data);
@@ -57,7 +40,7 @@ var deletePloygon = function(e,ee,ploygon){
         type:"delete",
         dataType: "json",
         contentType: "application/json",
-        url: "http://localhost:9000/v1/stations/"+stationId+".json", 
+        url: deleteUrl, 
         headers: {"X-HTTP-Method-Override": "delete"}, 
         data: dataStr
       }); 
@@ -66,35 +49,17 @@ var deletePloygon = function(e,ee,ploygon){
     map.removeOverlay(ploygon);
 
 }
-var saveAreaPloygon = function(e,ee,ploygon){
-    var points = ploygon.getPath();
-    var pos = convertObjToDataPoints(points);
-
-    var stationId = ploygon.stationId;
-    var data = {id:stationId,points:pos}
-    var dataStr= JSON.stringify(data);
-    console.log("data:" + JSON.stringify(data));
-    $.ajax({
-      type:"put",
-      dataType: "json",
-      contentType: "application/json",
-      url: "http://localhost:9000/v1/stations/"+stationId+".json", 
-      headers: {"X-HTTP-Method-Override": "put"}, 
-      data: dataStr
-    }); 
-    ploygon.disableEditing();
-
-};
 
 function deletePloygonArea(e,ee,ploygon){
   var areaId = ploygon.areaId; 
   if(areaId){
+    var deleteUrl = api.baseUrl + "/areas/" + areaId + ".json";
     var dataStr = '{"id":'+areaId+'}'
     $.ajax({
       type:"delete",
       dataType: "json",
       contentType: "application/json",
-      url: "http://localhost:9000/v1/areas/"+areaId+".json", 
+      url: deleteUrl, 
       headers: {"X-HTTP-Method-Override": "delete"}, 
       data: dataStr
     }); 

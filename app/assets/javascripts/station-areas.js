@@ -7,8 +7,8 @@ $(function(){
     var poi = new BMap.Point(116.307852,40.057031);
     var stationId = $("#station-id").val();
     var ploygons = [];
-    var stationUrl = "http://localhost:9000/v1/stations/"+stationId+".json"
-    var areaUrl = "http://localhost:9000/v1/stations/"+stationId+"/areas.json"
+    var stationUrl = api.baseUrl+ "/stations/"+stationId+".json"
+    var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json"
 
  
     var ploygons = [];
@@ -30,7 +30,8 @@ $(function(){
        
     };
     $("#commission-modal").on("show.bs.modal",function(e){
-      $.get("http://localhost:9000/v1/commissions.json",function(data){
+      var commisionsUrl = api.baseUrl + "/commissions.json"
+      $.get(commisionsUrl,function(data){
         var optionStr = ""
         $.each(data,function(key,commission){
           console.log(commission); 
@@ -61,13 +62,13 @@ $(function(){
       var label = "abc";
       var dataStr = "";
       console.log("dataStr"+dataStr);
-      var areaSaveUrl = "http://localhost:9000/v1/areas.json" 
+      var areaSaveUrl = api.baseUrl + "/areas.json" 
       var updateAreaUrl = "";
       //$.post(areaSaveUrl)
       console.log("area id:"+areaId); 
       if(areaId){
         console.log("if area id:"+areaId); 
-        updateAreaUrl = "http://localhost:9000/v1/areas/"+areaId+".json"
+        updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json"
         data = {label:label, station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
         dataStr = JSON.stringify(data);
         $.ajax({

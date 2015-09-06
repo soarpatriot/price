@@ -10,10 +10,14 @@ table.table
   tbody 
     - @cities.each do |city|
       tr
+        td #{city.province.try(:description)} 
         td #{city.description}
-        td 
         td 
          .btn-group
            = link_to  "编辑", map_city_path(city), class:"btn btn-warning"
 
+
+.row
+  .col-lg-12.toolbar
+    .pull-right = paginate @cities, theme: 'twitter-bootstrap-3'
 

@@ -4,7 +4,7 @@ class StationsController < ApplicationController
 
    def index
      @station = Station.new
-     @stations = Station.all 
+     @stations = Station.page params[:page] 
    end
    
    def edit 

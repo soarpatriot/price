@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     end
   end
   root 'home#index'
-  
+  get '/import' => 'home#import'   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
