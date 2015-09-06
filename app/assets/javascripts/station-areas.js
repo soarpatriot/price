@@ -11,9 +11,13 @@ $(function(){
     var areaUrl = "http://localhost:9000/v1/stations/"+stationId+"/areas.json"
 
  
-    var overlays = [];
+    var ploygons = [];
     var overlaycomplete = function(e){
         var ploygon = e.overlay;
+        ploygons.push(ploygon);
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
+ 
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
         var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
@@ -22,11 +26,8 @@ $(function(){
         ployMenu.addItem(editItem);
         ployMenu.addItem(saveItem);
         ployMenu.addItem(deleteItem);
-        // ployMenu.addItem(editAreaItem);
-        
         ploygon.addContextMenu(ployMenu);
        
-        // overlays.push(e.overlay);
     };
     $("#commission-modal").on("show.bs.modal",function(e){
       $.get("http://localhost:9000/v1/commissions.json",function(data){
@@ -37,15 +38,26 @@ $(function(){
         });
         $("#commission-select").empty();
         $("#commission-select").append(optionStr);
+        var index =  $("#ploygon-index").val();
+        var ploygon = ploygons[index];
+        if(ploygon.commissionId){
+          $("#commission-select").val(ploygon.commissionId);
+        }
       });
       console.log("absdf");  
     });
 
     $("#commission-save").click(function(){
       console.log("save...")
-      var pointsStr = $("#unsaved-points").val();
-      var areaId = $("#area-id").val();
-      var commessionId = $("#commission-select").val();
+      var data = {};
+      var stationId = $("#station-id").val();
+      var index = $("#ploygon-index").val();
+      var ploygon = ploygons[index];
+      var points = ploygon.getPath();
+      var pos  =  convertObjToDataPoints(points)
+ 
+      var areaId = ploygon.areaId;
+      var commissionId = $("#commission-select").val();
       var label = "abc";
       var dataStr = "";
       console.log("dataStr"+dataStr);
@@ -56,7 +68,8 @@ $(function(){
       if(areaId){
         console.log("if area id:"+areaId); 
         updateAreaUrl = "http://localhost:9000/v1/areas/"+areaId+".json"
-        dataStr = '{"label":"'+label+'","station_id":'+stationId+',"area_id":'+areaId+',"points":'+pointsStr+'}';
+        data = {label:label, station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
+        dataStr = JSON.stringify(data);
         $.ajax({
           type:"put",
           dataType: "json",
@@ -64,11 +77,17 @@ $(function(){
           url: updateAreaUrl, 
           headers: {"X-HTTP-Method-Override": "put"}, 
           crossDomain: true,
+          success: function(area){
+            ploygons[index].commissionId = area.commission_id; 
+            ploygons[index].commissionName = area.commission_name; 
+            ploygons[index].commissionPrice = area.commission_price; 
+          },
           data: dataStr
         }); 
       
       }else{
-        dataStr = '{"label":"'+label+'","station_id":'+stationId+',"points":'+pointsStr+'}';
+        data = {label:label, station_id:stationId,commission_id:commissionId, points:pos}
+        dataStr = JSON.stringify(data);
         $.ajax({
           type:"post",
           dataType: "json",
@@ -76,10 +95,19 @@ $(function(){
           url: areaSaveUrl, 
           headers: {"Access-Control-Allow-Origin": "*"}, 
           crossDomain: true,
+          success: function(area){
+            
+            ploygons[index].areaId = area.id; 
+            ploygons[index].commissionId = area.commission_id; 
+            ploygons[index].commissionName = area.commission_name; 
+            ploygons[index].commissionPrice = area.commission_price; 
+          },
+ 
           data: dataStr
         }); 
       
       } 
+      ploygon.disableEditing();
       $("#commission-modal").modal("hide");
 
     });
@@ -105,7 +133,13 @@ $(function(){
         console.log(area); 
         var arr = convertToPointsOjeArray(area.points);
         var ploygon = new BMap.Polygon(arr,styleOptions);
+        ploygons.push(ploygon);
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
         ploygon.areaId = area.id; 
+        ploygon.commissionId = area.commission_id; 
+        ploygon.commissionName = area.commission_name; 
+        ploygon.commissionPrice = area.commission_price; 
          
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
@@ -116,7 +150,6 @@ $(function(){
         ployMenu.addItem(editItem);
         ployMenu.addItem(saveItem);
         ployMenu.addItem(deleteItem);
-        
         ploygon.addContextMenu(ployMenu);
 
       });

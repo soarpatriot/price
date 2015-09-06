@@ -1,12 +1,12 @@
 p#notice = notice
 
 p
-  strong Description:
+  strong 名称:
   = @commission.name
 p
-  strong Price:
+  strong 提成:
   = @commission.price
 
-= link_to 'Edit', edit_commission_path(@commission)
+= link_to '编辑', edit_commission_path(@commission)
 '|
-= link_to 'Back', commissions_path
+= link_to '返回', commissions_path

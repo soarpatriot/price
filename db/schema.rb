@@ -11,14 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903115128) do
+ActiveRecord::Schema.define(version: 20150906011137) do
 
   create_table "areas", force: true do |t|
     t.integer  "station_id"
-    t.float    "price",      limit: 24
+    t.float    "price",         limit: 24
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "commission_id"
   end
 
   create_table "cities", force: true do |t|

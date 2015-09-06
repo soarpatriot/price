@@ -106,10 +106,8 @@ function deletePloygonArea(e,ee,ploygon){
 function setPloygonArea(e,ee,ploygon) {
   var points = ploygon.getPath();
   var pos  =  convertObjToDataPoints(points)
-  $("#area-id").val(ploygon.areaId);
-  $("#unsaved-points").val(JSON.stringify(pos));
+  $("#ploygon-index").val(ploygon.index);
   $("#commission-modal").modal("show");
-  ploygon.disableEditing();
 }
 
 
