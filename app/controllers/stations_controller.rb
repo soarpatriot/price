@@ -4,7 +4,19 @@ class StationsController < ApplicationController
 
    def index
      @station = Station.new
-     @stations = Station.page params[:page] 
+     province_id = params[:province_id]
+     city_id = params[:city_id]
+
+     if province_id.blank?
+       params[:city_id] = ""
+       @stations = Station.page params[:page] 
+     else 
+       if city_id.blank?
+         @stations = Province.find(province_id).stations.page params[:page]  
+       else
+         @stations = City.find(city_id).stations.page params[:page] 
+       end 
+     end
    end
    
    def edit 

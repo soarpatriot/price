@@ -4,9 +4,11 @@
 $(function(){
   if($("#city-map").length > 0) {
     // 百度地图API功能
+    var drawOpt = randomFillOptions();
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
     var cityId = $("#city-id").val();
+    var cityName = $("#city-name").val();
     var cityStationsUrl = api.baseUrl + "/stations/city.json";  
     var stationsUrl = api.baseUrl + "/stations.json";
     var ploygons = [];
@@ -93,14 +95,14 @@ $(function(){
       $("#station-modal").modal("hide");
     });
 
-    map.centerAndZoom(poi, 15);
+    map.centerAndZoom(cityName, 12);
     map.enableScrollWheelZoom();  
     $.get(cityStationsUrl,{city_id:cityId},function(data){
       console.log(data); 
       $.each(data,function(key,station){
         console.log(station); 
         var arr = convertToPointsOjeArray(station.points);
-        var ploygon = new BMap.Polygon(arr,styleOptions);
+        var ploygon = new BMap.Polygon(arr,drawOpt());
         ploygons.push(ploygon);
         var index =  _.indexOf(ploygons,ploygon);
         ploygon.index = index;

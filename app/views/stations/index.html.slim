@@ -1,6 +1,16 @@
 
-= simple_form_for @station, html:{class:"form-inline",id:"district-select-form"},method:"get" do |f| 
-  = f.association :stationable, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3",input_html:{ name:"province_id"}
+= form_tag("/stations",method: :get, class:"form-inline",id: "station-form") do 
+  input type="hidden" value="#{params[:city_id]}" id="city_selected"
+  .form-group.station-select-group
+    = label_tag "省："
+    = select_tag "province_id", options_from_collection_for_select(Province.all, "id","description",params[:province_id]), class: "form-control", include_blank:true, :selected=> params[:province_id]
+  .form-group.station-select-group
+    = label_tag "市："
+    select id="city_id" class="form-control" name="city_id"
+
+//
+  = simple_form_for @station, html:{class:"form-inline",id:"district-select-form"},method:"get" do |f| 
+    = f.association :stationable, collection: Province.all, label_method: :description, value_method: :id, class:"col-md-3",input_html:{ name:"province_id"}
 //
   p.pull-right 
     = link_to "添加", new_station_path, class: "btn btn-primary"

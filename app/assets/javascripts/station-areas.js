@@ -3,6 +3,7 @@
 $(function(){
   if($("#station-map").length > 0) {
     // 百度地图API功能
+    var drawOpt = randomFillOptions();
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
     var stationId = $("#station-id").val();
@@ -113,9 +114,7 @@ $(function(){
 
     });
 
-    map.centerAndZoom(poi, 15);
-    map.enableScrollWheelZoom();  
-    $.get(stationUrl,{id:stationId},function(station){
+   $.get(stationUrl,{id:stationId},function(station){
       console.log(station.points); 
       var arr = convertToPointsOjeArray(station.points);
       var ploygon = new BMap.Polygon(arr,styleOptions);
@@ -123,40 +122,45 @@ $(function(){
       var markerPoint = new BMap.Point(station.longitude,station.lantitude);
       var marker = new BMap.Marker(markerPoint);
       var label = new BMap.Label(station.description,{offset:new BMap.Size(20,-10)});
+      map.centerAndZoom(markerPoint, 12);
+      map.enableScrollWheelZoom();  
+   
       marker.setLabel(label);
       map.addOverlay(marker);
       ploygon.stationId = station.id;
       map.addOverlay(ploygon);
 
-    });   
-    $.get(areaUrl,{station_id:stationId},function(data){
-      $.each(data,function(key,area){
-        console.log(area); 
-        var arr = convertToPointsOjeArray(area.points);
-        var ploygon = new BMap.Polygon(arr,styleOptions);
-        ploygons.push(ploygon);
-        var index =  _.indexOf(ploygons,ploygon);
-        ploygon.index = index;
-        ploygon.areaId = area.id; 
-        ploygon.commissionId = area.commission_id; 
-        ploygon.commissionName = area.commission_name; 
-        ploygon.commissionPrice = area.commission_price; 
-         
-        var ployMenu = new BMap.ContextMenu();
-        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
-        var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
-        var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
-        //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
-        map.addOverlay(ploygon);
-        ployMenu.addItem(editItem);
-        ployMenu.addItem(saveItem);
-        ployMenu.addItem(deleteItem);
-        ploygon.addContextMenu(ployMenu);
+      //add base overlay finished, then add areas
+      $.get(areaUrl,{station_id:stationId},function(data){
+        $.each(data,function(key,area){
+          console.log(area); 
+          var arr = convertToPointsOjeArray(area.points);
+          var ploygon = new BMap.Polygon(arr,drawOpt());
+          ploygons.push(ploygon);
+          var index =  _.indexOf(ploygons,ploygon);
+          ploygon.index = index;
+          ploygon.areaId = area.id; 
+          ploygon.commissionId = area.commission_id; 
+          ploygon.commissionName = area.commission_name; 
+          ploygon.commissionPrice = area.commission_price; 
+           
+          var ployMenu = new BMap.ContextMenu();
+          var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+          var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
+          var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
+          //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
+          ployMenu.addItem(editItem);
+          ployMenu.addItem(saveItem);
+          ployMenu.addItem(deleteItem);
+          ploygon.addContextMenu(ployMenu);
+          map.addOverlay(ploygon);
 
+        });
       });
-    });
 
  
+    });   
+
     //实例化鼠标绘制工具
     var drawingManager = new BMapLib.DrawingManager(map, {
         isOpen: false, //是否开启绘制模式

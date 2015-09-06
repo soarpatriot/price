@@ -31,6 +31,6 @@
 //= require station-areas
 
 //= require district-select
-
+//= require station-select
 
 
