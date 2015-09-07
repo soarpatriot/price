@@ -2,7 +2,9 @@ class HomeController < ApplicationController
 
    def index
    end
-   
+   def clear 
+     render "import"
+   end  
    def import 
      Spreadsheet.client_encoding = 'UTF-8'
      province_file = "#{::Rails.root}/lib/assets/province.xls"
