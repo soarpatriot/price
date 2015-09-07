@@ -1,8 +1,8 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'songxianzhi'
-set :repo_url, 'git@github.com:soarpatriot/songxianzhi.git'
+set :application, 'price'
+set :repo_url, 'git@github.com:soarpatriot/price.git'
 
 set :rails_env, 'production'
 
