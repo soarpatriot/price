@@ -6,14 +6,12 @@ table.table
       th 提成
       th
       th
-      th
 
   tbody
     - @commissions.each do |commission|
       tr
         td = commission.name
         td = commission.price
-        td = link_to '查看', commission
         td = link_to '编辑', edit_commission_path(commission)
         td = link_to '删除', commission, data: {:confirm => 'Are you sure?'}, :method => :delete
 

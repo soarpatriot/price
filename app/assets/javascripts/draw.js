@@ -109,7 +109,8 @@ $(function(){
         
         var markerPoint = new BMap.Point(station.longitude,station.lantitude);
         var marker = new BMap.Marker(markerPoint);
-        var label = new BMap.Label(station.description,{offset:new BMap.Size(20,-10)});
+        var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,28)});
+        label.setStyle(labelOptions);
         marker.setLabel(label);
         map.addOverlay(marker);
         //.setLabel(label);

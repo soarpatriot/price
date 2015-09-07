@@ -9,19 +9,14 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
- *
- *= require_self
+ *= require bootstrap-custom
  *= require home
-
-
  *= require ngprogress
  *= require animate+animo
  *= require sidebar
  *= require map
-
  */
-@import "bootstrap-sprockets";
-@import "bootstrap";
+
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
@@ -35,6 +30,14 @@
 
 .station-select-group{
   margin-right: 40px;
+}
+
+
+label{
+  padding: 5px 5px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
 }
 
 #map-container{

@@ -2,6 +2,12 @@
 var api = api || {}
 api.baseUrl = "http://localhost:9000/v1";
 
+
+var labelOptions = {
+    color: "red",
+    fontSize : "12px",
+    fontFamily:"微软雅黑"
+}
 var styleOptions = {
   
     strokeColor:"#EE1010",    //边线颜色。

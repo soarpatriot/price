@@ -1,8 +1,4 @@
 
-@import "compass";
-@import "bootstrap-sprockets";
-@import "bootstrap";
-
 $global-font-family: 'Microsoft YaHei','微软雅黑',Tahoma, Arial,'Helvetica Neue', Helvetica,sans-serif,'宋体';
 $global-font-size: 14px;
 
@@ -12,18 +8,6 @@ $global-font-size: 14px;
   font-size: $global-font-size;
 }
 
-.favorite-btn{
-  @include border-radius(15px);
-  font-size: 20px;
-}
-
-.favorite-span{
-  padding: 5px 8px;
-}
-.favorite-heart{
-  color: #FF0000;
-}
-
 body{
     @include global-font;
     padding-top:30px;
@@ -31,7 +15,6 @@ body{
 }
 
 .navbar-send{
-  @include border-radius(50%);
   position: absolute;
   width: 64px;
   height: 64px;
@@ -45,7 +28,6 @@ body{
   margin-top: -32px;
   z-index: 20;
   .btn-send{
-    @include border-radius(50%);
     width: 60px;
     height: 60px;
     line-height: 60px;

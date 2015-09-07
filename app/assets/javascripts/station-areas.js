@@ -121,12 +121,14 @@ $(function(){
       
       var markerPoint = new BMap.Point(station.longitude,station.lantitude);
       var marker = new BMap.Marker(markerPoint);
-      var label = new BMap.Label(station.description,{offset:new BMap.Size(20,-10)});
+      map.addOverlay(marker);
+      var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,25)});
+      label.setStyle(labelOptions);
+      marker.setLabel(label);
+
       map.centerAndZoom(markerPoint, 12);
       map.enableScrollWheelZoom();  
    
-      marker.setLabel(label);
-      map.addOverlay(marker);
       ploygon.stationId = station.id;
       map.addOverlay(ploygon);
 
