@@ -2,6 +2,7 @@
 
 
 $(function(){
+
   if($("#city-map").length > 0) {
     // 百度地图API功能
     var drawOpt = randomFillOptions();
@@ -98,22 +99,12 @@ $(function(){
     map.centerAndZoom(cityName, 12);
     map.enableScrollWheelZoom();  
     $.get(cityStationsUrl,{city_id:cityId},function(data){
-      console.log(data); 
       $.each(data,function(key,station){
         console.log(station); 
         var arr = convertToPointsOjeArray(station.points);
         var ploygon = new BMap.Polygon(arr,drawOpt());
-        ploygons.push(ploygon);
-        var index =  _.indexOf(ploygons,ploygon);
-        ploygon.index = index;
-        
-        var markerPoint = new BMap.Point(station.longitude,station.lantitude);
-        var marker = new BMap.Marker(markerPoint);
-        var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,28)});
-        label.setStyle(labelOptions);
-        marker.setLabel(label);
-        map.addOverlay(marker);
-        //.setLabel(label);
+       
+       //.setLabel(label);
         ploygon.stationId = station.id;
         ploygon.stationName = station.description; 
         var ployMenu = new BMap.ContextMenu();
@@ -124,11 +115,20 @@ $(function(){
         ployMenu.addItem(editItem);
         ployMenu.addItem(saveItem);
         ployMenu.addItem(deleteItem);
-        
-        //ploygons.push(ploygon);
-        map.addOverlay(ploygon);
         ploygon.addContextMenu(ployMenu);
- 
+        ploygons.push(ploygon);
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
+       
+        console.log("options:"+JSON.stringify(styleOptions)); 
+        map.addOverlay(ploygon);
+        var markerPoint = new BMap.Point(station.longitude,station.lantitude);
+        var marker = new BMap.Marker(markerPoint);
+        var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,28)});
+        label.setStyle(labelOptions);
+        marker.setLabel(label);
+        map.addOverlay(marker);
+     
       });
 
     });   
