@@ -1,7 +1,7 @@
 
 var api = api || {}
-api.baseUrl = "http://localhost:9000/v1";
-//api.baseUrl = "http://api.cityhub.me/v1";
+//api.baseUrl = "http://localhost:9000/v1";
+api.baseUrl = "http://api.cityhub.me/v1";
 
 
 var labelOptions = {
