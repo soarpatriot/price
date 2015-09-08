@@ -129,8 +129,21 @@ $(function(){
       console.log(station.points); 
       var arr = convertToPointsOjeArray(station.points);
       var ploygon = new BMap.Polygon(arr,styleOptions);
+      var centerLan;
+      var centerLng;
       
-      var markerPoint = new BMap.Point(station.longitude,station.lantitude);
+      if(station.longitude && station.langtitude){
+        centerLan = station.lantitude;
+        centerLng = station.longitude;
+      }else if(station.points.length > 0){
+        var centerPoint = ploygon.getBounds().getCenter();
+        centerLan = centerPoint.lat;
+        centerLng = centerPoint.lng;
+      }
+         
+
+
+      var markerPoint = new BMap.Point(centerLng,centerLan);
       var marker = new BMap.Marker(markerPoint);
       map.addOverlay(marker);
       var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,25)});

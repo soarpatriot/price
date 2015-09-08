@@ -71,6 +71,10 @@ $(function(){
           success: function(station){
             ploygons[index].stationId = station.id
             ploygons[index].stationName = station.description; 
+            if(ploygons[index].centerLabel){
+              ploygons[index].centerLabel.setContent(station.description);
+            }
+   
           },
  
           data: dataStr
@@ -86,8 +90,26 @@ $(function(){
           contentType: "application/json",
           url: stationsUrl, 
           success: function(station){
+            var centerLan;
+            var centerLng;
+            var centerPoint = ploygons[index].getBounds().getCenter();
+
             ploygons[index].stationId = station.id
             ploygons[index].stationName = station.description; 
+
+            centerLan = centerPoint.lat;
+            centerLng = centerPoint.lng;
+            
+            
+            var markerPoint = new BMap.Point(centerLng,centerLan);
+            var marker = new BMap.Marker(markerPoint);
+            var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,28)});
+            label.setStyle(labelOptions);
+            marker.setLabel(label);
+            map.addOverlay(marker);
+            ploygons[index].centerLabel = label;
+            ploygons[index].centerMarker = marker;
+   
           },
           data: dataStr
         }); 
@@ -103,7 +125,9 @@ $(function(){
         console.log(station); 
         var arr = convertToPointsOjeArray(station.points);
         var ploygon = new BMap.Polygon(arr,drawOpt());
-       
+        var centerLan;
+        var centerLng;
+         
        //.setLabel(label);
         ploygon.stationId = station.id;
         ploygon.stationName = station.description; 
@@ -121,13 +145,27 @@ $(function(){
         ploygon.index = index;
        
         map.addOverlay(ploygon);
-        var markerPoint = new BMap.Point(station.longitude,station.lantitude);
+     
+        // console.log(station.longitude);
+        // console.log(station.lantitude);
+        if(station.longitude && station.lantitude){
+          centerLan = station.lantitude;
+          centerLng = station.longitude;
+        }else if(station.points.length > 0){
+          var centerPoint = ploygon.getBounds().getCenter();
+          centerLan = centerPoint.lat;
+          centerLng = centerPoint.lng;
+        }
+    
+        var markerPoint = new BMap.Point(centerLng,centerLan);
         var marker = new BMap.Marker(markerPoint);
         var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,28)});
         label.setStyle(labelOptions);
         marker.setLabel(label);
         map.addOverlay(marker);
-     
+        ploygon.centerLabel = label;
+        ploygon.centerMarker = marker 
+
       });
       //new PNotify(notify.successOpt("家在","家在城管"));
    });   
@@ -170,6 +208,13 @@ $(function(){
         }); 
       }
       var map = ploygon.getMap();
+      if(ploygon.centerLabel){
+        map.removeOverlay(ploygon.centerLabel);
+      }
+      if(ploygon.centerMarker){
+        map.removeOverlay(ploygon.centerMarker);
+      }
+ 
       map.removeOverlay(ploygon);
       $("#delete-confirm-modal").modal("hide");
     });
