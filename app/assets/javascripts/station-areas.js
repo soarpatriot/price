@@ -28,7 +28,8 @@ $(function(){
         ployMenu.addItem(saveItem);
         ployMenu.addItem(deleteItem);
         ploygon.addContextMenu(ployMenu);
-       
+        centerPoint =  ploygon.getBounds().getCenter();       
+        console.log("aaa:"+ centerPoint.lat + "bbb:" + centerPoint.lng);
     };
     $("#commission-modal").on("show.bs.modal",function(e){
       var commisionsUrl = api.baseUrl + "/commissions.json"
@@ -36,7 +37,7 @@ $(function(){
         var optionStr = ""
         $.each(data,function(key,commission){
           console.log(commission); 
-          optionStr += "<option value='"+commission.id+"'>"+commission.name+"</option>"
+          optionStr += "<option value='"+commission.id+"'>"+commission.name+"("+commission.price+")</option>"
         });
         $("#commission-select").empty();
         $("#commission-select").append(optionStr);
@@ -80,9 +81,13 @@ $(function(){
           headers: {"X-HTTP-Method-Override": "put"}, 
           crossDomain: true,
           success: function(area){
+            var labelValue = area.commission_name + "("+area.commission_price+")";
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
+            if(ploygons[index].centerLabel){
+              ploygons[index].centerLabel.setContent(labelValue);
+            }
           },
           data: dataStr
         }); 
@@ -103,6 +108,12 @@ $(function(){
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
+            var centerPoint = ploygons[index].getBounds().getCenter();
+            var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
+            var labelValue = area.commission_name + "("+area.commission_price+")";
+            var label = new BMap.Label(labelValue,opts);
+            ploygons[index].centerLabel = label;
+            map.addOverlay(label); 
           },
  
           data: dataStr
@@ -126,7 +137,7 @@ $(function(){
       label.setStyle(labelOptions);
       marker.setLabel(label);
 
-      map.centerAndZoom(markerPoint, 12);
+      map.centerAndZoom(markerPoint, 13);
       map.enableScrollWheelZoom();  
    
       ploygon.stationId = station.id;
@@ -138,6 +149,14 @@ $(function(){
           console.log(area); 
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
+          var centerPoint = ploygon.getBounds().getCenter();
+          var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
+          var labelValue = area.commission_name + "("+area.commission_price+")";
+          var label = new BMap.Label(labelValue,opts);
+          console.log("value:"+labelValue);
+          //label.setStyle(labelOptions);
+          map.addOverlay(label);
+
           ploygons.push(ploygon);
           var index =  _.indexOf(ploygons,ploygon);
           ploygon.index = index;
@@ -145,7 +164,8 @@ $(function(){
           ploygon.commissionId = area.commission_id; 
           ploygon.commissionName = area.commission_name; 
           ploygon.commissionPrice = area.commission_price; 
-           
+          ploygon.centerLabel = label;           
+
           var ployMenu = new BMap.ContextMenu();
           var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
           var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
@@ -155,6 +175,7 @@ $(function(){
           ployMenu.addItem(saveItem);
           ployMenu.addItem(deleteItem);
           ploygon.addContextMenu(ployMenu);
+          
           map.addOverlay(ploygon);
 
         });

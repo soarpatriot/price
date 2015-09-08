@@ -93,6 +93,9 @@ function deletePloygonArea(e,ee,ploygon){
     }); 
   }
   var map = ploygon.getMap();
+  if(ploygon.centerLabel){
+    map.removeOverlay(ploygon.centerLabel);
+  }
   map.removeOverlay(ploygon);
 };
 

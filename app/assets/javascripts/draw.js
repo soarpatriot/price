@@ -120,7 +120,6 @@ $(function(){
         var index =  _.indexOf(ploygons,ploygon);
         ploygon.index = index;
        
-        console.log("options:"+JSON.stringify(styleOptions)); 
         map.addOverlay(ploygon);
         var markerPoint = new BMap.Point(station.longitude,station.lantitude);
         var marker = new BMap.Marker(markerPoint);
@@ -130,8 +129,8 @@ $(function(){
         map.addOverlay(marker);
      
       });
-
-    });   
+      //new PNotify(notify.successOpt("家在","家在城管"));
+   });   
 
     //实例化鼠标绘制工具
     var drawingManager = new BMapLib.DrawingManager(map, {

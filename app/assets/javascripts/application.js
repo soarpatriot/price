@@ -21,6 +21,8 @@
 //= require nprogress-turbolinks
 
 //= require bootstrap
+//= require pnotify.core
+//= require notify
 //= require fastclick
 //= require animo
 //= require underscore
