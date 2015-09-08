@@ -1,7 +1,7 @@
 
 
 $(function(){
-  if($("#station-map").length > 0) {
+  if($("#stations-area").length > 0) {
     // 百度地图API功能
     var drawOpt = randomFillOptions();
     var map = new BMap.Map('map-container');
@@ -183,7 +183,33 @@ $(function(){
 
  
     });   
+    
+    $("#delete-confirmed-btn").click(function(){
+      
+      var index = $("#ploygon-delete-index").val(); 
+      var ploygon = ploygons[index];
+      var areaId = ploygon.areaId;
 
+      if(areaId){
+        var deleteUrl = api.baseUrl + "/areas/" + areaId + ".json";
+        var dataStr = '{"id":'+areaId+'}'
+        $.ajax({
+          type:"delete",
+          dataType: "json",
+          contentType: "application/json",
+          url: deleteUrl, 
+          headers: {"X-HTTP-Method-Override": "delete"}, 
+          data: dataStr
+        }); 
+      }
+      var map = ploygon.getMap();
+      if(ploygon.centerLabel){
+        map.removeOverlay(ploygon.centerLabel);
+      }
+      map.removeOverlay(ploygon);
+       
+      $("#delete-confirm-modal").modal("hide");
+    });
     //实例化鼠标绘制工具
     var drawingManager = new BMapLib.DrawingManager(map, {
         isOpen: false, //是否开启绘制模式

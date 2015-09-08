@@ -55,48 +55,15 @@ var editPloygon = function(e,ee,ploygon){
 };
 
 var deletePloygon = function(e,ee,ploygon){
-
-    var stationId = ploygon.stationId;
-    var data = {id:stationId}
-    var dataStr= JSON.stringify(data);
-    console.log("data:" + JSON.stringify(data));
-    var deleteUrl = api.baseUrl + "/stations/" + stationId + ".json";
-    if(stationId){
-      var data = {id:stationId}
-      var dataStr= JSON.stringify(data);
-      $.ajax({
-        type:"delete",
-        dataType: "json",
-        contentType: "application/json",
-        url: deleteUrl, 
-        headers: {"X-HTTP-Method-Override": "delete"}, 
-        data: dataStr
-      }); 
-    }
-    var map = ploygon.getMap();
-    map.removeOverlay(ploygon);
-
+  $("#ploygon-delete-index").val(ploygon.index);
+  $("#delete-confirm-modal").modal("show");
+ 
 }
 
 function deletePloygonArea(e,ee,ploygon){
+  $("#ploygon-delete-index").val(ploygon.index);
+  $("#delete-confirm-modal").modal("show");
   var areaId = ploygon.areaId; 
-  if(areaId){
-    var deleteUrl = api.baseUrl + "/areas/" + areaId + ".json";
-    var dataStr = '{"id":'+areaId+'}'
-    $.ajax({
-      type:"delete",
-      dataType: "json",
-      contentType: "application/json",
-      url: deleteUrl, 
-      headers: {"X-HTTP-Method-Override": "delete"}, 
-      data: dataStr
-    }); 
-  }
-  var map = ploygon.getMap();
-  if(ploygon.centerLabel){
-    map.removeOverlay(ploygon.centerLabel);
-  }
-  map.removeOverlay(ploygon);
 };
 
 function setPloygonArea(e,ee,ploygon) {

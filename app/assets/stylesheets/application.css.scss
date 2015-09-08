@@ -22,12 +22,32 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-.alert-notice {
-  @extend .alert-success;
+
+body{
+  position:relative;
 }
 
-.alert-alert{
-  @extend .alert-warning
+html, body, .main-content, .map-area, #map-container{
+  position:relative;
+}
+.content-container{
+  position:relative;
+  width: 85%;
+  height: 100%;
+  float:left;
+  padding-left:15px;
+  margin-bottom: 10px;
+}
+.main-content{
+  margin: 10px 15px;
+  height: 800px;
+  position:relative;
+}
+.sidebar{
+  position:relative;
+  width: 15%;
+  height: 100%;
+  float:left;
 }
 
 .station-select-group{
@@ -43,7 +63,7 @@ label{
 }
 
 #map-container{
-  height: 500px;
+  height: 100%;
   .operation-container{
     position: absolute; 
     z-index:  1024;

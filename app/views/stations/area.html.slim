@@ -1,27 +1,42 @@
-#station-map
-  .hidden 
-    input  type="hidden" id="station-id" value="#{@station.id}"
-  //
-    .operation-area 
-        button id="save-btn" class="btn btn-primary" 保存
-  #map-container
-    .operation-conatiner 
+.hidden 
+  input  type="hidden" id="station-id" value="#{@station.id}"
+//
+  .operation-area 
+      button id="save-btn" class="btn btn-primary" 保存
+#map-container
+  .operation-conatiner 
 
 
-  #commission-modal.modal.fade 
-    .modal-dialog 
-      .modal-content
-        .modal-header 
-          button type="button" class="close" data-dismiss="modal" aria-label="Close"
-            span aria-hidden="true" &times;
-          h4.modal-title 编辑
-        .modal-body
-          input type="hidden" id="ploygon-index"
-          .row
-            .col-sm-3
-              label 新建区域为：
-            .col-sm-6
-              select id="commission-select" class="form-control"
-        .modal-footer
-          button type="button" class="btn btn-default" data-dismiss="modal" 取消
-          button id="commission-save" type="button" class="btn btn-primary" 保存
+#commission-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 编辑
+      .modal-body
+        input type="hidden" id="ploygon-index"
+        .row
+          .col-sm-3
+            label 新建区域为：
+          .col-sm-6
+            select id="commission-select" class="form-control"
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="commission-save" type="button" class="btn btn-primary" 保存
+#delete-confirm-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 删除区域
+      .modal-body
+        input type="hidden" id="ploygon-delete-index"
+        p.text-danger
+          strong 
+            | 确定删除吗？删除后将不可恢复！
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="delete-confirmed-btn" type="button" class="btn btn-danger" 确定
+

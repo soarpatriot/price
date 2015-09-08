@@ -3,7 +3,7 @@
 
 $(function(){
 
-  if($("#city-map").length > 0) {
+  if($("#cities-map").length > 0) {
     // 百度地图API功能
     var drawOpt = randomFillOptions();
     var map = new BMap.Map('map-container');
@@ -147,5 +147,33 @@ $(function(){
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
 
- }       
+    //删除站点
+    $("#delete-confirmed-btn").click(function(){
+      
+      var index = $("#ploygon-delete-index").val(); 
+      var ploygon = ploygons[index];
+      var stationId = ploygon.stationId;
+      var data = {id:stationId}
+      var dataStr= JSON.stringify(data);
+      console.log("data:" + JSON.stringify(data));
+      var deleteUrl = api.baseUrl + "/stations/" + stationId + ".json";
+      if(stationId){
+        var data = {id:stationId}
+        var dataStr= JSON.stringify(data);
+        $.ajax({
+          type:"delete",
+          dataType: "json",
+          contentType: "application/json",
+          url: deleteUrl, 
+          headers: {"X-HTTP-Method-Override": "delete"}, 
+          data: dataStr
+        }); 
+      }
+      var map = ploygon.getMap();
+      map.removeOverlay(ploygon);
+      $("#delete-confirm-modal").modal("hide");
+    });
+
+
+  } 
 });
