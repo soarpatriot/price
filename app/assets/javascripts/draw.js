@@ -22,10 +22,10 @@ $(function(){
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
         var saveItem = new BMap.MenuItem('保存',setPloygonStation.bind(ploygon));
-        var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
+        //  var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
         ployMenu.addItem(editItem);
         ployMenu.addItem(saveItem);
-        ployMenu.addItem(deleteItem);
+        //  ployMenu.addItem(deleteItem);
         
         ploygon.addContextMenu(ployMenu);
    
@@ -134,11 +134,11 @@ $(function(){
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
         var saveItem = new BMap.MenuItem('保存',setPloygonStation.bind(ploygon));
-        var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
+        //  var deleteItem = new BMap.MenuItem('删除',deletePloygon.bind(ploygon));
  
         ployMenu.addItem(editItem);
         ployMenu.addItem(saveItem);
-        ployMenu.addItem(deleteItem);
+        //  ployMenu.addItem(deleteItem);
         ploygon.addContextMenu(ployMenu);
         ploygons.push(ploygon);
         var index =  _.indexOf(ploygons,ploygon);

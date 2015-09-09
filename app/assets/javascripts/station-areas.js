@@ -132,7 +132,7 @@ $(function(){
       var centerLan;
       var centerLng;
       
-      if(station.longitude && station.langtitude){
+      if(station.longitude && station.lantitude){
         centerLan = station.lantitude;
         centerLng = station.longitude;
       }else if(station.points.length > 0){
