@@ -23,12 +23,8 @@
 @import "font-awesome";
 
 
-body{
-  position:relative;
-}
-
-html, body, .main-content, .map-area, #map-container{
-  position:relative;
+html, body, .main-content,  #map-container{
+  height: 100%;
 }
 .content-container{
   position:relative;
@@ -40,7 +36,7 @@ html, body, .main-content, .map-area, #map-container{
 }
 .main-content{
   margin: 10px 15px;
-  height: 800px;
+  height: 100%;
   position:relative;
 }
 .sidebar{
