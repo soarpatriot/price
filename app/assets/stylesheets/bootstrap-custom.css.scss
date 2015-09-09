@@ -52,3 +52,11 @@
 // Utility classes
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
+
+.alert-notice{
+  @extend .alert-success
+}
+
+.alert-alert{
+  @extend .alert-warning
+} 

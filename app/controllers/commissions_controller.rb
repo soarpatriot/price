@@ -33,7 +33,7 @@ class CommissionsController < ApplicationController
   # PATCH/PUT /commissions/1
   def update
     if @commission.update(commission_params)
-      redirect_to @commission, notice: 'Commission was successfully updated.'
+      redirect_to @commission, notice: '提成区域更新成功！'
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class CommissionsController < ApplicationController
   # DELETE /commissions/1
   def destroy
     @commission.destroy
-    redirect_to commissions_url, notice: 'Commission was successfully destroyed.'
+    redirect_to commissions_url, notice: '提成区域删除成功！'
   end
 
   private
