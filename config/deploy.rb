@@ -2,12 +2,12 @@
 lock '3.2.1'
 
 set :application, 'price'
-set :repo_url, 'http://github.com/soarpatriot/price.git'
+set :repo_url, 'https://github.com/soarpatriot/price.git'
 
 set :rails_env, 'production'
 
 set :rvm_type, :user
-set :rvm_ruby_version, '2.1.3'
+set :rvm_ruby_version, '2.1.3@price'
 
 set :scm, :git
 

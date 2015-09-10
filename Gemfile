@@ -58,7 +58,7 @@ gem 'grape-swagger-rails'
 gem 'grape-kaminari'
 
 gem 'thin'
-gem 'websocket-rails', github: 'websocket-rails/websocket-rails'
+# gem 'websocket-rails', github: 'websocket-rails/websocket-rails'
 
 group :production do
 
