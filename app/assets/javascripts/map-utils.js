@@ -1,7 +1,12 @@
-
-var api = api || {}
+var api = api || {};
 //api.baseUrl = "http://localhost:9000/v1";
-api.baseUrl = "http://api.cityhub.me/v1";
+
+$(function(){
+  var apiBaseUrl = $("#api-base-url").val();
+  api.baseUrl = apiBaseUrl;
+
+
+});
 
 
 
