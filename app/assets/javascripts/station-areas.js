@@ -81,10 +81,15 @@ $(function(){
           headers: {"X-HTTP-Method-Override": "put"}, 
           crossDomain: true,
           success: function(area){
-            var labelValue = area.commission_name + "("+area.commission_price+")";
+            var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+            var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+            // var areaMianDesc = areaMian.toFixed(2) + "平方米";
+            var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+ areaMianDesc;
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
+
+
             if(ploygons[index].centerLabel){
               ploygons[index].centerLabel.setContent(labelValue);
             }
@@ -108,9 +113,16 @@ $(function(){
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
+
+            var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+            var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+            //  var areaMianDesc = areaMian.toFixed(2) + "平方米";
+            //var areaMianDesc = area.toFixed(2) + "平方米";
+
+
             var centerPoint = ploygons[index].getBounds().getCenter();
             var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-            var labelValue = area.commission_name + "("+area.commission_price+")";
+            var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+ areaMianDesc;
             var label = new BMap.Label(labelValue,opts);
             ploygons[index].centerLabel = label;
             map.addOverlay(label); 
@@ -162,9 +174,13 @@ $(function(){
           console.log(area); 
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
+          var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
+          var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+          //var areaMianDesc = area.toFixed(2) + "平方米";
+
           var centerPoint = ploygon.getBounds().getCenter();
           var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-          var labelValue = area.commission_name + "("+area.commission_price+")";
+          var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+areaMianDesc;
           var label = new BMap.Label(labelValue,opts);
           console.log("value:"+labelValue);
           //label.setStyle(labelOptions);
