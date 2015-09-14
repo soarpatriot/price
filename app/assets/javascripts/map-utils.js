@@ -14,6 +14,9 @@ var  densityDrawOptions = { // 绘制参数
     unit: 'px', // 单位
     label: { // 是否显示文字标签
         show: true,
+        color: "red",
+        fontSize: "12px",
+        backgroundColor: "white"
     },
     gradient: { // 显示的颜色渐变范围
         '0': 'blue',
