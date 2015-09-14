@@ -1,6 +1,7 @@
 set :stage, :local
 set :server_name, "staging.cityhub.me"
 
+set :server_domain_name, "staging.cityhub.me"
 set :branch, "master"
 
 set :log_level, :debug
