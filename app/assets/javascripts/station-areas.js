@@ -255,6 +255,7 @@ $(function(){
     console.log(JSON.stringify(map.getBounds()));
     //density 
     // 第一步创建mapv示例
+    map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5);
     var mapv = new Mapv({
         drawTypeControl: true,
         map: map  // 百度地图的map实例
@@ -262,7 +263,7 @@ $(function(){
 
     var data = []; // 取城市的点来做示例展示的点数据
 
-    console.log(JSON.stringify(cityData));
+    console.log(JSON.stringify(cityData.municipalities));
     data = data.concat(getCityCenter(cityData.municipalities));
     data = data.concat(getCityCenter(cityData.provinces));
     data = data.concat(getCityCenter(cityData.other));
