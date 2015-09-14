@@ -7,7 +7,22 @@ $(function(){
 
 
 });
-
+var  densityDrawOptions = { // 绘制参数
+    type: "honeycomb", // 网格类型，方形网格或蜂窝形
+    size: 50, // 网格大小
+    globalAlpha: 0.5,
+    unit: 'px', // 单位
+    label: { // 是否显示文字标签
+        show: true,
+    },
+    gradient: { // 显示的颜色渐变范围
+        '0': 'blue',
+        '0.6': 'cyan',
+        '0.7': 'lime',
+        '0.8': 'yellow',
+        '1.0': 'red'
+    }
+}
 
 
 var labelOptions = {

@@ -28,11 +28,13 @@
 //= require underscore
 //= require jquery-json
 
+//= require test-data
 //= require map-utils
+//= require Mapv
+
 //= require draw
 //= require station-areas
 
 //= require district-select
 //= require station-select
-
 

@@ -1,5 +1,4 @@
 
-
 $(function(){
   if($("#stations-area").length > 0) {
     // 百度地图API功能
@@ -252,6 +251,52 @@ $(function(){
     });  
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    
+    console.log(JSON.stringify(map.getBounds()));
+    //density 
+    // 第一步创建mapv示例
+    var mapv = new Mapv({
+        drawTypeControl: true,
+        map: map  // 百度地图的map实例
+    });
+
+    var data = []; // 取城市的点来做示例展示的点数据
+
+    console.log(JSON.stringify(cityData));
+    data = data.concat(getCityCenter(cityData.municipalities));
+    data = data.concat(getCityCenter(cityData.provinces));
+    data = data.concat(getCityCenter(cityData.other));
+
+    for (var i = 0; i < cityData.provinces.length; i++) {
+        var citys = cityData.provinces[i].cities;
+        data = data.concat(getCityCenter(citys));
+    }
+
+    function getCityCenter(citys) {
+        var data = [];
+        for (var i = 0; i < citys.length; i++) {
+            var city = citys[i];
+            var center = city.g.split('|')[0];
+            center = center.split(',');
+            data.push({
+                lng: center[0],
+                lat: center[1],
+                count: parseInt(Math.random() * 10)
+            });
+        }
+        return data;
+    };
+
+
+    var layer = new Mapv.Layer({
+        mapv: mapv, // 对应的mapv实例
+        zIndex: 1, // 图层层级
+        dataType: 'point', // 数据类型，点类型
+        data: data, // 数据
+        drawType: 'density', // 展示形式
+        drawOptions: densityDrawOptions
+    });
+
 
   }       
 });
