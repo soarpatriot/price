@@ -19,11 +19,11 @@ var styleOptions = {
   
     strokeColor:"#EE1010",    //边线颜色。
     fillColor:"green",      //填充颜色。当参数为空时，圆形将没有填充效果。
-    strokeWeight: 1,       //边线的宽度，以像素为单位。
+    strokeWeight: 2,       //边线的宽度，以像素为单位。
     strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
-    fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+    fillOpacity: 0.1,      //填充的透明度，取值范围0 - 1。
     enableEditing: false,
-    strokeStyle: 'solid' //边线的样式，solid或dashed。
+    strokeStyle: 'dashed' //边线的样式，solid或dashed。
 }
 var drawOptions = {
     strokeColor:"red",    //边线颜色。
@@ -44,7 +44,7 @@ var randomFillOptions = function(){
     var drawOptions = {
       strokeColor:"red",    //边线颜色。
       fillColor:colors[i],      //填充颜色。当参数为空时，圆形将没有填充效果。
-      strokeWeight: 2,       //边线的宽度，以像素为单位。
+      strokeWeight: 1,       //边线的宽度，以像素为单位。
       strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
       fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
       enableEditing: false,
