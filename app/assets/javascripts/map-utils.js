@@ -1,4 +1,5 @@
 var api = api || {};
+var utils = utils || {};
 //api.baseUrl = "http://localhost:9000/v1";
 
 $(function(){
@@ -10,7 +11,7 @@ $(function(){
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 20, // 网格大小
-    globalAlpha: 0.5,
+    globalAlpha: 1,
     unit: 'px', // 单位
     label: { // 是否显示文字标签
         show: true,
@@ -146,4 +147,9 @@ function poArr(ps){
   return pointsArr
 } 
 
-
+utils.datetimepickerIcons = {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+}

@@ -21,6 +21,10 @@
 //= require nprogress-turbolinks
 
 //= require bootstrap
+//= require moment 
+//= require bootstrap-datetimepicker
+//= require moment/zh-cn
+
 //= require pnotify.core
 //= require notify
 //= require fastclick
