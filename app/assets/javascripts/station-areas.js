@@ -254,7 +254,8 @@ $(function(){
     });
 
     var data = []; // 取城市的点来做示例展示的点数据
-
+    var layer = {};
+    /**
     var layer = new Mapv.Layer({
         mapv: mapv, // 对应的mapv实例
         zIndex: 10000, // 图层层级
@@ -262,7 +263,7 @@ $(function(){
         data: data, // 数据
         drawType: 'density', // 展示形式
         drawOptions: densityDrawOptions
-    });
+    });**/
     
     $("#draw-test-btn").click(function(){
       $("#choose-density-modal").modal("show"); 
