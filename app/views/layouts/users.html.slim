@@ -8,10 +8,11 @@ html
     body(id="#{params[:controller]}-#{params[:action]}")
         // = render "shared/navbar"
         = render "shared/logo"
-        = render "shared/ie_tip"
-        = render "shared/flash_messages"
         = render "shared/api_base" 
         .container
+          = render "shared/ie_tip"
+          = render "shared/flash_messages"
+   
           = yield
 
 

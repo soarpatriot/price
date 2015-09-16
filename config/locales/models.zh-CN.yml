@@ -25,7 +25,7 @@ zh-CN:
         user:
           name: "用户名"
           avatar: "头像"
-          email: "email"
+          email: "邮箱"
           password: "密码"
           password_confirmation:  "确认密码"
         information:
