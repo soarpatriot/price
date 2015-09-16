@@ -295,6 +295,7 @@ $(function(){
     });
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
+      var stationName = $("#station-name").val();
       var endDateValue = $("#end-date-text").val();
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
