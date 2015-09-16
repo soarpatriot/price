@@ -1,10 +1,15 @@
 .hidden 
   input  type="hidden" id="station-id" value="#{@station.id}"
+  input  type="hidden" id="station-name" value="#{@station.description}"
+
 //
   .operation-area 
-      button id="save-btn" class="btn btn-primary" 保存
+      //
+        input type="checkbox" 本月 
+      button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
 #map-container
-  .operation-conatiner 
+  .operation-container 
+    button id="density-control-btn" 订单显示
 
 
 #commission-modal.modal.fade 
@@ -39,4 +44,36 @@
       .modal-footer
         button type="button" class="btn btn-default" data-dismiss="modal" 取消
         button id="delete-confirmed-btn" type="button" class="btn btn-danger" 确定
+
+#choose-density-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 选择订单日期范围
+      .modal-body
+        .row 
+          .col-xs-6
+            .checkbox 
+              label 
+                input id="display-density-checkbox" type="checkbox" 显示密度
+        .row
+          .col-xs-6
+            .form-group
+              label for="start-date" 开始时间：
+              #start-date.input-group.data
+                input id="start-date-text" type="text" class="form-control"
+                span.input-group-addon
+                  span.fa.fa-calendar
+          .col-xs-6
+            .form-group
+              label for="start-date" 结束时间：
+              #end-date.input-group.data
+                input id="end-date-text" type="text" class="form-control"
+                span.input-group-addon
+                  span.fa.fa-calendar
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="choose-density-btn" type="button" class="btn btn-success" 确定
 

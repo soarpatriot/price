@@ -9,19 +9,19 @@
  * compiled file so the styles you add here take precedence over styles defined in any styles
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
+
+
  *= require bootstrap-custom
  *= require home
  *= require pnotify.core
  *= require ngprogress
- *= require animate+animo
  *= require sidebar
  *= require map
- *= require_self
  */
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
-
+@import "compass";
 
 html, body, .main-content,  #map-container{
   height: 100%;
@@ -75,9 +75,14 @@ label{
 }
 
 .operation-area{
+
   position: absolute;
   z-index: 1024;
   background: #fff;
+  margin: 5px;
+  padding: 10px;
+  @include border-radius(3px);
+  border: 1px solid #428bca;
 }
 .logo{
   top: 0;

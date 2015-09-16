@@ -1,15 +1,17 @@
 source 'http://ruby.taobao.org'
 
-gem 'rails', '4.1.6'
-gem 'mysql2'
+gem 'rails', '4.1.13'
+gem 'mysql2', '~> 0.3.18'
 
 gem 'spreadsheet'
-
-gem 'rails_config'
+gem 'config'
+# gem 'rails_config'
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'nprogress-rails'
+gem 'momentjs-rails'
+gem 'bootstrap3-datetimepicker-rails'
 #gem 'nokogiri'
 gem 'rack-cors', :require => 'rack/cors'
 
@@ -24,13 +26,13 @@ gem 'fastclick-rails'
 gem 'select2-rails'
 # gem 'compass'
 
-gem 'compass-rails'
+gem 'compass-rails', '~> 2.0.4'
 #gem 'bootstrap-sass', '~> 3.2.0'
 #gem 'sass-rails', '~> 4.0.3'
 
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.3.5.1'
 #gem 'sass-rails', '>= 3.2'
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0.1'
 
 gem 'autoprefixer-rails', '~> 5.0.0'
 gem 'simple_form'

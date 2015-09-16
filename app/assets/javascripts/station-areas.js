@@ -1,5 +1,4 @@
 
-
 $(function(){
   if($("#stations-area").length > 0) {
     // 百度地图API功能
@@ -29,14 +28,12 @@ $(function(){
         ployMenu.addItem(deleteItem);
         ploygon.addContextMenu(ployMenu);
         centerPoint =  ploygon.getBounds().getCenter();       
-        console.log("aaa:"+ centerPoint.lat + "bbb:" + centerPoint.lng);
     };
     $("#commission-modal").on("show.bs.modal",function(e){
       var commisionsUrl = api.baseUrl + "/commissions.json"
       $.get(commisionsUrl,function(data){
         var optionStr = ""
         $.each(data,function(key,commission){
-          console.log(commission); 
           optionStr += "<option value='"+commission.id+"'>"+commission.name+"("+commission.price+")</option>"
         });
         $("#commission-select").empty();
@@ -47,11 +44,9 @@ $(function(){
           $("#commission-select").val(ploygon.commissionId);
         }
       });
-      console.log("absdf");  
     });
 
     $("#commission-save").click(function(){
-      console.log("save...")
       var data = {};
       var stationId = $("#station-id").val();
       var index = $("#ploygon-index").val();
@@ -63,7 +58,6 @@ $(function(){
       var commissionId = $("#commission-select").val();
       var label = "abc";
       var dataStr = "";
-      console.log("dataStr"+dataStr);
       var areaSaveUrl = api.baseUrl + "/areas.json" 
       var updateAreaUrl = "";
       //$.post(areaSaveUrl)
@@ -138,7 +132,6 @@ $(function(){
     });
 
    $.get(stationUrl,{id:stationId},function(station){
-      console.log(station.points); 
       var arr = convertToPointsOjeArray(station.points);
       var ploygon = new BMap.Polygon(arr,styleOptions);
       var centerLan;
@@ -182,7 +175,6 @@ $(function(){
           var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
           var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+areaMianDesc;
           var label = new BMap.Label(labelValue,opts);
-          console.log("value:"+labelValue);
           //label.setStyle(labelOptions);
           map.addOverlay(label);
 
@@ -252,6 +244,85 @@ $(function(){
     });  
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    
+    //density 
+    // 第一步创建mapv示例
+    map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5);
+    var mapv = new Mapv({
+        drawTypeControl: true,
+        map: map  // 百度地图的map实例
+    });
 
-  }       
+    var data = []; // 取城市的点来做示例展示的点数据
+
+    var layer = new Mapv.Layer({
+        mapv: mapv, // 对应的mapv实例
+        zIndex: 10000, // 图层层级
+        dataType: 'point', // 数据类型，点类型
+        data: data, // 数据
+        drawType: 'density', // 展示形式
+        drawOptions: densityDrawOptions
+    });
+    
+    $("#draw-test-btn").click(function(){
+      $("#choose-density-modal").modal("show"); 
+    });
+    $("#choose-density-btn").click(function(){
+      var startDateValue = $("#start-date-text").val();
+      var stationName = $("#station-name").val();
+      var endDateValue = $("#end-date-text").val();
+      var displayChecked = $("#display-density-checkbox").is(':checked');
+      if(displayChecked){
+        if(startDateValue && endDateValue){
+          var dataUrlBase = "http://10.3.23.247:8080/kettle/trans/ordersLntAndLat";
+          var city_name = "北京市";
+          var express_company_name="北京亦庄站";
+          var start_date = "2015-09-01";
+          var end_date  = "2015-09-12";
+          var dataUrl = dataUrlBase + "?cityName=" + city_name + 
+            "&expressCompanyName="+  express_company_name + "&startDate=" + start_date + "&endDate=" + end_date;
+          console.log(dataUrl);
+           
+          // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
+          $.get(dataUrl,function(result){
+             var optionStr = ""
+             var jsonResult = JSON.parse(result)
+             if(result.error){
+               console.log("订单密度出错！"); 
+             }else{
+             
+               layer.setData(jsonResult.data); 
+             }
+             console.log(JSON.stringify(result)); 
+          });
+          
+        }else{
+
+        } 
+      }else{
+        layer.setData([]); 
+      
+      }
+      console.log("dss:"+displayChecked);
+      $("#choose-density-modal").modal("hide"); 
+    });
+
+    $('#start-date').datetimepicker({
+      format: 'YYYY-MM-DD',
+      locale: 'zh-cn'
+    });
+    $('#end-date').datetimepicker({
+      format: 'YYYY-MM-DD',
+      locale: 'zh-cn'
+    });
+
+    $("#start-date").on("dp.change", function (e) {
+        $('#end-date').data("DateTimePicker").minDate(e.date);
+    });
+    $("#end-date").on("dp.change", function (e) {
+        $('#start-date').data("DateTimePicker").maxDate(e.date);
+    });
+
+
+  }
 });

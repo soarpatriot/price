@@ -21,6 +21,10 @@
 //= require nprogress-turbolinks
 
 //= require bootstrap
+//= require moment 
+//= require bootstrap-datetimepicker
+//= require moment/zh-cn
+
 //= require pnotify.core
 //= require notify
 //= require fastclick
@@ -29,10 +33,11 @@
 //= require jquery-json
 
 //= require map-utils
+//= require Mapv
+
 //= require draw
 //= require station-areas
 
 //= require district-select
 //= require station-select
-
 
