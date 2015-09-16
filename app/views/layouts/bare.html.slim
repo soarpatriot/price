@@ -8,14 +8,9 @@ html
         = csrf_meta_tags
     body(id="#{params[:controller]}-#{params[:action]}")
         // = render "shared/navbar"
-        = render "shared/logo"
         = render "shared/api_base" 
-        .main-content
-            = render "shared/ie_tip"
-            = render "shared/flash_messages"
-            .sidebar
-              = render "shared/sidebar"
-            .content-container
-              = yield
+        .bare-container
+          = render "shared/flash_messages"
+          = yield
 
 

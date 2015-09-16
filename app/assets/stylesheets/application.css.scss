@@ -34,8 +34,15 @@ html, body, .main-content,  #map-container{
   padding-left:15px;
   margin-bottom: 10px;
 }
+.bare-container{
+  position:relative;
+  width: 100%;
+  height: 100%;
+
+}
 .main-content{
   margin: 10px 15px;
+  margin-top: 65px;
   height: 100%;
   position:relative;
 }

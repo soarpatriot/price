@@ -1,5 +1,6 @@
-.flash-message
-  - flash.keys.each do |key|
-          .alert class="alert-#{key}"
-            = flash[key]
-            button type="button" class="close" data-dismiss="alert" aria-hidden="true" &times;
+- if flash.keys.size > 0
+  .flash-message
+    - flash.keys.each do |key|
+            .alert class="alert-#{key}"
+              = flash[key]
+              button type="button" class="close" data-dismiss="alert" aria-hidden="true" &times;
