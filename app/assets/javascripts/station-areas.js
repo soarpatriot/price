@@ -255,32 +255,6 @@ $(function(){
 
     var data = []; // 取城市的点来做示例展示的点数据
 
-    data = data.concat(getCityCenter(cityData.municipalities));
-    data = data.concat(getCityCenter(cityData.provinces));
-    data = data.concat(getCityCenter(cityData.other));
-
-    for (var i = 0; i < cityData.provinces.length; i++) {
-        var citys = cityData.provinces[i].cities;
-        data = data.concat(getCityCenter(citys));
-    }
-
-    function getCityCenter(citys) {
-        var data = [];
-        for (var i = 0; i < citys.length; i++) {
-            var city = citys[i];
-            var center = city.g.split('|')[0];
-            center = center.split(',');
-            data.push({
-                lng: center[0],
-                lat: center[1],
-                count: parseInt(Math.random() * 10)
-            });
-        }
-        return data;
-    };
-
-   
-
     var layer = new Mapv.Layer({
         mapv: mapv, // 对应的mapv实例
         zIndex: 10000, // 图层层级
@@ -300,20 +274,26 @@ $(function(){
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
         if(startDateValue && endDateValue){
-          var dataUrlBase = "http://10.3.23.247:8080/kettle/executeTrans/?PARAM=value&trans=%2Fhome%2Fzhanghengqiang%2Fsoftware%2Fdata-integration%2Fsamples%2Ftransformations%2FServlet%20Data%20Example.ktr";
+          var dataUrlBase = "http://10.3.23.247:8080/kettle/trans/ordersLntAndLat";
           var city_name = "北京市";
           var express_company_name="北京亦庄站";
           var start_date = "2015-09-01";
           var end_date  = "2015-09-12";
-          var dataUrl = dataUrlBase + "&city_name=" + encodeURIComponent( city_name) + "&express_company_name="+ encodeURIComponent( express_company_name) + "&start_date=" + start_date + "&end_date=" + end_date;
+          var dataUrl = dataUrlBase + "?cityName=" + city_name + 
+            "&expressCompanyName="+  express_company_name + "&startDate=" + start_date + "&endDate=" + end_date;
           console.log(dataUrl);
-          var encodeDataUrl = encodeURIComponent(dataUrl);
            
-          console.log(encodeDataUrl);
-          dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
-          $.get(dataUrl,function(data){
+          // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
+          $.get(dataUrl,function(result){
              var optionStr = ""
-             console.log(JSON.stringify(data)); 
+             var jsonResult = JSON.parse(result)
+             if(result.error){
+               console.log("订单密度出错！"); 
+             }else{
+             
+               layer.setData(jsonResult.data); 
+             }
+             console.log(JSON.stringify(result)); 
           });
           
         }else{

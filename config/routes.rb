@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   mount GrapeSwaggerRails::Engine => '/swagger'
 
   resources :commissions

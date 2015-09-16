@@ -32,7 +32,6 @@
 //= require underscore
 //= require jquery-json
 
-//= require test-data
 //= require map-utils
 //= require Mapv
 
