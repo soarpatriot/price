@@ -2,7 +2,7 @@ set :stage, :local
 set :server_name, "staging.cityhub.me"
 
 set :server_domain_name, "staging.cityhub.me"
-set :branch, "master"
+set :branch, "dev"
 
 set :log_level, :debug
 set :deploy_to, "/data/www/price"
