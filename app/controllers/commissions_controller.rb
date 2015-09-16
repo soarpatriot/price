@@ -24,7 +24,7 @@ class CommissionsController < ApplicationController
     @commission = Commission.new(commission_params)
 
     if @commission.save
-      redirect_to @commission, notice: 'Commission was successfully created.'
+      redirect_to @commission, notice: '提成区域创建成功。'
     else
       render :new
     end
