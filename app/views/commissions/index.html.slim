@@ -13,7 +13,7 @@ table.table
         td = commission.name
         td = commission.price
         td = link_to '编辑', edit_commission_path(commission)
-        td = link_to '删除', commission, data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to '删除', commission, data: {:confirm => '确定删除吗？'}, :method => :delete
 
 br
 
