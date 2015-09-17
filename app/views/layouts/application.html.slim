@@ -3,7 +3,6 @@ html
     head
         = render "shared/meta"
         = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-        = render "shared/baidu_map_assets"
         = javascript_include_tag 'application', 'data-turbolinks-track' => true
         = csrf_meta_tags
     body(id="#{params[:controller]}-#{params[:action]}")

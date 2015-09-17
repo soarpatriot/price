@@ -10,11 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
 
-
+ 
  *= require bootstrap-custom
  *= require home
  *= require pnotify.core
  *= require ngprogress
+ *= require drawing-manager14
+ *= require search-info-window14
  *= require sidebar
  *= require map
  */

@@ -32,6 +32,10 @@
 //= require underscore
 //= require jquery-json
 
+//= require baidu-map
+//= require drawing-manager1.4
+//= require search-info-window14
+
 //= require map-utils
 //= require Mapv
 
