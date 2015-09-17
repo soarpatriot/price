@@ -10,7 +10,7 @@ set :deploy_to, "/data/www/price"
 
 set :use_sudo, true
 set :thin_config, "#{shared_path}/config/thin.yml"
-set :thin_pid, "#{shared_path}/tmp/pids/thin.0.pid"
+set :thin_pid, "#{shared_path}/tmp/pids/thin.3000.pid"
 
 set :ssh_option,{
   keys: %w(/home/liuhaibao/.ssh/id_rsa),

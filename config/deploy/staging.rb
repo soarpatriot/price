@@ -8,7 +8,7 @@ set :log_level, :debug
 set :deploy_to, "/data/www/price"
 
 set :thin_config, "#{shared_path}/config/thin.yml"
-set :thin_pid, "#{shared_path}/tmp/pids/thin.0.pid"
+set :thin_pid, "#{shared_path}/tmp/pids/thin.3000.pid"
 
 
 #set :password, ask('Server password', nil)
