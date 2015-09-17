@@ -32,8 +32,9 @@ Rails.application.routes.draw do
     end
   end
   root 'home#index'
-  get '/import' => 'home#import'   
-  get '/clear' => 'home#clear'   
+  get  '/operate' => 'home#operate'
+  post '/import' => 'home#import'   
+  post '/clear' => 'home#clear'   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

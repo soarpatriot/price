@@ -2,11 +2,10 @@
   input  type="hidden" id="station-id" value="#{@station.id}"
   input  type="hidden" id="station-name" value="#{@station.description}"
 
-//
-  .operation-area 
-      //
-        input type="checkbox" 本月 
-      button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
+.operation-area 
+    //
+      input type="checkbox" 本月 
+    button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
 #map-container
   .operation-container 
     button id="density-control-btn" 订单显示
@@ -53,6 +52,10 @@
           span aria-hidden="true" &times;
         h4.modal-title 选择订单日期范围
       .modal-body
+        .row 
+          .col-xs-12 
+            .alert.alert-info
+              p 由于订单数据量较大，通常显示一个月内订单密度预计20秒左右，请耐心等待。
         .row 
           .col-xs-6
             .checkbox 

@@ -1,8 +1,10 @@
 
 # this can be any application server, not just Unicorn/Rainbows!
 upstream <%= fetch(:application) %>_server {
-  server unix:<%= shared_path %>/tmp/sockets/thin.0.sock fail_timeout=0;
-  server unix:<%= shared_path %>/tmp/sockets/thin.1.sock fail_timeout=0;
+  server 0.0.0.0:3000;¬
+  server 0.0.0.0:3001;
+  # server unix:<%= shared_path %>/tmp/sockets/thin.0.sock fail_timeout=0;
+  #  server unix:<%= shared_path %>/tmp/sockets/thin.1.sock fail_timeout=0;
 }
 
 
