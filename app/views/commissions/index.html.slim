@@ -1,20 +1,21 @@
 
-table.table
-  thead
-    tr
-      th 名称
-      th 提成
-      th
-      th
-
-  tbody
-    - @commissions.each do |commission|
+.content-wraper
+  table.table
+    thead
       tr
-        td = commission.name
-        td = commission.price
-        td = link_to '编辑', edit_commission_url(commission)
-        td = link_to '删除', commission_url(commission), data: {:confirm => '确定删除吗？'}, :method => :delete
+        th 名称
+        th 提成
+        th
+        th
 
-br
+    tbody
+      - @commissions.each do |commission|
+        tr
+          td = commission.name
+          td = commission.price
+          td = link_to '编辑', edit_commission_url(commission)
+          td = link_to '删除', commission_url(commission), data: {:confirm => '确定删除吗？'}, :method => :delete
 
-= link_to '新建', new_commission_url
+  br
+
+  = link_to '新建', new_commission_url

@@ -1,11 +1,12 @@
 
-p
-  strong 名称:
-  = @commission.name
-p
-  strong 提成:
-  = @commission.price
+.content-wraper
+  p
+    strong 名称:
+    = @commission.name
+  p
+    strong 提成:
+    = @commission.price
 
-= link_to '编辑', edit_commission_url(@commission)
-'|
-= link_to '返回', commissions_url
+  = link_to '编辑', edit_commission_url(@commission)
+  '|
+  = link_to '返回', commissions_url
