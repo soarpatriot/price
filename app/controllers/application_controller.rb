@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
 
   before_action :authenticate_login!
+  after_action  :allow_iframe
 
   layout :layout_by_signin
 
@@ -28,5 +29,8 @@ class ApplicationController < ActionController::Base
       if cookies[:LoginUserInfo].nil?
         authenticate_user!
       end
+    end
+    def allow_iframe 
+      response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://www.wuliusys.com"
     end
 end
