@@ -1,8 +1,8 @@
 
 ul.nav.nav-sidebar 
  li class="#{params[:controller].end_with?('cities')? 'active':''}"
-   = link_to "省市站点区域", cities_path
+   = link_to "省市站点区域", cities_url
  li class="#{params[:controller].end_with?('stations')? 'active':''}"
-   = link_to "站点提成", stations_path
+   = link_to "站点提成", stations_url
  li class="#{params[:controller].end_with?('commissions')? 'active':''}"
-   = link_to "区域定价", commissions_path
+   = link_to "区域定价", commissions_url

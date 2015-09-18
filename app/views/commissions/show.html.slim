@@ -6,6 +6,6 @@ p
   strong 提成:
   = @commission.price
 
-= link_to '编辑', edit_commission_path(@commission)
+= link_to '编辑', edit_commission_url(@commission)
 '|
-= link_to '返回', commissions_path
+= link_to '返回', commissions_url

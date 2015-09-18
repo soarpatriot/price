@@ -12,9 +12,9 @@ table.table
       tr
         td = commission.name
         td = commission.price
-        td = link_to '编辑', edit_commission_path(commission)
-        td = link_to '删除', commission, data: {:confirm => '确定删除吗？'}, :method => :delete
+        td = link_to '编辑', edit_commission_url(commission)
+        td = link_to '删除', commission_url(commission), data: {:confirm => '确定删除吗？'}, :method => :delete
 
 br
 
-= link_to '新建', new_commission_path
+= link_to '新建', new_commission_url
