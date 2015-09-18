@@ -32,7 +32,9 @@
 //= require underscore
 //= require jquery-json
 
+//= require map-global
 //= require baidu-map
+//= require geo-utils12
 //= require drawing-manager1.4
 //= require search-info-window14
 
