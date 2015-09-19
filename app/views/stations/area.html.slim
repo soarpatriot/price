@@ -1,14 +1,13 @@
 .hidden 
   input  type="hidden" id="station-id" value="#{@station.id}"
   input  type="hidden" id="station-name" value="#{@station.description}"
-//
-  .operation-area 
-    //
-      input type="checkbox" 本月 
+
+.operation-area 
+  = link_to "返回", stations_url, class: "btn btn-default btn-sm" 
+  //
+    input type="checkbox" 本月 
     button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
 #map-container
-  .operation-container 
-    button id="density-control-btn" 订单显示
 
 
 #commission-modal.modal.fade 
