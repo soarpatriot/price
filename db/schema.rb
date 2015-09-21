@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916034645) do
+ActiveRecord::Schema.define(version: 20150921133001) do
 
   create_table "areas", force: true do |t|
     t.integer  "station_id"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20150916034645) do
     t.integer  "stationable_id"
     t.string   "stationable_type"
   end
+
+  add_index "stations", ["description"], name: "index_stations_on_description", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
