@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20150921133001) do
     t.string   "stationable_type"
   end
 
-  add_index "stations", ["description"], name: "index_stations_on_description", unique: true, using: :btree
+  add_index "stations", ["description"], name: "index_stations_on_description", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
