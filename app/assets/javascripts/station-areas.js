@@ -255,7 +255,7 @@ $(function(){
 
     var data = []; // 取城市的点来做示例展示的点数据
     var layer = {};
-    /**
+   
     var layer = new Mapv.Layer({
         mapv: mapv, // 对应的mapv实例
         zIndex: 10000, // 图层层级
@@ -263,7 +263,7 @@ $(function(){
         data: data, // 数据
         drawType: 'density', // 展示形式
         drawOptions: densityDrawOptions
-    });**/
+    });
     
     $("#draw-test-btn").click(function(){
       $("#choose-density-modal").modal("show"); 
@@ -271,15 +271,16 @@ $(function(){
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
       var stationName = $("#station-name").val();
+      var cityName = $("#city-name").val();
       var endDateValue = $("#end-date-text").val();
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
         if(startDateValue && endDateValue){
-          var dataUrlBase = "http://10.3.23.247:8080/kettle/trans/ordersLntAndLat";
-          var city_name = "北京市";
-          var express_company_name="北京亦庄站";
-          var start_date = "2015-09-01";
-          var end_date  = "2015-09-12";
+          var dataUrlBase = "http://javapi-commission.wltest.com:8083/kettle/trans/ordersLntAndLat";
+          var city_name = cityName;
+          var express_company_name= stationName;
+          var start_date = startDateValue;
+          var end_date  = endDateValue;
           var dataUrl = dataUrlBase + "?cityName=" + city_name + 
             "&expressCompanyName="+  express_company_name + "&startDate=" + start_date + "&endDate=" + end_date;
           console.log(dataUrl);
