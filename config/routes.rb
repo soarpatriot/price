@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     member do 
       get 'area'
     end
+    collection do 
+      get 'export'
+    end
   end
   resources :cities do 
     member do 

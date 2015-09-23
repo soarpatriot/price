@@ -2,8 +2,13 @@ source 'http://ruby.taobao.org'
 
 gem 'rails', '4.1.13'
 gem 'mysql2', '~> 0.3.18'
-
+gem 'rubyzip', '= 1.1.0'
+gem 'zip-zip'
 gem 'spreadsheet'
+gem 'axlsx'
+gem 'axlsx_rails'
+gem 'acts_as_xlsx'
+
 gem 'config'
 # gem 'rails_config'
 gem 'uglifier', '>= 1.3.0'

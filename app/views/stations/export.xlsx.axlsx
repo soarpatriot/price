@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "stations") do |sheet|
+  sheet.add_row ['站点名称', '地址', '经度', '纬度', '提成区域']
+  @stations.each do |station|
+    size = station.areas.size
+    if size > 0 
+      area_desc = "提成区域：#{size}个 \n "
+      station.areas.each do | area |
+        area_desc += "#{area.commission.name}: #{area.commission.price}\n"
+      end
+    else
+      area_desc = "提成区域：无 "
+    end 
+ 
+    sheet.add_row [station.description,station.address, station.longitude, station.lantitude, area_desc]
+  end
+end

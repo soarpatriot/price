@@ -50,7 +50,14 @@ class StationsController < ApplicationController
      @station.destroy
      redirect_to stations_path
    end
-    
+
+   def export 
+     @stations = Station.all
+   
+     render :xlsx => "export"
+
+   end 
+
    def set_station
      @station = Station.find(params[:id])
    end
