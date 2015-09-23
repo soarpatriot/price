@@ -22,6 +22,7 @@
      th 省
      th 市
      th 站点名称 
+     th 提成区域
      th 操作
    - @stations.each do |station| 
      tr
@@ -29,6 +30,13 @@
          td = "#{station.stationable.province.description}" 
          td = "#{station.stationable.description}" 
        td = "#{station.description}" 
+       td 
+        -  if station.areas.size > 0
+          span.label.label-success
+            | 有&nbsp;
+            span.badge #{station.areas.size}
+        - else 
+          span.label.label-danger 无
        td 
          .btn-group
            = link_to  "编辑", edit_station_url(station), class:"btn btn-warning"

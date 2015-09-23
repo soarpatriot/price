@@ -276,7 +276,7 @@ $(function(){
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
         if(startDateValue && endDateValue){
-          var dataUrlBase = "http://javapi-commission.wltest.com:8083/kettle/trans/ordersLntAndLat";
+          var dataUrlBase = "http://javapi-commission.wuliusys.com/kettle/trans/ordersLntAndLat";
           var city_name = cityName;
           var express_company_name= stationName;
           var start_date = startDateValue;
