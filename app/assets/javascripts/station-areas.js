@@ -29,6 +29,27 @@ $(function(){
         ploygon.addContextMenu(ployMenu);
         centerPoint =  ploygon.getBounds().getCenter();       
     };
+
+
+    //density 
+    // 第一步创建mapv示例
+    map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5);
+    var mapv = new Mapv({
+        drawTypeControl: true,
+        map: map  // 百度地图的map实例
+    });
+
+    var data = []; // 取城市的点来做示例展示的点数据
+    var layer = {};
+    var layer = new Mapv.Layer({
+        mapv: mapv, // 对应的mapv实例
+        zIndex: -10, // 图层层级
+        dataType: 'point', // 数据类型，点类型
+        data: data, // 数据
+        drawType: 'density', // 展示形式
+        drawOptions: densityDrawOptions
+    });
+    layer.setMapv(null);
     $("#commission-modal").on("show.bs.modal",function(e){
       var commisionsUrl = api.baseUrl + "/commissions.json"
       $.get(commisionsUrl,function(data){
@@ -157,7 +178,7 @@ $(function(){
 
       map.centerAndZoom(markerPoint, 13);
       map.enableScrollWheelZoom();  
-   
+      
       ploygon.stationId = station.id;
       map.addOverlay(ploygon);
 
@@ -245,26 +266,7 @@ $(function(){
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     
-    //density 
-    // 第一步创建mapv示例
-    map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5);
-    var mapv = new Mapv({
-        drawTypeControl: true,
-        map: map  // 百度地图的map实例
-    });
-
-    var data = []; // 取城市的点来做示例展示的点数据
-    var layer = {};
-    /** 
-    var layer = new Mapv.Layer({
-        mapv: mapv, // 对应的mapv实例
-        zIndex: 10000, // 图层层级
-        dataType: 'point', // 数据类型，点类型
-        data: data, // 数据
-        drawType: 'density', // 展示形式
-        drawOptions: densityDrawOptions
-    });**/
-    
+   
     $("#draw-test-btn").click(function(){
       $("#choose-density-modal").modal("show"); 
     });
@@ -275,7 +277,9 @@ $(function(){
       var endDateValue = $("#end-date-text").val();
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
+        layer.setMapv(mapv);
         if(startDateValue && endDateValue){
+          //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
           var dataUrlBase = "http://javapi-commission.wuliusys.com/kettle/trans/ordersLntAndLat";
           var city_name = cityName;
           var express_company_name= stationName;
@@ -299,11 +303,11 @@ $(function(){
           });
           
         }else{
-
         } 
       }else{
-        layer.setData([]); 
-      
+        
+        layer.setMapv(null);
+        //  layer.setData([]); 
       }
       console.log("dss:"+displayChecked);
       $("#choose-density-modal").modal("hide"); 
