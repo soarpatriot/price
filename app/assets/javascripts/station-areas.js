@@ -266,9 +266,15 @@ $(function(){
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     
-   
+    var jqXhr; 
     $("#draw-test-btn").click(function(){
       $("#choose-density-modal").modal("show"); 
+    });
+    $("#cancel-density-btn").click(function(){
+      if(jqXhr){
+        jqXhr.abort();
+      }
+      $("#choose-density-modal").modal("hide"); 
     });
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
@@ -279,6 +285,10 @@ $(function(){
       if(displayChecked){
         layer.setMapv(mapv);
         if(startDateValue && endDateValue){
+          $("#choose-density-btn").prop( "disabled", true );
+          $("#choose-density-btn").toggleClass("disabled");
+          $("#choose-density-btn i").toggleClass("hide");
+   
           //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
           var dataUrlBase = "http://javapi-commission.wuliusys.com/kettle/trans/ordersLntAndLat";
           var city_name = cityName;
@@ -290,27 +300,36 @@ $(function(){
           console.log(dataUrl);
            
           // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
-          $.get(dataUrl,function(result){
-             var optionStr = ""
-             var jsonResult = JSON.parse(result)
-             if(result.error){
-               console.log("订单密度出错！"); 
-             }else{
-             
-               layer.setData(jsonResult.data); 
-             }
-             console.log(JSON.stringify(result)); 
-          });
+          jqXhr = $.ajax({
+            url: dataUrl 
+          }).done(function(result){
+               var optionStr = ""
+               var jsonResult = JSON.parse(result)
+               if(result.error){
+                 console.log("订单密度出错！"); 
+               }else{
+               
+                 layer.setData(jsonResult.data); 
+               }
+               console.log(JSON.stringify(result)); 
+            }).fail(function(jqXHR,status){
+              console.log(status); 
+            }).always(function(){
+              $("#choose-density-btn" ).prop( "disabled", false );
+              if($("#choose-density-btn").hasClass("disabled")){
+                $("#choose-density-btn").removeClass("disabled");
+              }
+              $("#choose-density-btn i").toggleClass("hide");
+              $("#choose-density-modal").modal("hide"); 
+            });
           
         }else{
         } 
       }else{
-        
         layer.setMapv(null);
         //  layer.setData([]); 
       }
       console.log("dss:"+displayChecked);
-      $("#choose-density-modal").modal("hide"); 
     });
 
     $('#start-date').datetimepicker({
