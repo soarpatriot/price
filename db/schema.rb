@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150921133001) do
+ActiveRecord::Schema.define(version: 20151008141431) do
 
   create_table "areas", force: true do |t|
     t.integer  "station_id"
@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(version: 20150921133001) do
     t.float    "lantitude",  limit: 24
     t.float    "langitude",  limit: 24
     t.integer  "city_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "keys", force: true do |t|
+    t.string   "origin"
+    t.string   "app_key"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

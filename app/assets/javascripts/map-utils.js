@@ -4,8 +4,9 @@ var utils = utils || {};
 
 $(function(){
   var apiBaseUrl = $("#api-base-url").val();
+  var appKey = $("#app_key").val();
   api.baseUrl = apiBaseUrl;
-
+  api.appKey = appKey; 
 
 });
 var  densityDrawOptions = { // 绘制参数
