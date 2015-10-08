@@ -65,19 +65,28 @@
                 input id="display-density-checkbox" type="checkbox" 显示密度
         .row
           .col-xs-6
-            .form-group
-              label for="start-date" 开始时间：
-              #start-date.input-group.data
-                input id="start-date-text" type="text" class="form-control"
-                span.input-group-addon
-                  span.fa.fa-calendar
-          .col-xs-6
-            .form-group
-              label for="start-date" 结束时间：
-              #end-date.input-group.data
-                input id="end-date-text" type="text" class="form-control"
-                span.input-group-addon
-                  span.fa.fa-calendar
+              .form-group
+                label for="start-date" 选择月份：
+                #start-date.input-group.data
+                  input id="start-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
+   
+          //
+            .col-xs-6
+              .form-group
+                label for="start-date" 开始时间：
+                #start-date.input-group.data
+                  input id="start-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
+            .col-xs-6
+              .form-group
+                label for="start-date" 结束时间：
+                #end-date.input-group.data
+                  input id="end-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
       .modal-footer
         button id="cancel-density-btn" type="button" class="btn btn-default" 取消
         button id="choose-density-btn" type="button" class="btn btn-success" 

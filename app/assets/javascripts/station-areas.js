@@ -278,13 +278,14 @@ $(function(){
     });
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
+      console.log("start data value:"+ startDateValue)
       var stationName = $("#station-name").val();
       var cityName = $("#city-name").val();
       var endDateValue = $("#end-date-text").val();
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
         layer.setMapv(mapv);
-        if(startDateValue && endDateValue){
+        if(startDateValue){
           $("#choose-density-btn").prop( "disabled", true );
           $("#choose-density-btn").toggleClass("disabled");
           $("#choose-density-btn i").toggleClass("hide");
@@ -296,7 +297,7 @@ $(function(){
           var start_date = startDateValue;
           var end_date  = endDateValue;
           var dataUrl = dataUrlBase + "?cityName=" + city_name + 
-            "&expressCompanyName="+  express_company_name + "&startDate=" + start_date + "&endDate=" + end_date;
+            "&expressCompanyName="+  express_company_name + "&startDate=" + start_date
           console.log(dataUrl);
            
           // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
@@ -333,20 +334,20 @@ $(function(){
     });
 
     $('#start-date').datetimepicker({
-      format: 'YYYY-MM-DD',
+      format: 'YYYY-MM',
       locale: 'zh-cn'
     });
     $('#end-date').datetimepicker({
       format: 'YYYY-MM-DD',
       locale: 'zh-cn'
     });
-
+    /**
     $("#start-date").on("dp.change", function (e) {
         $('#end-date').data("DateTimePicker").minDate(e.date);
     });
     $("#end-date").on("dp.change", function (e) {
         $('#start-date').data("DateTimePicker").maxDate(e.date);
-    });
+    });**/
 
 
   }
