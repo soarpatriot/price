@@ -41,7 +41,7 @@ class Admin::KeysController < Admin::AdminController
      @key = Key.find(params[:id])
    end
    def key_params
-     params.require(:key).permit(:id,:origin,:app_key)
+     params.require(:key).permit(:id,:origin,:api_key)
    end
 
 end
