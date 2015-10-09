@@ -7,8 +7,8 @@ $(function(){
     var poi = new BMap.Point(116.307852,40.057031);
     var stationId = $("#station-id").val();
     var ploygons = [];
-    var stationUrl = api.baseUrl+ "/stations/"+stationId+".json?app_key="+ api.appKey
-    var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json?app_key=" + api.appKey
+    var stationUrl = api.baseUrl+ "/stations/"+stationId+".json?api_key="+ api.appKey
+    var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json?api_key=" + api.appKey
 
  
     var ploygons = [];
@@ -51,7 +51,7 @@ $(function(){
     });
     layer.setMapv(null);
     $("#commission-modal").on("show.bs.modal",function(e){
-      var commisionsUrl = api.baseUrl + "/commissions.json?app_key="+ api.appKey;
+      var commisionsUrl = api.baseUrl + "/commissions.json?api_key="+ api.appKey;
       $.get(commisionsUrl,function(data){
         var optionStr = ""
         $.each(data,function(key,commission){
@@ -79,13 +79,13 @@ $(function(){
       var commissionId = $("#commission-select").val();
       var label = "abc";
       var dataStr = "";
-      var areaSaveUrl = api.baseUrl + "/areas.json?app_key=" + api.appKey; 
+      var areaSaveUrl = api.baseUrl + "/areas.json?api_key=" + api.appKey; 
       var updateAreaUrl = "";
       //$.post(areaSaveUrl)
       console.log("area id:"+areaId); 
       if(areaId){
         console.log("if area id:"+areaId); 
-        updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?app_key=" + api.appKey;
+        updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
         data = {label:label, station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
         dataStr = JSON.stringify(data);
         $.ajax({
@@ -233,7 +233,7 @@ $(function(){
       var areaId = ploygon.areaId;
 
       if(areaId){
-        var deleteUrl = api.baseUrl + "/areas/" + areaId + ".json?app_key="+ api.appKey;
+        var deleteUrl = api.baseUrl + "/areas/" + areaId + ".json?api_key="+ api.appKey;
         var dataStr = '{"id":'+areaId+'}'
         $.ajax({
           type:"delete",

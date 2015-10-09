@@ -10,8 +10,8 @@ $(function(){
     var poi = new BMap.Point(116.307852,40.057031);
     var cityId = $("#city-id").val();
     var cityName = $("#city-name").val();
-    var cityStationsUrl = api.baseUrl + "/stations/city.json?app_key="+ api.appKey;  
-    var stationsUrl = api.baseUrl + "/stations.json?app_key="+ api.appKey;
+    var cityStationsUrl = api.baseUrl + "/stations/city.json?api_key="+ api.appKey;  
+    var stationsUrl = api.baseUrl + "/stations.json?api_key="+ api.appKey;
     var ploygons = [];
     var overlaycomplete = function(e){
 
@@ -57,7 +57,7 @@ $(function(){
       var dataStr = ""
       if(ploygon.stationId){
         var stationId = ploygon.stationId;
-        var stationUpdateUrl = api.baseUrl + "/stations/"+stationId+".json?app_key="+api.appKey;
+        var stationUpdateUrl = api.baseUrl + "/stations/"+stationId+".json?api_key="+api.appKey;
         data = {id:stationId,description: stationName, points: pos }
         dataStr = JSON.stringify(data);
         console.log("dataStr2342"+dataStr);
@@ -194,7 +194,7 @@ $(function(){
       var data = {id:stationId}
       var dataStr= JSON.stringify(data);
       console.log("data:" + JSON.stringify(data));
-      var deleteUrl = api.baseUrl + "/stations/" + stationId + ".json?app_key="+ api.appKey;
+      var deleteUrl = api.baseUrl + "/stations/" + stationId + ".json?api_key="+ api.appKey;
       if(stationId){
         var data = {id:stationId}
         var dataStr= JSON.stringify(data);
