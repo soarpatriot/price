@@ -1,0 +1,19 @@
+p
+  = link_to "添加", new_admin_key_url, class: "btn btn-primary"
+.row 
+  .col-md-12 
+    table.table 
+     tr 
+       th #id
+       th 域
+       th app key
+       th 操作
+     - @keys.each do |key| 
+       tr
+         th #{key.id}
+         td #{key.origin} 
+         td #{key.app_key} 
+         td 
+           .btn-group
+             = link_to  "编辑", edit_admin_key_url(key), class:"btn btn-warning"
+             = link_to '删除', admin_key_url(key),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete

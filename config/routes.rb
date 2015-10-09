@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
 
-  
+  devise_for :admins
   devise_for :users
+
+ 
   mount GrapeSwaggerRails::Engine => '/swagger'
 
   resources :commissions
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -39,6 +42,21 @@ Rails.application.routes.draw do
   get  '/operate' => 'home#operate'
   post '/import' => 'home#import'   
   post '/clear' => 'home#clear'   
+
+
+  authenticated :admin do
+    root "admin/keys#index", as: "admin_root"
+  end
+  authenticated :users do
+    root "stations#index", as: "users_root"
+  end
+
+
+  namespace :admin do 
+    resources :keys
+  end
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

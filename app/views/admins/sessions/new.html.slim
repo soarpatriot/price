@@ -1,0 +1,14 @@
+.container
+  .row 
+    .col-sm-4.col-sm-offset-4
+      h3 登陆
+      hr
+      = simple_form_for(resource, as: resource_name, url: session_url(resource_name)) do |f| 
+          = f.input :email, required: true, autofocus: true 
+          = f.input :password, required: true
+          .checkbox
+            = f.input :remember_me, as: :boolean if devise_mapping.rememberable? 
+
+          = f.button :submit, "登陆", class:"btn btn-primary" 
+
+      = render "admins/shared/links" 

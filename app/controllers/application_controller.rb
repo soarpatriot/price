@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
 
-  before_action :authenticate_login!
+  before_action :authenticate_login! 
   after_action  :allow_iframe
 
   layout :layout_by_signin

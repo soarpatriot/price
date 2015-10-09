@@ -7,7 +7,7 @@ html
         = csrf_meta_tags
     body(id="#{params[:controller]}-#{params[:action]}")
         // = render "shared/navbar"
-        = render "shared/logo"
+        = render "shared/session_navbar"
         = render "shared/api_base" 
         .main-content
           = render "shared/ie_tip"

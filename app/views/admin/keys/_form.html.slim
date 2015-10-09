@@ -1,0 +1,7 @@
+
+= simple_form_for [:admin, @key] do |f|
+  = f.error_notification
+  = f.input :origin
+  = f.input :app_key
+  = f.button :submit, class: "btn btn-primary"
+
