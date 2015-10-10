@@ -8,7 +8,7 @@ notify.successOpt = function(title,text){
           text: text,
           animate_speed: 1000, 
           type: "success",
-          delay: 2000
+          delay: 3000
   };
   return opts
 }
@@ -18,7 +18,7 @@ notify.failOpt = function(title,text){
           text: text,
           animate_speed: 1000, 
           type: "error",
-          delay: 2000
+          delay: 3000
   };
   return opts
 }

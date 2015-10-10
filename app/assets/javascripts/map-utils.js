@@ -11,13 +11,13 @@ $(function(){
 });
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
-    size: 20, // 网格大小
-    globalAlpha: 1,
+    size: 30, // 网格大小
+    globalAlpha: 0.7,
     unit: 'px', // 单位
     label: { // 是否显示文字标签
         show: true,
         color: "red",
-        fontSize: "12px",
+        fontSize: "10px",
         backgroundColor: "white"
     },
     gradient: { // 显示的颜色渐变范围

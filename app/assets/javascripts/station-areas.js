@@ -176,7 +176,7 @@ $(function(){
       label.setStyle(labelOptions);
       marker.setLabel(label);
 
-      map.centerAndZoom(markerPoint, 13);
+      map.centerAndZoom(markerPoint, 14);
       map.enableScrollWheelZoom();  
       
       ploygon.stationId = station.id;
@@ -268,6 +268,7 @@ $(function(){
     
     var jqXhr; 
     $("#draw-test-btn").click(function(){
+      $("#choose-check-tip strong").text("");
       $("#choose-density-modal").modal("show"); 
     });
     $("#cancel-density-btn").click(function(){
@@ -291,7 +292,7 @@ $(function(){
           $("#choose-density-btn i").toggleClass("hide");
    
           //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
-          var dataUrlBase = "http://javapi-commission.wuliusys.com/kettle/trans/ordersLntAndLat";
+          var dataUrlBase = "http://javapi-commission.wuliusys.com/price/ordersLntAndLat";
           var city_name = cityName;
           var express_company_name= stationName;
           var start_date = startDateValue;
@@ -306,13 +307,14 @@ $(function(){
           }).done(function(result){
                var optionStr = ""
                var jsonResult = JSON.parse(result)
-               if(result.error){
-                 console.log("订单密度出错！"); 
+               if(jsonResult.error){
+                console.log("订单密度出错！"); 
+                var opts = notify.failOpt("出错了！",jsonResult.error);
+                new PNotify(opts);
+                layer.setMapv(null);
                }else{
-               
-                 layer.setData(jsonResult.data); 
+                layer.setData(jsonResult.locations); 
                }
-               console.log(JSON.stringify(result)); 
             }).fail(function(jqXHR,status){
               console.log(status); 
             }).always(function(){
@@ -325,8 +327,12 @@ $(function(){
             });
           
         }else{
+          $("#choose-check-tip strong").text("请选择月份！");
+          $("#choose-check-tip").removeClass("hidden");
         } 
       }else{
+        $("#choose-check-tip strong").text("请勾选显示密度！");
+        $("#choose-check-tip").removeClass("hidden");
         layer.setMapv(null);
         //  layer.setData([]); 
       }
