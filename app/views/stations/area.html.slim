@@ -58,6 +58,7 @@
           .col-xs-12 
             .alert.alert-info
               p 由于订单数据量较大，通常显示一个月内订单密度预计20秒左右，请耐心等待。
+              p.text-warning 注意：显示密度时不能画提成区域
         .row 
           .col-xs-12
             #choose-check-tip.hidden 
@@ -65,10 +66,15 @@
                 strong 请勾选显示密度！
  
         .row 
-          .col-xs-6
+          .col-xs-12
             .checkbox 
               label 
-                input id="display-density-checkbox" type="checkbox" 显示密度
+                input id="display-density-checkbox" type="checkbox" 
+                span 
+                  | 显示密度 
+                span.text-warning
+                  | (不勾选密度，点击确定，为取消密度显示)
+          
         .row
           .col-xs-6
               .form-group

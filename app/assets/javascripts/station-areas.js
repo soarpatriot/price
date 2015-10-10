@@ -331,9 +331,8 @@ $(function(){
           $("#choose-check-tip").removeClass("hidden");
         } 
       }else{
-        $("#choose-check-tip strong").text("请勾选显示密度！");
-        $("#choose-check-tip").removeClass("hidden");
         layer.setMapv(null);
+        $("#choose-density-modal").modal("hide"); 
         //  layer.setData([]); 
       }
       console.log("dss:"+displayChecked);
