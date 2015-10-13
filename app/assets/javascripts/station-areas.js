@@ -292,7 +292,7 @@ $(function(){
           $("#choose-density-btn i").toggleClass("hide");
    
           //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
-          var dataUrlBase = "http://javapi-commission.wuliusys.com/price/ordersLntAndLat";
+          var dataUrlBase = "https://javapi-commission.wuliusys.com/price/ordersLntAndLat";
           var city_name = cityName;
           var express_company_name= stationName;
           var start_date = startDateValue;
