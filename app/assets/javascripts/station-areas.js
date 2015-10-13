@@ -40,10 +40,11 @@ $(function(){
     });
 
     var data = []; // 取城市的点来做示例展示的点数据
-    var layer = {};
+   
     var layer = new Mapv.Layer({
         mapv: mapv, // 对应的mapv实例
         zIndex: -10, // 图层层级
+        paneName: 'mapPane',
         dataType: 'point', // 数据类型，点类型
         data: data, // 数据
         drawType: 'density', // 展示形式
