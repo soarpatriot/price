@@ -9,7 +9,7 @@ $(function(){
     console.log("province:"+provinceId);
     if(provinceId){
 
-      var cityUrl = api.baseUrl + "/provinces/" + provinceId + "/cities.json"
+      var cityUrl = api.baseUrl + "/provinces/" + provinceId + "/cities.json?api_key=" + api.appKey
       var cityOption = "";
       var citySelected = $("#city_selected").val();
       $.get(cityUrl,{id:provinceId},function(cities){
