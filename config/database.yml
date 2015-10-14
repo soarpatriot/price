@@ -8,9 +8,9 @@ defaults: &defaults
   adapter: mysql2
   encoding: utf8
   pool: 5
-  host: localhost
-  username: root
-  password: 22143521
+  host: 10.230.3.191
+  username: price_production
+  password: 123
 
 development:
   <<: *defaults
