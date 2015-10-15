@@ -6,13 +6,17 @@ p
      tr 
        th #id
        th 域
-       th app key
+       th api key
+       th api secret
+       th api type
        th 操作
      - @keys.each do |key| 
        tr
          th #{key.id}
          td #{key.origin} 
          td #{key.api_key} 
+         td #{key.api_secret} 
+         td #{key.ktype} 
          td 
            .btn-group
              = link_to  "编辑", edit_admin_key_url(key), class:"btn btn-warning"

@@ -3,5 +3,7 @@
   = f.error_notification
   = f.input :origin
   = f.input :api_key
+  = f.input :ktype, as: :select ,required: true, collection:Key.ktypes.keys.to_a
+  = f.input :api_secret
   = f.button :submit, class: "btn btn-primary"
 
