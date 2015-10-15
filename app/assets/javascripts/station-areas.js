@@ -78,14 +78,15 @@ $(function(){
  
       var areaId = ploygon.areaId;
       var commissionId = $("#commission-select").val();
-      var label = "abc";
+      var label = $("#area-label").val();
+      var code = $("#area-code").val();
       var dataStr = "";
       var areaSaveUrl = api.baseUrl + "/areas.json?api_key=" + api.appKey; 
       var updateAreaUrl = "";
       //$.post(areaSaveUrl)
       if(areaId){
         updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
-        data = {label:label, station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
+        data = {label:label, code:code,station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
         dataStr = JSON.stringify(data);
         $.ajax({
           type:"put",

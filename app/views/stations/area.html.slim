@@ -22,11 +22,25 @@
         h4.modal-title 编辑
       .modal-body
         input type="hidden" id="ploygon-index"
-        .row
-          .col-sm-3
-            label 提成区域：
-          .col-sm-6
-            select id="commission-select" class="form-control"
+        p
+          .row
+            .col-sm-3
+              label 区域名称：
+            .col-sm-6
+              input id="area-label" type="text" class="form-control"
+        p
+          .row
+            .col-sm-3
+              label 区域编号：
+            .col-sm-6
+              input id="area-code" type="text" class="form-control"
+   
+        p
+          .row
+            .col-sm-3
+              label 提成价格：
+            .col-sm-6
+              select id="commission-select" class="form-control"
       .modal-footer
         button type="button" class="btn btn-default" data-dismiss="modal" 取消
         button id="commission-save" type="button" class="btn btn-primary" 保存

@@ -11,11 +11,11 @@ $(function(){
 });
 
 utils.circleDrawOptions = {
-  strokeColor: 'blue',
-  fillColor: 'red',
-  fillOpacity: 0.3,
-  strokeWeight: 2,
-  strokeOpacity: 0.5,
+  strokeColor: 'black',
+  // fillColor: 'white',
+  fillOpacity: 0.01,
+  strokeWeight: 1,
+  strokeOpacity: 0.6,
   strokeStyle: 'solid',
   enableClicking: true
   
