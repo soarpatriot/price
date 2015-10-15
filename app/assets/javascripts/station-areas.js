@@ -83,9 +83,7 @@ $(function(){
       var areaSaveUrl = api.baseUrl + "/areas.json?api_key=" + api.appKey; 
       var updateAreaUrl = "";
       //$.post(areaSaveUrl)
-      console.log("area id:"+areaId); 
       if(areaId){
-        console.log("if area id:"+areaId); 
         updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
         data = {label:label, station_id:stationId, commission_id: commissionId,area_id:areaId,points:pos}
         dataStr = JSON.stringify(data);
@@ -176,6 +174,9 @@ $(function(){
       var label = new BMap.Label(station.description,{offset:new BMap.Size(-25,25)});
       label.setStyle(labelOptions);
       marker.setLabel(label);
+      
+      var circle = new BMap.Circle(markerPoint, 5000,utils.circleDrawOptions);
+      map.addOverlay(circle);
 
       map.centerAndZoom(markerPoint, 14);
       map.enableScrollWheelZoom();  
@@ -186,7 +187,6 @@ $(function(){
       //add base overlay finished, then add areas
       $.get(areaUrl,{station_id:stationId},function(data){
         $.each(data,function(key,area){
-          console.log(area); 
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
           var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
@@ -280,7 +280,6 @@ $(function(){
     });
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
-      console.log("start data value:"+ startDateValue)
       var stationName = $("#station-name").val();
       var cityName = $("#city-name").val();
       var endDateValue = $("#end-date-text").val();
@@ -300,7 +299,6 @@ $(function(){
           var end_date  = endDateValue;
           var dataUrl = dataUrlBase + "?cityName=" + city_name + 
             "&expressCompanyName="+  express_company_name + "&startDate=" + start_date
-          console.log(dataUrl);
            
           // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
           jqXhr = $.ajax({
@@ -309,7 +307,6 @@ $(function(){
                var optionStr = ""
                var jsonResult = JSON.parse(result)
                if(jsonResult.error){
-                console.log("订单密度出错！"); 
                 var opts = notify.failOpt("出错了！",jsonResult.error);
                 new PNotify(opts);
                 layer.setMapv(null);
@@ -336,7 +333,6 @@ $(function(){
         $("#choose-density-modal").modal("hide"); 
         //  layer.setData([]); 
       }
-      console.log("dss:"+displayChecked);
     });
 
     $('#start-date').datetimepicker({

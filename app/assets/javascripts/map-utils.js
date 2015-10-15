@@ -9,6 +9,17 @@ $(function(){
   api.appKey = appKey; 
 
 });
+
+utils.circleDrawOptions = {
+  strokeColor: 'blue',
+  fillColor: 'red',
+  fillOpacity: 0.3,
+  strokeWeight: 2,
+  strokeOpacity: 0.5,
+  strokeStyle: 'solid',
+  enableClicking: true
+  
+}
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 30, // 网格大小
@@ -147,10 +158,3 @@ function poArr(ps){
   }
   return pointsArr
 } 
-
-utils.datetimepickerIcons = {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up: "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-}
