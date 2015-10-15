@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015100054) do
+ActiveRecord::Schema.define(version: 20151015150407) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -40,6 +40,9 @@ ActiveRecord::Schema.define(version: 20151015100054) do
     t.datetime "updated_at"
     t.integer  "commission_id"
     t.string   "code"
+    t.decimal  "latitude",                 precision: 15, scale: 10
+    t.decimal  "longitude",                precision: 15, scale: 10
+    t.integer  "distance"
   end
 
   create_table "cities", force: true do |t|
