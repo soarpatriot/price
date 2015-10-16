@@ -6,3 +6,5 @@ ul.nav.nav-sidebar
    = link_to "站点提成", stations_url
  li class="#{params[:controller].end_with?('commissions')? 'active':''}"
    = link_to "区域定价", commissions_url
+ li class="#{params[:controller].end_with?('orders')? 'active':''}"
+   = link_to "站点订单", areas_url

@@ -1,0 +1,31 @@
+
+.content-wraper
+  = form_tag("/stations",method: :get, class:"form-inline",id: "station-form") do 
+    input type="hidden" value="#{params[:city_id]}" id="city_selected"
+    .form-group.station-select-group
+      = label_tag "省："
+      = select_tag "province_id", options_from_collection_for_select(Province.all, "id","description",params[:province_id]), class: "form-control", include_blank:true, :selected=> params[:province_id]
+    .form-group.station-select-group
+      = label_tag "市："
+      select id="city_id" class="form-control" name="city_id"
+
+  p.pull-right 
+    = link_to "导出站点信息", export_stations_url(format: :xlsx), class:"btn btn-primary"
+
+  p
+  table.table 
+   tr 
+     th 站点名称 
+     th 区域名称
+     th 区域编号
+     th 操作
+   - @areas.each do |area| 
+     tr
+       td = "#{area.station.description}" 
+       td = "#{area.label}" 
+       td = "#{area.code}" 
+       td 
+  .row
+    .col-lg-12.toolbar
+      .pull-right = paginate @areas, theme: 'twitter-bootstrap-3'
+
