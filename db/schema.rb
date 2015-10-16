@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015150407) do
+ActiveRecord::Schema.define(version: 20151016031457) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20151015150407) do
     t.decimal  "latitude",                 precision: 15, scale: 10
     t.decimal  "longitude",                precision: 15, scale: 10
     t.integer  "distance"
+    t.decimal  "mian",                     precision: 20, scale: 5
   end
 
   create_table "cities", force: true do |t|
