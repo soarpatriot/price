@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151016031457) do
+ActiveRecord::Schema.define(version: 20151016081128) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -78,6 +78,20 @@ ActiveRecord::Schema.define(version: 20151016031457) do
     t.datetime "updated_at"
     t.integer  "ktype"
     t.string   "api_secret"
+  end
+
+  create_table "orders", force: true do |t|
+    t.string   "station_name"
+    t.integer  "station_id"
+    t.decimal  "latitude",     precision: 15, scale: 10
+    t.decimal  "longitude",    precision: 15, scale: 10
+    t.integer  "area_id"
+    t.decimal  "price",        precision: 10, scale: 2
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "count"
+    t.string   "code"
   end
 
   create_table "points", force: true do |t|
