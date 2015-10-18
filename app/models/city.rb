@@ -4,4 +4,5 @@ class City < ActiveRecord::Base
   belongs_to :province
   has_many :stations, as: :stationable 
 
+  has_many :areas, through: :stations
 end

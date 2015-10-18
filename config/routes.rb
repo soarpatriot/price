@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   mount GrapeSwaggerRails::Engine => '/swagger'
 
   resources :commissions
-  resources :areas
+  resources :areas do 
+    collection do 
+      get 'export'
+      get 'export_detail'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

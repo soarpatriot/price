@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "stations") do |sheet|
+  sheet.add_row ['站点名称', '区域名称', '区域编号']
+  @areas.each do |area|
+
+    sheet.add_row [area.station.description, area.label,area.code]
+  end
+end

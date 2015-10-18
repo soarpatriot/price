@@ -16,7 +16,6 @@ $(function(){
          console.log("cities:"+ cities);
          cityOption += '<option value=""></option>'; 
          $.each(cities,function(index,city){
-           console.log("city:"+ city);
            cityOption += '<option value="'+city.id+'">'+city.description+'</option>'; 
          });
          $("#city_id").empty();

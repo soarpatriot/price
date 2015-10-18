@@ -48,3 +48,4 @@
 //= require district-select
 //= require station-select
 
+//= require area-index

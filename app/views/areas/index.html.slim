@@ -1,16 +1,41 @@
 
 .content-wraper
-  = form_tag("/stations",method: :get, class:"form-inline",id: "station-form") do 
+  = form_tag("/areas",method: :get, class:"form-inline",id: "area-info-form") do 
     input type="hidden" value="#{params[:city_id]}" id="city_selected"
-    .form-group.station-select-group
-      = label_tag "省："
-      = select_tag "province_id", options_from_collection_for_select(Province.all, "id","description",params[:province_id]), class: "form-control", include_blank:true, :selected=> params[:province_id]
-    .form-group.station-select-group
-      = label_tag "市："
-      select id="city_id" class="form-control" name="city_id"
+    input type="hidden" value="#{params[:station_id]}" id="station_selected"
+    p
+      .form-group.station-select-group
+        = label_tag "省："
+        = select_tag "province_id", options_from_collection_for_select(Province.all, "id","description",params[:province_id]), class: "form-control", include_blank:true, :selected=> params[:province_id]
+      .form-group.station-select-group
+        = label_tag "市："
+        select id="city_id" class="form-control" name="city_id"
+      .form-group.station-select-group
+        = label_tag "站点："
+        select id="station_id" class="form-control" name="station_id"
+    p
+      .form-group.station-select-group
+        = label_tag "创建时间："
+        #created-date-start.input-group.data
+          input id="created-start-text" name="created_start" type="text" class="form-control" value="#{params[:created_start]}"
+          span.input-group-addon
+            span.fa.fa-calendar
+        span ~
+        #created-date-end.input-group.data
+          input id="created-end-text" type="text" name="created_end" class="form-control" value="#{params[:created_end]}"
+          span.input-group-addon
+            span.fa.fa-calendar
 
-  p.pull-right 
-    = link_to "导出站点信息", export_stations_url(format: :xlsx), class:"btn btn-primary"
+
+      button type="button" id="search-areas" class="btn btn-primary" 查询
+      button type="button" id="export-areas" class="btn btn-warning" 导出
+      button type="button" id="export-areas-detail" class="btn btn-warning" 导出明细
+
+
+
+  //
+    p.pull-right 
+      = link_to "导出站点信息", export_stations_url(format: :xlsx), class:"btn btn-primary"
 
   p
   table.table 
