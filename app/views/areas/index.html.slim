@@ -43,13 +43,17 @@
      th 站点名称 
      th 区域名称
      th 区域编号
-     th 操作
+     th 区域面积
+     th 单量
+     th 创建时间 
    - @areas.each do |area| 
      tr
        td = "#{area.station.description}" 
        td = "#{area.label}" 
        td = "#{area.code}" 
-       td 
+       td = "#{area.mian}" 
+       td = "#{area.orders.size}" 
+       td = "#{area.created_at}" 
   .row
     .col-lg-12.toolbar
       .pull-right = paginate @areas, theme: 'twitter-bootstrap-3'
