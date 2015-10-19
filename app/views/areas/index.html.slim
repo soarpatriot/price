@@ -26,10 +26,11 @@
           span.input-group-addon
             span.fa.fa-calendar
 
-
       button type="button" id="search-areas" class="btn btn-primary" 查询
-      button type="button" id="export-areas" class="btn btn-warning" 导出
-      button type="button" id="export-areas-detail" class="btn btn-warning" 导出明细
+      .btn-group
+        button type="button" id="export-areas" class="btn btn-warning" 导出
+      .btn-group
+        button type="button" id="export-areas-detail" class="btn btn-warning" 导出明细
 
 
 
@@ -39,21 +40,23 @@
 
   p
   table.table 
-   tr 
-     th 站点名称 
-     th 区域名称
-     th 区域编号
-     th 区域面积
-     th 单量
-     th 创建时间 
-   - @areas.each do |area| 
-     tr
-       td = "#{area.station.description}" 
-       td = "#{area.label}" 
-       td = "#{area.code}" 
-       td = "#{area.mian}" 
-       td = "#{area.orders.size}" 
-       td = "#{area.created_at}" 
+    thead
+      tr 
+        th 站点名称 
+        th 区域名称
+        th 区域编号
+        th 区域面积
+        th 单量
+        th 创建时间 
+    tbody
+      - @areas.each do |area| 
+        tr
+          td = "#{area.station.description}" 
+          td = "#{area.label}" 
+          td = "#{area.code}" 
+          td = "#{area.mian}" 
+          td = "#{area.orders.size}" 
+          td = "#{area.created_at}" 
   .row
     .col-lg-12.toolbar
       .pull-right = paginate @areas, theme: 'twitter-bootstrap-3'

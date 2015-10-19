@@ -17,6 +17,7 @@ class AreasController < ApplicationController
 
   def export_detail
     search_area 
+    render xlsx: "detail"
   end  
 
   def search_area 

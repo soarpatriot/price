@@ -133,7 +133,9 @@ $(function(){
             ploygons[index].commissionPrice = area.commission_price; 
             ploygons[index].areaLabel = area.label; 
             ploygons[index].areaCode = area.code; 
-
+            ploygons[index].areaMianDesc = areaMianDesc;
+            ploygons[index].areaDistance = area.distance;
+ 
 
             if(ploygons[index].centerLabel){
               ploygons[index].centerLabel.setContent(labelValue);
@@ -162,6 +164,8 @@ $(function(){
           headers: {"Access-Control-Allow-Origin": "*"}, 
           crossDomain: true,
           success: function(area){
+            var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+            var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
             
             ploygons[index].areaId = area.id; 
             ploygons[index].commissionId = area.commission_id; 
@@ -169,11 +173,12 @@ $(function(){
             ploygons[index].commissionPrice = area.commission_price; 
             ploygons[index].areaLabel = area.label; 
             ploygons[index].areaCode = area.code; 
+            ploygons[index].areaMianDesc = areaMianDesc;
+            ploygons[index].areaDistance = area.distance;
+ 
 
 
-            var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
-            var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
-            //  var areaMianDesc = areaMian.toFixed(2) + "平方米";
+           //  var areaMianDesc = areaMian.toFixed(2) + "平方米";
             //var areaMianDesc = area.toFixed(2) + "平方米";
 
 
@@ -236,9 +241,11 @@ $(function(){
           var ploygon = new BMap.Polygon(arr,drawOpt());
           var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
           var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+
           //var areaMianDesc = area.toFixed(2) + "平方米";
 
           var centerPoint = ploygon.getBounds().getCenter();
+          var distance = map.getDistance(markerPoint,centerPoint).toFixed(2);
           var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
           var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+areaMianDesc;
           var label = new BMap.Label(labelValue,opts);
@@ -253,9 +260,25 @@ $(function(){
           ploygon.commissionName = area.commission_name; 
           ploygon.commissionPrice = area.commission_price; 
           ploygon.areaLabel = area.label; 
+          ploygon.areaMianDesc = areaMianDesc;
+          ploygon.areaDistance = distance;
           ploygon.areaCode = area.code; 
           ploygon.centerLabel = label;           
 
+          ploygon.addEventListener('click',function(){
+            _.templateSettings = {
+              interpolate: /\{\{(.+?)\}\}/g
+            };
+
+            var areaTmp = _.template($("#area-info").html());
+            var areaTmpWithValue = areaTmp({name:ploygons[index].areaLabel,
+                                           code:ploygons[index].areaCode,
+                                           mian:ploygons[index].areaMianDesc, 
+                                           price: ploygons[index].commissionPrice, 
+                                           distance: ploygons[index].areaDistance });
+            var infoWindow = new BMap.InfoWindow(areaTmpWithValue);  
+            map.openInfoWindow(infoWindow,centerPoint); 
+          });
           var ployMenu = new BMap.ContextMenu();
           var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
           var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
