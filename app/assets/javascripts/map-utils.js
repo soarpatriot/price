@@ -20,6 +20,21 @@ utils.circleDrawOptions = {
   enableClicking: true
   
 }
+utils.computePolygonArea = function(polygon){
+  var i,j,n,area;
+  var EARTHRADIUS = 6370996.81; 
+  area = 0;
+  i = 0;
+  points = polygon.getPath();
+  n = points.length; 
+  for(i=0; i<n; i++){
+    j = (i+1) % n;  
+    area += points[i].lat * points[j].lng;
+    area -= points[i].lng * points[j].lat;
+  }
+  area = area / 2 * 110000 * 90000 / 1000000;
+  return (area< 0? -area: area);
+}
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 30, // 网格大小

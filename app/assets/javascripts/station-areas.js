@@ -68,12 +68,18 @@ $(function(){
           var areaLabel = ploygons[index].areaLabel; 
           var areaCode =  ploygons[index].areaCode; 
           var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+          
           var centerPoint = ploygons[index].getBounds().getCenter();
+          if(_.isNaN(areaMian)){
+            areaMian = utils.computePolygonArea(ploygon);
+          }else{
+            areaMian = areaMian/1000000;
+          }
 
           var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
           $("#area-label").val(areaLabel);
           $("#area-code").val(areaCode);
-          $("#area-m").text((areaMian/1000000).toFixed(2));
+          $("#area-m").text((areaMian).toFixed(2));
           $("#center-lat").text(centerPoint.lat.toFixed(7));
           $("#center-lng").text(centerPoint.lng.toFixed(7));
           $("#center-distance").text(distance);
@@ -243,7 +249,14 @@ $(function(){
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
           var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
-          var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+          if(_.isNaN(areaMian)){
+            areaMian = utils.computePolygonArea(ploygon);
+          }else{
+            areaMian = areaMian/1000000;
+          }
+
+
+          var areaMianDesc = (areaMian).toFixed(2) + "(平方公里)";
 
           //var areaMianDesc = area.toFixed(2) + "平方米";
 
@@ -293,7 +306,7 @@ $(function(){
           ploygon.addContextMenu(ployMenu);
           
           map.addOverlay(ploygon);
-
+          var areaSq = utils.computePolygonArea(ploygon);
         });
       });
 
