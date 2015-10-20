@@ -102,6 +102,9 @@ $(function(){
       var dataStr = "";
       var areaSaveUrl = api.baseUrl + "/areas.json?api_key=" + api.appKey; 
       var updateAreaUrl = "";
+      if(mian="NaN"){
+        mian = 0; 
+      }
       //$.post(areaSaveUrl)
       if(areaId){
         updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
