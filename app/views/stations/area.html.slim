@@ -1,15 +1,17 @@
 .hidden 
   input  type="hidden" id="station-id" value="#{@station.id}"
   input  type="hidden" id="station-name" value="#{@station.description}"
+  input  type="hidden" id="city-id" value="#{@station.stationable.id}"
   input  type="hidden" id="city-name" value="#{@station.stationable.description}"
 
 .operation-area 
-  .btn-group
-    = link_to "返回", stations_url, class: "btn btn-default btn-sm" 
-    //
-      input type="checkbox" 本月 
-    .btn-group
-      button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
+      .btn-group
+        = link_to "返回", stations_url, class: "btn btn-default btn-sm" 
+        button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
+        label.btn.btn-info.btn-sm
+          input id="district-display" type="checkbox" &nbsp;显示行政区域
+      //
+        button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
 #map-container
 
 

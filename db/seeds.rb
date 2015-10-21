@@ -1,8 +1,20 @@
-city = City.create(description:"北京市")
+city = City.where(description: "北京市").first
 
-provinces = Province.create([
- {description: '北京', cities: city},
- {description: '天津'},
- {description: '上海'},
- {description: '河北'}
-])
+District.create(name:"北京市东城区",city:city)
+District.create(name:"北京市西城区",city:city)
+District.create(name:"北京市崇文区",city:city)
+District.create(name:"北京市宣武区",city:city)
+District.create(name:"北京市朝阳区",city:city)
+District.create(name:"北京市海淀区",city:city)
+District.create(name:"北京市丰台区",city:city)
+District.create(name:"北京市石景山区",city:city)
+District.create(name:"北京市通州区",city:city)
+District.create(name:"北京市平谷区",city:city)
+District.create(name:"北京市顺义区",city:city)
+District.create(name:"北京市怀柔区",city:city)
+District.create(name:"北京市昌平区",city:city)
+District.create(name:"北京市门头沟区",city:city)
+District.create(name:"北京市房山区",city:city)
+District.create(name:"北京市大兴区",city:city)
+District.create(name:"北京市密云县",city:city)
+District.create(name:"北京市延庆县",city:city)

@@ -6,10 +6,16 @@ $(function(){
     var map = new BMap.Map('map-container');
     var poi = new BMap.Point(116.307852,40.057031);
     var stationId = $("#station-id").val();
+    var stationName = $("#station-name").val();
+    var cityId = $("#city-id").val();
+    var cityName = $("#city-name").val();
+ 
     var stationPoint;
     var ploygons = [];
+    map.districtPloys = [];
     var stationUrl = api.baseUrl+ "/stations/"+stationId+".json?api_key="+ api.appKey
     var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json?api_key=" + api.appKey
+    var districtAreaUrl = api.baseUrl + "/cities/"+cityId+"/districts.json?api_key=" + api.appKey
 
  
     var ploygons = [];
@@ -366,8 +372,6 @@ $(function(){
     });
     $("#choose-density-btn").click(function(){
       var startDateValue = $("#start-date-text").val();
-      var stationName = $("#station-name").val();
-      var cityName = $("#city-name").val();
       var endDateValue = $("#end-date-text").val();
       var displayChecked = $("#display-density-checkbox").is(':checked');
       if(displayChecked){
@@ -436,7 +440,27 @@ $(function(){
     $("#end-date").on("dp.change", function (e) {
         $('#start-date').data("DateTimePicker").maxDate(e.date);
     });**/
+    $("#district-display").click(function(){
+      var checked = $(this).is(':checked'); 
+      if(checked){
+        $.get(districtAreaUrl,function(data){
+          console.log(data);
+          $.each(data,function(key,district){
+            utils.addBoundary(map,district.name);
+            //districtPloys.concat(oneDistrict);       
+            //console.log(districtPloys);
+          });
+        });
 
+      }else{
+          
+          $.each(map.districtPloys,function(key,district){
+            map.removeOverlay(district);
+          });
+
+      }
+    })
+      
 
   }
 });

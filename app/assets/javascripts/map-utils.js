@@ -35,6 +35,23 @@ utils.computePolygonArea = function(polygon){
   area = area / 2 * 110000 * 90000 / 1000000;
   return (area< 0? -area: area);
 }
+
+utils.addBoundary = function(map,district){
+  var bdary = new BMap.Boundary();
+  bdary.get(district, function(rs){       //获取行政区域
+    var count = rs.boundaries.length; //行政区域的点有多少个
+    if (count === 0) {
+      return ;
+    }
+    var pointArray = [];
+    for (var i = 0; i < count; i++) {
+      var ply = new BMap.Polygon(rs.boundaries[i], utils.districtOptions); //建立多边形覆盖物
+      map.districtPloys.push(ply);    //调整视野                 
+      map.addOverlay(ply);  //添加覆盖物
+      //pointArray = pointArray.concat(ply.getPath());
+    }    
+  });   
+}
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 30, // 网格大小
@@ -61,6 +78,16 @@ var labelOptions = {
     fontSize : "12px",
     fontFamily:"微软雅黑"
 }
+
+utils.districtOptions = {
+  strokeColor:"#EE1010",    //边线颜色。
+  strokeWeight: 2,       //边线的宽度，以像素为单位。
+  strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+  fillOpacity: 0,      //填充的透明度，取值范围0 - 1。
+  enableEditing: false,
+  strokeStyle: 'solid' //边线的样式，solid或dashed。
+}
+
 var styleOptions = {
   
     strokeColor:"#EE1010",    //边线颜色。
