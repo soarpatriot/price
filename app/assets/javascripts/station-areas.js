@@ -9,7 +9,8 @@ $(function(){
     var stationName = $("#station-name").val();
     var cityId = $("#city-id").val();
     var cityName = $("#city-name").val();
- 
+    
+    var circle; 
     var stationPoint;
     var ploygons = [];
     map.districtPloys = [];
@@ -240,7 +241,7 @@ $(function(){
       label.setStyle(labelOptions);
       marker.setLabel(label);
       
-      var circle = new BMap.Circle(markerPoint, 5000,utils.circleDrawOptions);
+      circle = new BMap.Circle(markerPoint, 5000,utils.circleDrawOptions);
       map.addOverlay(circle);
 
       map.centerAndZoom(markerPoint, 14);
@@ -461,6 +462,13 @@ $(function(){
       }
     })
       
-
+    $("#display-around-btn").click(function(){
+      $("#station-circle-modal").modal("show");
+    });
+    $("#station-around-btn").click(function(){
+      var aroundValue = $("#station-around-text").val();
+      circle.setRadius(aroundValue*1000);
+      $("#station-circle-modal").modal("hide");
+    });
   }
 });
