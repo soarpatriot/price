@@ -2,7 +2,10 @@
   input  type="hidden" id="city-id" value="#{@city.id}"
   input  type="hidden" id="city-name" value="#{@city.description}"
 .operation-area 
-  = link_to "返回", cities_url, class: "btn btn-default btn-sm" 
+  .btn-group
+    = link_to "返回", cities_url, class: "btn btn-default" 
+    label.btn.btn-info.district-label
+      input id="district-display" type="checkbox" &nbsp;显示行政区域
  
 //
   .operation-area 

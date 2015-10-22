@@ -12,7 +12,10 @@ $(function(){
     var cityName = $("#city-name").val();
     var cityStationsUrl = api.baseUrl + "/stations/city.json?api_key="+ api.appKey;  
     var stationsUrl = api.baseUrl + "/stations.json?api_key="+ api.appKey;
+    var districtAreaUrl = api.baseUrl + "/cities/"+cityId+"/districts.json?api_key=" + api.appKey
     var ploygons = [];
+    map.districtPloys = [];
+
     var overlaycomplete = function(e){
 
         var ploygon = e.overlay;
@@ -219,6 +222,26 @@ $(function(){
       $("#delete-confirm-modal").modal("hide");
     });
 
+    $("#district-display").click(function(){
+      var checked = $(this).is(':checked'); 
+      if(checked){
+        $.get(districtAreaUrl,function(data){
+          console.log(data);
+          $.each(data,function(key,district){
+            utils.addBoundary(map,district.name);
+            //districtPloys.concat(oneDistrict);       
+            //console.log(districtPloys);
+          });
+        });
 
+      }else{
+          
+          $.each(map.districtPloys,function(key,district){
+            map.removeOverlay(district);
+          });
+
+      }
+    })
+ 
   } 
 });
