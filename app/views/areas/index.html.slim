@@ -47,6 +47,7 @@
         th 区域编号
         th 区域面积
         th 单量
+        th 追加金额
         th 创建时间 
     tbody
       - @areas.each do |area| 
@@ -55,7 +56,8 @@
           td = "#{area.label}" 
           td = "#{area.code}" 
           td = "#{area.mian}" 
-          td = "#{area.orders.size}" 
+          td = "#{area.orders.size}"
+          td = "#{area.commission.price || 0 }"
           td = "#{area.created_at}" 
   .row
     .col-lg-12.toolbar
