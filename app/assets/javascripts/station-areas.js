@@ -21,14 +21,17 @@ $(function(){
  
     var ploygons = [];
     var overlaycomplete = function(e){
+        var areaTmp = $("#area-info").html();
         var ploygon = e.overlay;
         ploygons.push(ploygon);
         var index =  _.indexOf(ploygons,ploygon);
         ploygon.index = index;
         var centerPoint = ploygons[index].getBounds().getCenter();
         ploygons[index].areaMian = utils.ploygon.areaMian(ploygon);
+        ploygons[index].areaMianDesc = ploygons[index].areaMian + "(平方公里)";
         ploygons[index].areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
- 
+        
+        utils.addInfoWindowToPloygon(map,ploygon,areaTmp, centerPoint); 
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
         var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
@@ -254,6 +257,8 @@ $(function(){
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
           var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
+          var areaTmp = $("#area-info").html();
+
           if(_.isNaN(areaMian)){
             areaMian = utils.computePolygonArea(ploygon);
           }else{
@@ -285,21 +290,10 @@ $(function(){
           ploygon.areaDistance = distance;
           ploygon.areaCode = area.code; 
           ploygon.centerLabel = label;           
+          
+          //add listener
+          utils.addInfoWindowToPloygon(map,ploygon,areaTmp, centerPoint); 
 
-          ploygon.addEventListener('click',function(){
-            _.templateSettings = {
-              interpolate: /\{\{(.+?)\}\}/g
-            };
-
-            var areaTmp = _.template($("#area-info").html());
-            var areaTmpWithValue = areaTmp({name:ploygons[index].areaLabel,
-                                           code:ploygons[index].areaCode,
-                                           mian:ploygons[index].areaMianDesc, 
-                                           price: ploygons[index].commissionPrice, 
-                                           distance: ploygons[index].areaDistance });
-            var infoWindow = new BMap.InfoWindow(areaTmpWithValue);  
-            map.openInfoWindow(infoWindow,centerPoint); 
-          });
           var ployMenu = new BMap.ContextMenu();
           var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
           var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));

@@ -70,6 +70,23 @@ utils.ploygon = {
   }
 }
 
+utils.addInfoWindowToPloygon = function(map, ploygon, htmlEle, centerPoint){
+  ploygon.addEventListener('click',function(){
+    _.templateSettings = {
+      interpolate: /\{\{(.+?)\}\}/g
+    };
+
+    var areaTmp = _.template(htmlEle);
+    var areaTmpWithValue = areaTmp({name:ploygon.areaLabel,
+                                   code:ploygon.areaCode,
+                                   mian:ploygon.areaMianDesc, 
+                                   price: ploygon.commissionPrice, 
+                                   distance: ploygon.areaDistance });
+    var infoWindow = new BMap.InfoWindow(areaTmpWithValue);  
+    map.openInfoWindow(infoWindow,centerPoint); 
+  });
+ 
+}
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 30, // 网格大小
