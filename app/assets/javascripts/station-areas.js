@@ -61,6 +61,7 @@ $(function(){
     layer.setMapv(null);
     $("#commission-modal").on("show.bs.modal",function(e){
       var commisionsUrl = api.baseUrl + "/commissions.json?api_key="+ api.appKey;
+      var index =  $("#ploygon-index").val();
       $.get(commisionsUrl,function(data){
         var optionStr = ""
         $.each(data,function(key,commission){
@@ -68,31 +69,31 @@ $(function(){
         });
         $("#commission-select").empty();
         $("#commission-select").append(optionStr);
-        var index =  $("#ploygon-index").val();
         var ploygon = ploygons[index];
         if(ploygon.commissionId){
           $("#commission-select").val(ploygon.commissionId);
-          var areaLabel = ploygons[index].areaLabel; 
-          var areaCode =  ploygons[index].areaCode; 
-          var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
-          
-          var centerPoint = ploygons[index].getBounds().getCenter();
-          if(_.isNaN(areaMian)){
-            areaMian = utils.computePolygonArea(ploygon);
-          }else{
-            areaMian = areaMian/1000000;
-          }
-
-          var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
-          $("#area-label").val(areaLabel);
-          $("#area-code").val(areaCode);
-          $("#area-m").text((areaMian).toFixed(2));
-          $("#center-lat").text(centerPoint.lat.toFixed(7));
-          $("#center-lng").text(centerPoint.lng.toFixed(7));
-          $("#center-distance").text(distance);
- 
         }
+
       });
+      var areaLabel = ploygons[index].areaLabel; 
+      var areaCode =  ploygons[index].areaCode; 
+      var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+      
+      var centerPoint = ploygons[index].getBounds().getCenter();
+      if(_.isNaN(areaMian)){
+        areaMian = utils.computePolygonArea(ploygon);
+      }else{
+        areaMian = areaMian/1000000;
+      }
+
+      var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
+      $("#area-label").val(areaLabel);
+      $("#area-code").val(areaCode);
+      $("#area-m").text((areaMian).toFixed(2));
+      $("#center-lat").text(centerPoint.lat.toFixed(7));
+      $("#center-lng").text(centerPoint.lng.toFixed(7));
+      $("#center-distance").text(distance);
+
     });
 
     $("#commission-save").click(function(){
