@@ -52,6 +52,24 @@ utils.addBoundary = function(map,district){
     }    
   });   
 }
+
+utils.ploygon = {
+  areaMian: function(ploygon){
+      var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
+      if(_.isNaN(areaMian)){
+        areaMian = utils.computePolygonArea(ploygon);
+      }else{
+        areaMian = areaMian/1000000;
+      }
+      return areaMian.toFixed(2);
+  },
+  distanceCenter: function(map,stationPoint, centerPoint){
+
+      var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
+      return distance;
+  }
+}
+
 var  densityDrawOptions = { // 绘制参数
     type: "honeycomb", // 网格类型，方形网格或蜂窝形
     size: 30, // 网格大小

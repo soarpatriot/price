@@ -17,7 +17,7 @@ $(function(){
     var stationUrl = api.baseUrl+ "/stations/"+stationId+".json?api_key="+ api.appKey
     var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json?api_key=" + api.appKey
     var districtAreaUrl = api.baseUrl + "/cities/"+cityId+"/districts.json?api_key=" + api.appKey
-
+    var commisionsUrl = api.baseUrl + "/commissions.json?api_key="+ api.appKey;
  
     var ploygons = [];
     var overlaycomplete = function(e){
@@ -25,6 +25,9 @@ $(function(){
         ploygons.push(ploygon);
         var index =  _.indexOf(ploygons,ploygon);
         ploygon.index = index;
+        var centerPoint = ploygons[index].getBounds().getCenter();
+        ploygons[index].areaMian = utils.ploygon.areaMian(ploygon);
+        ploygons[index].areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
  
         var ployMenu = new BMap.ContextMenu();
         var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
@@ -39,7 +42,6 @@ $(function(){
     };
 
 
-    //density 
     // 第一步创建mapv示例
     map.centerAndZoom(new BMap.Point(105.403119, 38.028658), 5);
     var mapv = new Mapv({
@@ -47,7 +49,7 @@ $(function(){
         map: map  // 百度地图的map实例
     });
 
-    var data = []; // 取城市的点来做示例展示的点数据
+    var data = []; 
    
     var layer = new Mapv.Layer({
         mapv: mapv, // 对应的mapv实例
@@ -59,9 +61,16 @@ $(function(){
         drawOptions: densityDrawOptions
     });
     layer.setMapv(null);
+
     $("#commission-modal").on("show.bs.modal",function(e){
-      var commisionsUrl = api.baseUrl + "/commissions.json?api_key="+ api.appKey;
       var index =  $("#ploygon-index").val();
+      var ploygon = ploygons[index];
+      var areaLabel = ploygons[index].areaLabel; 
+      var areaCode =  ploygons[index].areaCode; 
+      var centerPoint = ploygons[index].getBounds().getCenter();
+      ploygons[index].areaMian = utils.ploygon.areaMian(ploygon);
+      ploygons[index].areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
+ 
       $.get(commisionsUrl,function(data){
         var optionStr = ""
         $.each(data,function(key,commission){
@@ -69,30 +78,18 @@ $(function(){
         });
         $("#commission-select").empty();
         $("#commission-select").append(optionStr);
-        var ploygon = ploygons[index];
         if(ploygon.commissionId){
           $("#commission-select").val(ploygon.commissionId);
         }
 
       });
-      var areaLabel = ploygons[index].areaLabel; 
-      var areaCode =  ploygons[index].areaCode; 
-      var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
-      
-      var centerPoint = ploygons[index].getBounds().getCenter();
-      if(_.isNaN(areaMian)){
-        areaMian = utils.computePolygonArea(ploygon);
-      }else{
-        areaMian = areaMian/1000000;
-      }
-
-      var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
+     
       $("#area-label").val(areaLabel);
       $("#area-code").val(areaCode);
-      $("#area-m").text((areaMian).toFixed(2));
+      $("#area-m").text(ploygons[index].areaMian);
       $("#center-lat").text(centerPoint.lat.toFixed(7));
       $("#center-lng").text(centerPoint.lng.toFixed(7));
-      $("#center-distance").text(distance);
+      $("#center-distance").text(ploygons[index].areaDistance);
 
     });
 
@@ -108,10 +105,10 @@ $(function(){
       var commissionId = $("#commission-select").val();
       var label = $("#area-label").val();
       var code = $("#area-code").val();
-      var mian = $.trim($("#area-m").text()) 
+      var mian = ploygon.areaMian; 
       var latitude = $.trim($("#center-lat").text()) 
       var longitude = $.trim($("#center-lng").text()) 
-      var distance = $.trim($("#center-distance").text()) 
+      var distance = ploygon.areaDistance; 
 
       var dataStr = "";
       var areaSaveUrl = api.baseUrl + "/areas.json?api_key=" + api.appKey; 
@@ -141,8 +138,8 @@ $(function(){
           headers: {"X-HTTP-Method-Override": "put"}, 
           crossDomain: true,
           success: function(area){
-            var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
-            var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+            var areaMian = ploygons[index].areaMian;
+            var areaMianDesc = areaMian + "(平方公里)";
             // var areaMianDesc = areaMian.toFixed(2) + "平方米";
             var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+ areaMianDesc;
             ploygons[index].commissionId = area.commission_id; 
