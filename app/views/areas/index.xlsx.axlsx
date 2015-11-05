@@ -1,7 +1,9 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "stations") do |sheet|
-  sheet.add_row ['站点名称', '区域名称', '区域编号','订单总数', '区域面积', '追加金额', '创建时间']
+  sheet.add_row ['站点名称', '区域名称', '区域编号','订单总数','距站点距离', '区域面积', '追加金额', '创建时间']
   @areas.each do |area|
-    sheet.add_row [area.station.description, area.label,area.code, area.orders.size, area.mian, area.commission.price,area.created_at]
+    distance_desc = "#{area.distance/1000.0} 千米" unless area.distance.nil?
+    mian_desc = "#{area.mian} 平方公里" unless area.distance.nil?
+    sheet.add_row [area.station.description, area.label,area.code, area.orders.size, distance_desc, mian_desc, area.commission.price,area.created_at]
   end
 end

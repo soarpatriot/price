@@ -45,6 +45,7 @@
         th 站点名称 
         th 区域名称
         th 区域编号
+        th 距站点距离
         th 区域面积
         th 单量
         th 追加金额
@@ -55,7 +56,12 @@
           td = "#{area.station.description}" 
           td = "#{area.label}" 
           td = "#{area.code}" 
-          td = "#{area.mian}" 
+          td 
+            - unless area.distance.nil?
+              | #{area.distance/1000} 千米 
+          td 
+            - unless area.mian.nil?
+              | #{area.mian} 平方公里 
           td = "#{area.orders.size}"
           td = "#{area.commission.price || 0 }"
           td = "#{area.created_at}" 
