@@ -242,6 +242,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     nprogress-rails (0.1.6.7)
+    oneapm_rpm (1.2.6)
     orm_adapter (0.5.0)
     poltergeist (1.7.0)
       capybara (~> 2.1)
@@ -447,6 +448,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.18)
   non-stupid-digest-assets
   nprogress-rails
+  oneapm_rpm
   poltergeist
   pry-rails
   quiet_assets

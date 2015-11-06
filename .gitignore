@@ -6,6 +6,7 @@
 /lib/assets/bower_components/
 /config/settings/development.yml
 /config/database.yml
+/config/oneapm.yml
 
 /.config
 /coverage/
