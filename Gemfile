@@ -67,6 +67,9 @@ gem 'grape-kaminari'
 gem 'thin'
 
 gem 'oneapm_rpm'
+
+gem 'sidekiq'
+gem 'sinatra', :require => nil
 # gem 'websocket-rails', github: 'websocket-rails/websocket-rails'
 
 group :production do

@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-
+  require 'sidekiq/web'
   devise_for :admins
   devise_for :users
 
  
   mount GrapeSwaggerRails::Engine => '/swagger'
+  mount Sidekiq::Web => '/sidekiq'
 
   resources :commissions
   resources :areas do 
@@ -59,6 +60,11 @@ Rails.application.routes.draw do
 
   namespace :admin do 
     resources :keys
+    resources :stations do 
+      collection do 
+        get 'syn'
+      end 
+    end
   end
 
 
