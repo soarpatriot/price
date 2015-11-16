@@ -256,17 +256,9 @@ $(function(){
         $.each(data,function(key,area){
           var arr = convertToPointsOjeArray(area.points);
           var ploygon = new BMap.Polygon(arr,drawOpt());
-          var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
           var areaTmp = $("#area-info").html();
-
-          if(_.isNaN(areaMian)){
-            areaMian = utils.computePolygonArea(ploygon);
-          }else{
-            areaMian = areaMian/1000000;
-          }
-
-
-          var areaMianDesc = (areaMian).toFixed(2) + "(平方公里)";
+          var areaMian = utils.ploygon.areaMian(ploygon)
+          var areaMianDesc = areaMian + "(平方公里)";
 
           //var areaMianDesc = area.toFixed(2) + "平方米";
 

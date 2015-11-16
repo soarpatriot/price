@@ -56,7 +56,7 @@ utils.addBoundary = function(map,district){
 utils.ploygon = {
   areaMian: function(ploygon){
       var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygon);
-      if(_.isNaN(areaMian)){
+      if(_.isNaN(areaMian) || areaMian < 0 ){
         areaMian = utils.computePolygonArea(ploygon);
       }else{
         areaMian = areaMian/1000000;

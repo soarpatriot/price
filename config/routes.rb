@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
  
   mount GrapeSwaggerRails::Engine => '/swagger'
-  mount Sidekiq::Web => '/sidekiq'
+  mount Sidekiq::Web => '/admin/sidekiq'
 
   resources :commissions
   resources :areas do 
