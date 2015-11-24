@@ -53,7 +53,7 @@
     tbody
       - @areas.each do |area| 
         tr
-          td = "#{area.station.description}" 
+          td = "#{area.station.try(:description)}" 
           td = "#{area.label}" 
           td = "#{area.code}" 
           td 
@@ -62,8 +62,8 @@
           td 
             - unless area.mian.nil?
               | #{area.mian} 平方公里 
-          td = "#{area.orders.size}"
-          td = "#{area.commission.price || 0 }"
+          td = "#{area.orders.try(:size)}"
+          td = "#{area.commission.try(:price) || 0 }"
           td = "#{area.created_at}" 
   .row
     .col-lg-12.toolbar
