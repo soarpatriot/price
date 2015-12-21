@@ -155,7 +155,7 @@ $(function(){
             var areaMian = ploygons[index].areaMian;
             var areaMianDesc = areaMian + "(平方公里)";
             // var areaMianDesc = areaMian.toFixed(2) + "平方米";
-            var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+ areaMianDesc;
+            var labelValue = utils.concatDisply(area.commission_name,area.code);
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
@@ -276,7 +276,7 @@ $(function(){
           var centerPoint = ploygon.getBounds().getCenter();
           var distance = map.getDistance(markerPoint,centerPoint).toFixed(2);
           var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-          var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+areaMianDesc;
+          var labelValue = utils.concatDisply(area.commission_name,area.code);
           var label = new BMap.Label(labelValue,opts);
           //label.setStyle(labelOptions);
           map.addOverlay(label);

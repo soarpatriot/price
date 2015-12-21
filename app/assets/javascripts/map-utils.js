@@ -9,7 +9,13 @@ $(function(){
   api.appKey = appKey; 
 
 });
-
+utils.concatDisply = function(label, code){
+  if($.trim(code)){
+    return label + "(" + code + ")";
+  }else{
+    return label; 
+  }
+}
 utils.circleDrawOptions = {
   strokeColor: 'black',
   fillColor: 'green',
