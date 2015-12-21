@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get  '/operate' => 'home#operate'
   post '/import' => 'home#import'   
-  post '/clear' => 'home#clear'   
+  get '/clear' => 'home#clear'   
 
 
   authenticated :admin do

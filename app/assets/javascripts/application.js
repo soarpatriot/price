@@ -49,3 +49,4 @@
 //= require station-select
 
 //= require area-index
+//= require validate

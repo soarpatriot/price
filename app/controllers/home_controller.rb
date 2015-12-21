@@ -1,15 +1,25 @@
 class HomeController < ApplicationController
 
    def index
+
    end
    def clear 
-     Province.destroy_all
-     City.destroy_all
-     Station.destroy_all 
-     Point.destroy_all
+     area = Area.find(5265)
+     points = area.points
+     lants = points.map{|p| p.lantitude}
+     lngs = points.map{|p| p.longitude}
+     lantStr = "[" + lants.join(',') + "]"
+     lngsStr = "[" + lngs.join(',') + "]"
+     puts lantStr
+     puts lngsStr
+     #Province.destroy_all
+     #City.destroy_all
+     #Station.destroy_all 
+     # Point.destroy_all
 
      render "import"
    end  
+=begin
    def import 
      Spreadsheet.client_encoding = 'UTF-8'
      province_file = "#{::Rails.root}/lib/assets/province.xls"
@@ -75,4 +85,5 @@ class HomeController < ApplicationController
      end
 
    end
+=end
 end

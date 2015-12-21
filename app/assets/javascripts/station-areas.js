@@ -119,6 +119,17 @@ $(function(){
       if(mian==="NaN"){
         mian = 0; 
       }
+      if(validate.isBlank(label) || validate.isBlank(code)){
+        $("#area-tip").alert().removeClass("hidden");
+        $("#area-tip").text("请输入名称和编码");
+        return;
+      }  
+      if(!validate.isDigtalAndAlpha(code)){
+        $("#area-tip").alert().removeClass("hidden");
+        $("#area-tip").text("编码必须是字母或数字！");
+        return;
+      }
+ 
       //$.post(areaSaveUrl)
       if(areaId){
         updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
