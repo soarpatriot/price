@@ -10,7 +10,7 @@ validate.isBlank = function(value){
 }
 
 validate.isDigtalAndAlpha = function(value){
-  var reg =  /^[0-9a-zA-Z]*$/g;
+  var reg =  /^[0-9a-zA-Z]{1,5}$/g;
   return reg.test(value);
 }
 

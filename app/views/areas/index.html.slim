@@ -64,7 +64,7 @@
               | #{area.mian} 平方公里 
           td = "#{area.orders.try(:size)}"
           td = "#{area.commission.try(:price) || 0 }"
-          td = "#{area.created_at}" 
+          td = "#{area.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
   .row
     .col-lg-12.toolbar
       .pull-right = paginate @areas, theme: 'twitter-bootstrap-3'
