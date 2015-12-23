@@ -111,9 +111,14 @@ $(function(){
         $("#area-tip").text("请输入名称和编码");
         return;
       }  
-      if(!validate.isDigtalAndAlpha(code)){
+      if(!validate.isDigtalAndAlpha3(code)){
         $("#area-tip").alert().removeClass("hidden");
-        $("#area-tip").text("编码必须是字母或数字！");
+        $("#area-tip").text("编码不复合规则！");
+        return;
+      }
+      if(!validate.lethThen6(label)){
+        $("#area-tip").alert().removeClass("hidden");
+        $("#area-tip").text("名称不能大于6个字符！");
         return;
       }
  
