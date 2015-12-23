@@ -16,6 +16,29 @@ utils.concatDisply = function(label, code){
     return label; 
   }
 }
+utils.fullConcatDisply = function(label, code, price){
+  var defaultValue = "无名称编号";
+  var full = "";
+  var flag = true; 
+  if($.trim(label)){
+    flag = false;
+    full = full + "名称：" + label +"<br/>";
+  }
+  if($.trim(code)){
+    flag = false;
+    full = full + "编号：" + code +"<br/>";
+  }
+  if($.trim(price)){
+    flag = false;
+    full = full + "价格：" + price +"<br/>";
+  }
+
+  if(flag){
+    return defaultValue;
+  }
+  return full;
+}
+
 utils.circleDrawOptions = {
   strokeColor: 'black',
   fillColor: 'green',
@@ -73,10 +96,32 @@ utils.ploygon = {
 
       var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
       return distance;
+  },
+  addMenu: function(ploygon){
+   
+    var ployMenu = new BMap.ContextMenu();
+    var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+    var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
+    var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
+    //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
+    ployMenu.addItem(editItem);
+    ployMenu.addItem(saveItem);
+    ployMenu.addItem(deleteItem);
+    ploygon.addContextMenu(ployMenu);
+
+    return ploygon;
+  },
+  addDesc: function(map,ploygon,stationPoint){
+    var centerPoint = ploygon.getBounds().getCenter();
+    ploygon.areaMian = utils.ploygon.areaMian(ploygon);
+    ploygon.areaMianDesc = ploygon.areaMian + "(平方公里)";
+    ploygon.areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
+    return ploygon;
   }
 }
 
-utils.addInfoWindowToPloygon = function(map, ploygon, htmlEle, centerPoint){
+utils.addInfoWindowToPloygon = function(map, ploygon, htmlEle){
+  var centerPoint = ploygon.getBounds().getCenter();
   ploygon.addEventListener('click',function(){
     _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g

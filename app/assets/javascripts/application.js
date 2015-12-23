@@ -31,6 +31,7 @@
 //= require animo
 //= require underscore
 //= require jquery-json
+//= require ramda
 
 //= require map-global
 //= require baidu-map
