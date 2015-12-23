@@ -22,26 +22,11 @@ $(function(){
     var ploygons = [];
     var overlaycomplete = function(e){
         var areaTmp = $("#area-info").html();
-        var ploygon = e.overlay;
+        var ploygon = utils.ploygon.addMenu(e.overlay);
+        ploygon = utils.ploygon.addDesc(map,ploygon,stationPoint);
+        utils.addInfoWindowToPloygon(map,ploygon,areaTmp); 
         ploygons.push(ploygon);
-        var index =  _.indexOf(ploygons,ploygon);
-        ploygon.index = index;
-        var centerPoint = ploygons[index].getBounds().getCenter();
-        ploygons[index].areaMian = utils.ploygon.areaMian(ploygon);
-        ploygons[index].areaMianDesc = ploygons[index].areaMian + "(平方公里)";
-        ploygons[index].areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
-        
-        utils.addInfoWindowToPloygon(map,ploygon,areaTmp, centerPoint); 
-        var ployMenu = new BMap.ContextMenu();
-        var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
-        var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
-        var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
-        //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
-        ployMenu.addItem(editItem);
-        ployMenu.addItem(saveItem);
-        ployMenu.addItem(deleteItem);
-        ploygon.addContextMenu(ployMenu);
-        centerPoint =  ploygon.getBounds().getCenter();       
+     
     };
 
 
@@ -296,17 +281,8 @@ $(function(){
           
           //add listener
           utils.addInfoWindowToPloygon(map,ploygon,areaTmp, centerPoint); 
-
-          var ployMenu = new BMap.ContextMenu();
-          var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
-          var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
-          var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
-          //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
-          ployMenu.addItem(editItem);
-          ployMenu.addItem(saveItem);
-          ployMenu.addItem(deleteItem);
-          ploygon.addContextMenu(ployMenu);
-          
+          utils.ploygon.addMenu(ploygon);
+         
           map.addOverlay(ploygon);
           var areaSq = utils.computePolygonArea(ploygon);
         });

@@ -73,10 +73,32 @@ utils.ploygon = {
 
       var distance = map.getDistance(stationPoint,centerPoint).toFixed(2);
       return distance;
+  },
+  addMenu: function(ploygon){
+   
+    var ployMenu = new BMap.ContextMenu();
+    var editItem = new BMap.MenuItem('编辑',editPloygon.bind(ploygon));
+    var saveItem = new BMap.MenuItem('保存',setPloygonArea.bind(ploygon));
+    var deleteItem = new BMap.MenuItem('删除',deletePloygonArea.bind(ploygon));
+    //var editAreaItem = new BMap.MenuItem('编辑所属站点',setPloygonArea.bind(ploygon));
+    ployMenu.addItem(editItem);
+    ployMenu.addItem(saveItem);
+    ployMenu.addItem(deleteItem);
+    ploygon.addContextMenu(ployMenu);
+
+    return ploygon;
+  },
+  addDesc: function(map,ploygon,stationPoint){
+    var centerPoint = ploygon.getBounds().getCenter();
+    ploygon.areaMian = utils.ploygon.areaMian(ploygon);
+    ploygon.areaMianDesc = ploygon.areaMian + "(平方公里)";
+    ploygon.areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
+    return ploygon;
   }
 }
 
-utils.addInfoWindowToPloygon = function(map, ploygon, htmlEle, centerPoint){
+utils.addInfoWindowToPloygon = function(map, ploygon, htmlEle){
+  var centerPoint = ploygon.getBounds().getCenter();
   ploygon.addEventListener('click',function(){
     _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
