@@ -26,7 +26,9 @@ $(function(){
         ploygon = utils.ploygon.addDesc(map,ploygon,stationPoint);
         utils.addInfoWindowToPloygon(map,ploygon,areaTmp); 
         ploygons.push(ploygon);
-     
+        var index =  _.indexOf(ploygons,ploygon);
+        ploygon.index = index;
+      
     };
 
 
@@ -140,7 +142,8 @@ $(function(){
             var areaMian = ploygons[index].areaMian;
             var areaMianDesc = areaMian + "(平方公里)";
             // var areaMianDesc = areaMian.toFixed(2) + "平方米";
-            var labelValue = utils.concatDisply(area.commission_name,area.code);
+            var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
+            // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
             ploygons[index].commissionId = area.commission_id; 
             ploygons[index].commissionName = area.commission_name; 
             ploygons[index].commissionPrice = area.commission_price; 
@@ -197,7 +200,8 @@ $(function(){
 
             var centerPoint = ploygons[index].getBounds().getCenter();
             var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-            var labelValue = area.commission_name + "("+area.commission_price+")<br/>"+ areaMianDesc;
+            var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
+            // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
             var label = new BMap.Label(labelValue,opts);
             ploygons[index].centerLabel = label;
             map.addOverlay(label); 
@@ -261,7 +265,7 @@ $(function(){
           var centerPoint = ploygon.getBounds().getCenter();
           var distance = map.getDistance(markerPoint,centerPoint).toFixed(2);
           var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-          var labelValue = utils.concatDisply(area.commission_name,area.code);
+          var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
           var label = new BMap.Label(labelValue,opts);
           //label.setStyle(labelOptions);
           map.addOverlay(label);

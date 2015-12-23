@@ -16,6 +16,29 @@ utils.concatDisply = function(label, code){
     return label; 
   }
 }
+utils.fullConcatDisply = function(label, code, price){
+  var defaultValue = "无名称编号";
+  var full = "";
+  var flag = true; 
+  if($.trim(label)){
+    flag = false;
+    full = full + "名称：" + label +"<br/>";
+  }
+  if($.trim(code)){
+    flag = false;
+    full = full + "编号：" + code +"<br/>";
+  }
+  if($.trim(price)){
+    flag = false;
+    full = full + "价格：" + price +"<br/>";
+  }
+
+  if(flag){
+    return defaultValue;
+  }
+  return full;
+}
+
 utils.circleDrawOptions = {
   strokeColor: 'black',
   fillColor: 'green',
