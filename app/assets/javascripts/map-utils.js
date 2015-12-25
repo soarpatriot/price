@@ -117,6 +117,50 @@ utils.ploygon = {
     ploygon.areaMianDesc = ploygon.areaMian + "(平方公里)";
     ploygon.areaDistance = utils.ploygon.distanceCenter(map,stationPoint,centerPoint);
     return ploygon;
+  },
+  changeValue: function(map,ploygons,area,index){
+    var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+    var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+
+    ploygons[index].areaId = area.id;
+    ploygons[index].commissionId = area.commission_id;
+    ploygons[index].commissionName = area.commission_name;
+    ploygons[index].commissionPrice = area.commission_price;
+    ploygons[index].areaLabel = area.label;
+    ploygons[index].areaCode = area.code;
+    ploygons[index].areaMianDesc = areaMianDesc;
+    ploygons[index].areaDistance = area.distance;
+
+    var centerPoint = ploygons[index].getBounds().getCenter();
+    var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
+    var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
+    // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
+    var label = new BMap.Label(labelValue,opts);
+    ploygons[index].centerLabel = label;
+    map.addOverlay(label);
+
+  },
+  afterCreate: function(ploygons, area,index){
+    var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
+    var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
+
+
+    // var areaMianDesc = areaMian.toFixed(2) + "平方米";
+    var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
+    // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
+    ploygons[index].commissionId = area.commission_id;
+    ploygons[index].commissionName = area.commission_name;
+    ploygons[index].commissionPrice = area.commission_price;
+    ploygons[index].areaLabel = area.label;
+    ploygons[index].areaCode = area.code;
+    ploygons[index].areaMianDesc = areaMianDesc;
+    ploygons[index].areaDistance = area.distance;
+
+
+    if(ploygons[index].centerLabel){
+        ploygons[index].centerLabel.setContent(labelValue);
+    }
+
   }
 }
 

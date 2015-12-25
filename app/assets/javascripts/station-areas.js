@@ -128,15 +128,14 @@ $(function(){
         $("#area-tip").text("名称不能大于6个字符！");
         return;
       }
-        $.ajax({
-            url:api.baseUrl + "/areas/exists?api_key=" + api.appKey,
-            data:{area_id:areaId,station_id:stationId,code:code},
-            success:function(flag){
-                if(flag){
-                    //$.post(areaSaveUrl)
-                    if(areaId){
-                        updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
-                        data = {label:label,
+      
+      $.ajax({url:api.baseUrl + "/areas/exists?api_key=" + api.appKey, data:{area_id:areaId,station_id:stationId,code:code}})
+         .done(function(flag){
+           if(flag){
+           
+            $.ajax({url:api.baseUrl + "/areas/name-exist?api_key=" + api.appKey, data:{id:areaId,station_id:stationId,name:label}}).done(function(data){
+              if(data.status == 0){
+                      data = {label:label,
                             mian:mian,
                             latitude: latitude,
                             longitude:longitude,
@@ -144,9 +143,13 @@ $(function(){
                             code:code,
                             station_id:stationId,
                             commission_id: commissionId,
-                            area_id:areaId,
                             points:pos}
-                        dataStr = JSON.stringify(data);
+ 
+
+                     if(areaId){
+                        data.area_id = areaId;
+                        updateAreaUrl = api.baseUrl + "/areas/"+areaId+".json?api_key=" + api.appKey;
+                       dataStr = JSON.stringify(data);
                         $.ajax({
                             type:"put",
                             dataType: "json",
@@ -155,38 +158,12 @@ $(function(){
                             headers: {"X-HTTP-Method-Override": "put"},
                             crossDomain: true,
                             success: function(area){
-                                var areaMian = ploygons[index].areaMian;
-                                var areaMianDesc = areaMian + "(平方公里)";
-                                // var areaMianDesc = areaMian.toFixed(2) + "平方米";
-                                var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
-                                // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
-                                ploygons[index].commissionId = area.commission_id;
-                                ploygons[index].commissionName = area.commission_name;
-                                ploygons[index].commissionPrice = area.commission_price;
-                                ploygons[index].areaLabel = area.label;
-                                ploygons[index].areaCode = area.code;
-                                ploygons[index].areaMianDesc = areaMianDesc;
-                                ploygons[index].areaDistance = area.distance;
-
-
-                                if(ploygons[index].centerLabel){
-                                    ploygons[index].centerLabel.setContent(labelValue);
-                                }
-                            },
+                              utils.ploygon.afterCreate(ploygons, area,index);
+                           },
                             data: dataStr
                         });
 
                     }else{
-                        data = {label:label,
-                            mian:mian,
-                            latitude: latitude,
-                            longitude:longitude,
-                            distance: distance,
-                            code:code,
-                            station_id:stationId,
-                            commission_id: commissionId,
-                            points:pos}
-
                         dataStr = JSON.stringify(data);
                         $.ajax({
                             type:"post",
@@ -196,46 +173,29 @@ $(function(){
                             headers: {"Access-Control-Allow-Origin": "*"},
                             crossDomain: true,
                             success: function(area){
-                                var areaMian = BMapLib.GeoUtils.getPolygonArea(ploygons[index]);
-                                var areaMianDesc = (areaMian/1000000).toFixed(2) + "(平方公里)";
-
-                                ploygons[index].areaId = area.id;
-                                ploygons[index].commissionId = area.commission_id;
-                                ploygons[index].commissionName = area.commission_name;
-                                ploygons[index].commissionPrice = area.commission_price;
-                                ploygons[index].areaLabel = area.label;
-                                ploygons[index].areaCode = area.code;
-                                ploygons[index].areaMianDesc = areaMianDesc;
-                                ploygons[index].areaDistance = area.distance;
-
-
-
-                                //  var areaMianDesc = areaMian.toFixed(2) + "平方米";
-                                //var areaMianDesc = area.toFixed(2) + "平方米";
-
-
-                                var centerPoint = ploygons[index].getBounds().getCenter();
-                                var opts = {position: centerPoint, offset: new BMap.Size(-15,-5)}
-                                var labelValue = utils.fullConcatDisply(area.label,area.code, area.commission_price);
-                                // var labelValue = utils.fullConcatDisply(area.commission_name,area.code, area.commission_price);
-                                var label = new BMap.Label(labelValue,opts);
-                                ploygons[index].centerLabel = label;
-                                map.addOverlay(label);
+                              utils.ploygon.changeValue(map, ploygons, area,index);
                             },
-
+ 
                             data: dataStr
                         });
 
                     }
                     ploygon.disableEditing();
                     $("#commission-modal").modal("hide");
-                }else{
-                    $("#area-tip").alert().removeClass("hidden");
-                    $("#area-tip").text("该编码已存在！");
-                }
-            }
-        });
-
+              
+              }else{
+                $("#area-tip").alert().removeClass("hidden");
+                $("#area-tip").text("名称已经存在，请更改一个！");
+  
+              }
+            });
+           }else{
+             $("#area-tip").alert().removeClass("hidden");
+             $("#area-tip").text("编码已经存在，请更改一个！");
+             
+           }
+         });
+      
 
     });
 
@@ -301,6 +261,7 @@ $(function(){
           ploygon.commissionName = area.commission_name; 
           ploygon.commissionPrice = area.commission_price; 
           ploygon.areaLabel = area.label; 
+          ploygon.areaMian = areaMian;
           ploygon.areaMianDesc = areaMianDesc;
           ploygon.areaDistance = distance;
           ploygon.areaCode = area.code; 
