@@ -30,7 +30,7 @@ utils.fullConcatDisply = function(label, code, price){
   }
   if($.trim(price)){
     flag = false;
-    full = full + "价格：" + price +"<br/>";
+    full = full + "追加提成：" + price +"<br/>";
   }
 
   if(flag){
