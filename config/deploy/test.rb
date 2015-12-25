@@ -3,7 +3,7 @@ set :server_name, "10.3.47.62"
 
 set :server_domain_name, "commission.wuliusys.com"
 set :repo_url, 'git@git.rfdoa.cn:java/price.git'
-set :branch, "master"
+set :branch, "dev"
 
 set :log_level, :debug
 set :deploy_to, "/data/www/price"
