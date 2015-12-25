@@ -107,11 +107,17 @@ $(function(){
       if(mian==="NaN"){
         mian = 0; 
       }
-      if(validate.isBlank(label) || validate.isBlank(code)){
+      if(validate.isBlank(label)){
         $("#area-tip").alert().removeClass("hidden");
-        $("#area-tip").text("请输入名称和编码");
+        $("#area-tip").text("请输入名称");
         return;
       }  
+      if(validate.isBlank(code)){
+        $("#area-tip").alert().removeClass("hidden");
+        $("#area-tip").text("请输入编码");
+        return;
+      }  
+ 
       if(!validate.isDigtalAndAlpha3(code)){
         $("#area-tip").alert().removeClass("hidden");
         $("#area-tip").text("编码不复合规则！");
@@ -120,7 +126,6 @@ $(function(){
       if(!validate.lethThen6(label)){
         $("#area-tip").alert().removeClass("hidden");
         $("#area-tip").text("名称不能大于6个字符！");
-        $("#area-tip").text("编码必须是字母或数字,且长度在5以内！");
         return;
       }
         $.ajax({
