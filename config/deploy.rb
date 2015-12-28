@@ -15,14 +15,12 @@ set :format, :pretty
 set :log_level, :debug
 set :pty, true
 
-set :linked_files, %w{config/database.yml config/settings/production.yml  config/secrets.yml config/oneapm.yml}
+set :linked_files, %w{config/database.yml config/settings/production.yml  config/secrets.yml config/oneapm.yml config/sidekiq.yml}
 
 set :linked_dirs, %w{bin log tmp public/system public/assets public/uploads}
 
 set :keep_releases, 5
 
-set :sidekiq_config, "#{deploy_to}/current/config/sidekiq.yml" 
-set :sidekiq_pid, "#{shared_path}/tmp/pids/sidekiq_pid" 
 
 
 namespace :deploy do
@@ -65,6 +63,8 @@ end
 
 after "deploy:check", "nginx:update_config"
 after "deploy:check", "thin:update_config"
+before "deploy:check", "sidekiq:update_config"
+
 before "deploy:cleanup_assets", "rvm:hook"
 before "deploy:compile_assets", "rvm:hook"
 before "bundler:install", "rvm:hook"

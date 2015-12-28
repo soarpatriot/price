@@ -4,6 +4,7 @@ namespace :sidekiq do
     invoke :"rvm:hook"
     on roles :app do
       within current_path do
+        info "#{deploy_to}  #{fetch(:sidekiq_pid)} -----------"
         unless test("[ -f #{fetch(:sidekiq_pid)} ]")
           info ">>>>>> starting sidekiq"
           execute :bundle, "exec sidekiq -C #{fetch(:sidekiq_config)} -d"
@@ -13,4 +14,14 @@ namespace :sidekiq do
       end
     end
   end 
+
+  task :update_config do
+    on roles :web do
+      dest = "#{shared_path}/config/sidekiq.yml"
+      upload! from_template("sidekiq.yml.erb"), dest
+      info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
+    end
+  end
+
+
 end
