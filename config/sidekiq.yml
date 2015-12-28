@@ -1,6 +1,6 @@
 
 
 :verbose: false
-:pidfile: ../tmp/pids/sidekiq.pid
-:logfile: ../log/sidekiq.log 
+:pidfile: /data/www/price/shared/tmp/pids/sidekiq.pid
+:logfile: /data/www/price/shar/log/sidekiq.log 
 :concurrency: 5

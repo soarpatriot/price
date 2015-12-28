@@ -5,7 +5,7 @@ namespace :sidekiq do
     on roles :app do
       within current_path do
         unless test("[ -f #{fetch(:sidekiq_pid)} ]")
-          info ">>>>>> starting thin"
+          info ">>>>>> starting sidekiq"
           execute :bundle, "exec sidekiq -C #{fetch(:sidekiq_config)} -d"
         else
           error ">>>>>> sidekiq already started"
