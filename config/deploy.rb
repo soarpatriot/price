@@ -21,6 +21,10 @@ set :linked_dirs, %w{bin log tmp public/system public/assets public/uploads}
 
 set :keep_releases, 5
 
+set :sidekiq_pid, "#{current_path}/config/sidekiq.yml" 
+set :sidekiq_config, "#{shared_path}/tmp/pids/sidekiq_pid" 
+
+
 namespace :deploy do
 
   task :start do
