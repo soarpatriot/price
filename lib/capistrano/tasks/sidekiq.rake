@@ -4,14 +4,16 @@ namespace :sidekiq do
     invoke :"rvm:hook"
     on roles :app do
       within current_path do
-        info "#{deploy_to}  #{fetch(:sidekiq_pid)} -----------"
-        unless test("[ -f #{fetch(:sidekiq_pid)} ]")
-          info ">>>>>> starting sidekiq"
-          execute :bundle, "exec sidekiq -C #{fetch(:sidekiq_config)} -d"
-        else
-          error ">>>>>> sidekiq already started"
+        with rails_env: fetch(:rails_env) do 
+          unless test("[ -f #{fetch(:sidekiq_pid)} ]")
+            info ">>>>>> starting sidekiq"
+            execute :bundle, "exec sidekiq -C #{fetch(:sidekiq_config)} -d"
+          else
+            error ">>>>>> sidekiq already started"
+          end
+   
         end
-      end
+     end
     end
   end 
 
