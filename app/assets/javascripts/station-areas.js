@@ -134,7 +134,8 @@ $(function(){
          .done(function(flag){
            if(flag){
            
-            $.ajax({url:api.baseUrl + "/areas/name-exist?api_key=" + api.appKey, data:{id:areaId,station_id:stationId,name:label}}).done(function(data){
+            $.ajax({url:api.baseUrl + "/areas/name-exist?api_key=" + api.appKey, data:{id:areaId,station_id:stationId,name:label},
+            xhrFields: {withCredentials: true}}).done(function(data){
               if(data.status == 0){
                       data = {label:label,
                               cookie:cookieValue,
@@ -171,6 +172,7 @@ $(function(){
                             type:"post",
                             dataType: "json",
                             contentType: "application/json",
+                            xhrFields: {withCredentials: true},
                             url: areaSaveUrl,
                             headers: {"Access-Control-Allow-Origin": "*"},
                             crossDomain: true,
