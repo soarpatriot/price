@@ -39,6 +39,8 @@
 //= require drawing-manager1.4
 //= require search-info-window14
 
+
+//= require cookie
 //= require notify
 //= require map-utils
 //= require Mapv

@@ -128,7 +128,8 @@ $(function(){
         $("#area-tip").text("名称不能大于6个字符！");
         return;
       }
-      
+      var cookieValue = getCookie("LoginUserInfo"); 
+      console.log("cookieValue: "+cookieValue);
       $.ajax({url:api.baseUrl + "/areas/exists?api_key=" + api.appKey, data:{area_id:areaId,station_id:stationId,code:code}})
          .done(function(flag){
            if(flag){
@@ -136,6 +137,7 @@ $(function(){
             $.ajax({url:api.baseUrl + "/areas/name-exist?api_key=" + api.appKey, data:{id:areaId,station_id:stationId,name:label}}).done(function(data){
               if(data.status == 0){
                       data = {label:label,
+                              cookie:cookieValue,
                             mian:mian,
                             latitude: latitude,
                             longitude:longitude,
