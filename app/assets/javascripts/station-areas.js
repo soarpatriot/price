@@ -157,6 +157,7 @@ $(function(){
                             type:"put",
                             dataType: "json",
                             contentType: "application/json",
+                            xhrFields: {withCredentials: true},
                             url: updateAreaUrl,
                             headers: {"X-HTTP-Method-Override": "put"},
                             crossDomain: true,
