@@ -1,7 +1,7 @@
 set :stage, :local
 set :server_name, "10.3.47.62"
 
-set :server_domain_name, "commission.wuliusys.com"
+set :server_domain_name, "commission.wltest.com"
 set :repo_url, 'git@git.rfdoa.cn:java/price.git'
 set :branch, "dev"
 
