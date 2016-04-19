@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151026130120) do
+ActiveRecord::Schema.define(version: 20160418103241) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -69,6 +69,19 @@ ActiveRecord::Schema.define(version: 20151026130120) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "densities", force: true do |t|
+    t.integer  "area_id"
+    t.integer  "count"
+    t.integer  "year"
+    t.integer  "month"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "densities", ["area_id"], name: "index_densities_on_area_id", using: :btree
+  add_index "densities", ["month"], name: "index_densities_on_month", using: :btree
+  add_index "densities", ["year"], name: "index_densities_on_year", using: :btree
 
   create_table "districts", force: true do |t|
     t.string   "name"
