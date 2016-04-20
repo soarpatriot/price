@@ -52,4 +52,5 @@
 //= require station-select
 
 //= require area-index
+//= require densities-index
 //= require validate

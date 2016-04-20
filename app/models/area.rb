@@ -3,6 +3,7 @@ class Area < ActiveRecord::Base
   belongs_to :station
   belongs_to :commission
   has_many :orders
+  has_many :densities
   has_many :points, as: :pointable, dependent: :destroy
 
   def include_point? point 
