@@ -1,0 +1,73 @@
+
+.content-wraper
+  = form_tag("/densities",method: :get, class:"form-inline",id: "area-info-form") do 
+    input type="hidden" value="#{params[:city_id]}" id="city_selected"
+    input type="hidden" value="#{params[:station_id]}" id="station_selected"
+    p
+      .form-group.station-select-group
+        = label_tag "省："
+        = select_tag "province_id", options_from_collection_for_select(Province.all, "id","description",params[:province_id]), class: "form-control", include_blank:true, :selected=> params[:province_id]
+      .form-group.station-select-group
+        = label_tag "市："
+        select id="city_id" class="form-control" name="city_id"
+      .form-group.station-select-group
+        = label_tag "站点："
+        select id="station_id" class="form-control" name="station_id"
+    p
+      .form-group.station-select-group
+        = label_tag "创建时间："
+        #created-date-start.input-group.data
+          input id="created-start-text" name="created_start" type="text" class="form-control" value="#{params[:created_start]}"
+          span.input-group-addon
+            span.fa.fa-calendar
+        span ~
+        #created-date-end.input-group.data
+          input id="created-end-text" type="text" name="created_end" class="form-control" value="#{params[:created_end]}"
+          span.input-group-addon
+            span.fa.fa-calendar
+
+      button type="button" id="search-areas" class="btn btn-primary" 查询
+      .btn-group
+        button type="button" id="export-areas" class="btn btn-warning" 导出
+      .btn-group
+        button type="button" id="export-areas-detail" class="btn btn-warning" 导出明细
+
+
+
+  //
+    p.pull-right 
+      = link_to "导出站点信息", export_stations_url(format: :xlsx), class:"btn btn-primary"
+
+  p
+  table.table 
+    thead
+      tr 
+        th 站点名称 
+        th 区域名称
+        th 区域编号
+        th 距站点距离
+        th 区域面积
+        th 单量
+        th 追加金额
+        th 年 
+        th 月 
+    tbody
+      - @densities.each do |density| 
+        tr
+          td = "#{density.area.try(:station).try(:description)}" 
+          td = "#{density.area.try(:label)}" 
+          td = "#{density.area.try(:code)}" 
+          td 
+            - unless density.area.try(:distance).nil?
+              | #{density.area.try(:distance)/1000} 千米 
+          td 
+            - unless density.area.try(:mian).nil?
+              | #{density.area.try(:mian)} 平方公里 
+          td = "#{density.count}"
+          td = "#{density.area.try(:commission).try(:price) || 0 }"
+          td = "#{density.year}"
+          td = "#{density.month}"
+  .row
+    .col-lg-12.toolbar
+      .pull-right = paginate @densities, theme: 'twitter-bootstrap-3'
+
