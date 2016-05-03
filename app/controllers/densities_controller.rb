@@ -27,7 +27,7 @@ class DensitiesController < ApplicationController
       city = City.find(city_id) unless city_id.blank? 
       if city.nil?
         province = Province.find(province_id) unless province_id.blank? 
-        @densities = province.densities unless province.nil?
+        @densities = province.densities unless province.blank?
       else
         @densities = city.densities
       end 
@@ -35,8 +35,8 @@ class DensitiesController < ApplicationController
       @densities = Station.find(station_id).densities
     end
     
-    @densities = @densities.where(year: params[:year]) unless year.nil? 
-    @densities = @densities.where(month: params[:month]) unless month.nil? 
+    @densities = @densities.where(year: params[:year]) unless year.blank? 
+    @densities = @densities.where(month: params[:month]) unless month.blank? 
  
   end
 end
