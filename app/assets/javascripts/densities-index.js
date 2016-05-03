@@ -84,13 +84,13 @@ $(function(){
       });
     }; 
 
-    $('#created-date-start').datetimepicker({
-      format: 'YYYY-MM-DD HH:mm:ss',
+    $('#year').datetimepicker({
+      format: 'YYYY',
       locale: 'zh-cn'
     });
 
-    $('#created-date-end').datetimepicker({
-      format: 'YYYY-MM-DD HH:mm:ss',
+    $('#month').datetimepicker({
+      format: 'MM',
       locale: 'zh-cn'
     });
  

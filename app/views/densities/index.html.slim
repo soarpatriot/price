@@ -15,14 +15,14 @@
         select id="station_id" class="form-control" name="station_id"
     p
       .form-group.station-select-group
-        = label_tag "创建时间："
-        #created-date-start.input-group.data
-          input id="created-start-text" name="created_start" type="text" class="form-control" value="#{params[:created_start]}"
+        = label_tag "年："
+        #year.input-group.data
+          input id="created-start-text" name="year" type="text" class="form-control" value="#{params[:year]}"
           span.input-group-addon
             span.fa.fa-calendar
-        span ~
-        #created-date-end.input-group.data
-          input id="created-end-text" type="text" name="created_end" class="form-control" value="#{params[:created_end]}"
+        span 月:
+        #month.input-group.data
+          input id="created-end-text" type="text" name="month" class="form-control" value="#{params[:month]}"
           span.input-group-addon
             span.fa.fa-calendar
 
