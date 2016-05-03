@@ -3,7 +3,7 @@ wb.add_worksheet(name: "densities") do |sheet|
   sheet.add_row ['站点名称', '区域名称', '区域编号','距站点距离', '区域面积','单量', '追加金额', '年','月']
   @densities.each do |density|
     distance_desc = "#{density.area.try(:distance)/1000.0} 千米" unless density.area.try(:distance).nil?
-    mian_desc = "#{area.mian} 平方公里" unless area.distance.nil?
+    mian_desc = "#{density.area.try(:mian)} 平方公里" unless density.area.try(:mian).nil?
     sheet.add_row [density.area.try(:station).try(:description), 
        density.area.try(:label),
        density.area.try(:code),
