@@ -10,7 +10,7 @@ wb.add_worksheet(name: "densities") do |sheet|
        distance_desc, 
        mian_desc, 
        density.count,
-       area.commission.try(:price),
+       density.area.try(:commission).try(:price),
        density.year,
        density.month]
   end
