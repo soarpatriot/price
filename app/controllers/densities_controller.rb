@@ -12,14 +12,9 @@ class DensitiesController < ApplicationController
   end
   
   def export
-    search_area 
+    search_density
     render xlsx: "index"
   end 
-
-  def export_detail
-    search_area 
-    render xlsx: "detail"
-  end  
 
   def search_density
     province_id = params[:province_id]

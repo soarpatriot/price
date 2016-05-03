@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/admin/sidekiq'
 
   resources :commissions
-  resources :densities
+  resources :densities do 
+    collection do 
+      get 'export'
+    end
+ 
+  end
   resources :areas do 
     collection do 
       get 'export'
