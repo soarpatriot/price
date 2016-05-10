@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, 'price'
-set :repo_url, 'https://github.com/soarpatriot/price.git'
+set :repo_url, 'git@git.rfdoa.cn:java/price.git'
 
 set :rails_env, 'production'
 
