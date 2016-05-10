@@ -55,14 +55,17 @@ Rails.application.routes.draw do
   post '/import' => 'home#import'   
   get '/clear' => 'home#clear'   
 
+  get 'admin/keys', to: 'admin/keys#index', as: "admin_root"
+  #root to: "stations#index", as: "users_root"
+  #
+  # authenticated :users do
+  #  root "stations#index", as: "users_root"
+  # end
 
-  authenticated :admin do
-    root "admin/keys#index", as: "admin_root"
-  end
-  authenticated :users do
-    root "stations#index", as: "users_root"
-  end
 
+  #authenticated :admin do
+  #  root "admin/keys#index", as: "admins_root"
+  #end
 
   namespace :admin do 
     resources :keys
