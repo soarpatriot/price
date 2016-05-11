@@ -347,30 +347,34 @@ $(function(){
           $("#choose-density-btn i").toggleClass("hide");
    
           //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
-          var dataUrlBase = "https://javapi-commission.wuliusys.com/price/ordersLntAndLat";
+          var dataUrlBase = $("#java-service-url").val();
           //var dataUrlBase = "http://10.230.3.111:8080/price/ordersLntAndLat";
           var city_name = cityName;
           var express_company_name= stationName;
           var start_date = startDateValue;
+          var year = start_date.split("-")[0];
+          var month = start_date.split("-")[1];
           var end_date  = endDateValue;
-          var dataUrl = dataUrlBase + "?cityName=" + city_name + 
-            "&expressCompanyName="+  express_company_name + "&startDate=" + start_date
+          var dataUrl = dataUrlBase + "/stations/"+stationId+"/orders?" + 
+            "year="+  year  + "&month=" + month
            
           // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
           jqXhr = $.ajax({
             url: dataUrl 
           }).done(function(result){
                var optionStr = ""
-               var jsonResult = JSON.parse(result)
-               if(jsonResult.error){
-                //var opts = notify.failOpt("出错了！",jsonResult.error);
-                   //---暂时修改禅道bug  查询数据不存在.请核对当前选择的时间.  此处应从接口处修改
-                var opts = notify.failOpt("出错了！","查询数据不存在.请核对当前选择的时间.");
+               console.log(result);
+               if(result.length == 0){
+                var opts = notify.failOpt("无数据！","暂无密度数据.请核对当前选择的时间.");
                 new PNotify(opts);
                 layer.setMapv(null);
                }else{
-                layer.setData(jsonResult.locations); 
+                //var jsonResult = JSON.parse(result)
+                layer.setData(result); 
                }
+ 
+                //var opts = notify.failOpt("出错了！",jsonResult.error);
+                   //---暂时修改禅道bug  查询数据不存在.请核对当前选择的时间.  此处应从接口处修改
             }).fail(function(jqXHR,status){
               console.log(status); 
             }).always(function(){
