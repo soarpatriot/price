@@ -47,9 +47,9 @@
         th 区域编号
         th 距站点距离
         th 区域面积
+        th 单量
         th 追加金额
         th 创建时间 
-        th 操作
     tbody
       - @areas.each do |area| 
         tr
@@ -62,13 +62,9 @@
           td 
             - unless area.mian.nil?
               | #{area.mian} 平方公里 
+          td = "#{area.orders.try(:size)}"
           td = "#{area.commission.try(:price) || 0 }"
           td = "#{area.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
-          td = "#{area.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
-          td
-            .btn-group
-              = link_to  "编辑", edit_area_url(area), class:"btn btn-warning"
- 
   .row
     .col-lg-12.toolbar
       .pull-right = paginate @areas, theme: 'twitter-bootstrap-3'

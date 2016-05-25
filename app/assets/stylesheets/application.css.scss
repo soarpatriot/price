@@ -12,6 +12,8 @@
 
  
  *= require bootstrap-custom
+ *= require select2
+ *= require select2-bootstrap
  *= require home
  *= require pnotify.core
  *= require ngprogress
@@ -113,4 +115,8 @@ html, body, .main-content,  #map-container{
 .flash-message{
   width: 100%;
   padding: 10px 15px;
+}
+
+.expressman-container{
+  margin-top: 30px;
 }

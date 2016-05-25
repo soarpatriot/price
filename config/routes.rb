@@ -28,9 +28,11 @@ Rails.application.routes.draw do
   resources :stations do 
     member do 
       get 'area'
+      get 'delivery_area'
     end
     collection do 
       get 'export'
+      get 'delivery'
     end
   end
   resources :cities do 

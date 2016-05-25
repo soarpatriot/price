@@ -1,0 +1,176 @@
+.hidden 
+  input  type="hidden" id="station-id" value="#{@station.id}"
+  input  type="hidden" id="station-name" value="#{@station.description}"
+  input  type="hidden" id="city-id" value="#{@station.stationable.id}"
+  input  type="hidden" id="city-name" value="#{@station.stationable.description}"
+
+.operation-area 
+      .btn-group
+        = link_to "返回", stations_url, class: "btn btn-default" 
+        label.btn.btn-info.district-label
+          input id="district-display" type="checkbox" &nbsp;显示行政区域
+        button id="display-around-btn" class="btn btn-warning" 站点方圆
+      //
+        button id="draw-test-btn" class="btn btn-warning btn-sm" 订单密度
+#map-container
+
+
+#commission-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 编辑
+      .modal-body
+        input type="hidden" id="ploygon-index"
+        div id="area-tip"  class="alert alert-danger hidden fade in" data-dimiss="alert"
+        p
+          .row
+            .col-sm-3
+              label 区域名称：
+            .col-sm-6
+              input id="area-label" type="text" class="form-control"
+        p
+          .row
+            .col-sm-3
+              label 区域编号：
+            .col-sm-6
+              input id="area-code" type="text" class="form-control"
+            .col-sm-3
+              p 
+                | 例如: A12
+        p
+          .row
+            .col-sm-3
+              label 中心点:
+            .col-sm-9
+              span 经度：
+              span#center-lat
+              span &nbsp;&nbsp;
+              span 纬度：
+              span#center-lng
+        p
+          .row
+            .col-sm-3
+              label 距离站区:
+            .col-sm-6
+              span#center-distance 
+              span 米
+ 
+        p
+          .row
+            .col-sm-3
+              label 区域面积:
+            .col-sm-6
+              span#area-m 
+              span 平方公里
+ 
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="commission-save" type="button" class="btn btn-primary" 保存
+#delete-confirm-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 删除区域
+      .modal-body
+        input type="hidden" id="ploygon-delete-index"
+        p.text-danger
+          strong 
+            | 确定删除吗？删除后将不可恢复！
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="delete-confirmed-btn" type="button" class="btn btn-danger" 确定
+
+#choose-density-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 选择订单日期范围
+      .modal-body
+        .row 
+          .col-xs-12 
+            .alert.alert-info
+              p 由于订单数据量较大，通常显示一个月内订单密度预计20秒左右，请耐心等待。
+        .row 
+          .col-xs-12
+            #choose-check-tip.hidden 
+              p.text-danger
+                strong 请勾选显示密度！
+ 
+        .row 
+          .col-xs-12
+            .checkbox 
+              label 
+                input id="display-density-checkbox" type="checkbox" 
+                span 
+                  | 显示密度 
+                span.text-warning
+                  | (不勾选密度，点击确定，为取消密度显示)
+          
+        .row
+          .col-xs-6
+              .form-group
+                label for="start-date" 选择月份：
+                #start-date.input-group.data
+                  input id="start-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
+   
+          //
+            .col-xs-6
+              .form-group
+                label for="start-date" 开始时间：
+                #start-date.input-group.data
+                  input id="start-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
+            .col-xs-6
+              .form-group
+                label for="start-date" 结束时间：
+                #end-date.input-group.data
+                  input id="end-date-text" type="text" class="form-control"
+                  span.input-group-addon
+                    span.fa.fa-calendar
+      .modal-footer
+        button id="cancel-density-btn" type="button" class="btn btn-default" 取消
+        button id="choose-density-btn" type="button" class="btn btn-success" 
+          span &nbsp;确定&nbsp;
+          i class="fa fa-spinner fa-spin hide"
+
+#area-info
+  p 
+    | 区域名称： {{ name }}
+  p 
+    | 区域编号： {{ code }} 
+  p 
+    | 区域面积： {{ mian }}
+  p
+    | 距离站点距离： {{ distance }}
+  
+
+#station-circle-modal.modal.fade 
+  .modal-dialog 
+    .modal-content
+      .modal-header 
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4.modal-title 区域方圆
+      .modal-body
+        .row
+          .col-xs-3
+            input type="text" class="form-control" id="station-around-text" value="5"
+          .col-xs-3
+            p
+            p
+              span 公里
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" 取消
+        button id="station-around-btn" type="button" class="btn btn-primary" 确定
+
+

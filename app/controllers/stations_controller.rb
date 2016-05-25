@@ -1,6 +1,6 @@
 class StationsController < ApplicationController
 
-   before_action :set_station, only: [:update,:edit,:area,:destroy]
+   before_action :set_station, only: [:update,:edit,:area,:delivery_area,:express,:destroy]
 
    def index
      @station = Station.new
@@ -21,10 +21,35 @@ class StationsController < ApplicationController
    
    def edit 
    end 
-   
-   def area 
+   def express 
 
    end
+   def area 
+
+   end  
+
+   def delivery_area 
+
+   end  
+ 
+   def delivery
+     @station = Station.new
+     province_id = params[:province_id]
+     city_id = params[:city_id]
+
+     if province_id.blank?
+       params[:city_id] = ""
+       @stations = Station.page params[:page] 
+     else 
+       if city_id.blank?
+         @stations = Province.find(province_id).stations.page params[:page]  
+       else
+         @stations = City.find(city_id).stations.page params[:page] 
+       end 
+     end
+ 
+   end
+
    def update 
      if @station.update station_params
        redirect_to stations_path

@@ -7,6 +7,7 @@ zh-CN:
         activity: "商品促销"
         post: "闲置"
         city: "市"
+        area: "区域"
       attributes:
         city: 
            province: "省，直辖市"
@@ -41,6 +42,8 @@ zh-CN:
           weixin: "微信"
         post:
           description: "描述"
+        area:
+          expressmen: "关联配送员"
       errors:
         template:
           header:

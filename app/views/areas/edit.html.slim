@@ -1,0 +1,8 @@
+.row
+  .col-xs-6.col-xs-offset-3
+    .expressman-container
+      = simple_form_for @area do |f|
+        = f.error_notification
+        = f.association :expressmen, require: true, collection: Expressman.all, label_method: :name, value_method: :id 
+        = f.button :submit, '更新', class: "btn btn-primary"
+

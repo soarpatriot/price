@@ -1,6 +1,7 @@
 
 $(function(){
-  if($("#stations-area").length > 0) {
+  if($("#stations-delivery_area").length > 0) {
+  //if($("#stations-area").length > 0) {
     // 百度地图API功能
     var drawOpt = randomFillOptions();
     var map = new BMap.Map('map-container');
@@ -15,7 +16,7 @@ $(function(){
     var ploygons = [];
     map.districtPloys = [];
     var stationUrl = api.baseUrl+ "/stations/"+stationId+".json?api_key="+ api.appKey
-    var areaUrl = api.baseUrl + "/stations/"+stationId+"/areas.json?api_key=" + api.appKey
+    var areaUrl = api.baseUrl + "/stations/"+stationId+"/delivery-areas.json?api_key=" + api.appKey
     var districtAreaUrl = api.baseUrl + "/cities/"+cityId+"/districts.json?api_key=" + api.appKey
     var commisionsUrl = api.baseUrl + "/commissions.json?api_key="+ api.appKey;
  
@@ -38,19 +39,6 @@ $(function(){
         drawTypeControl: true,
         map: map  // 百度地图的map实例
     });
-
-    var data = []; 
-   
-    var layer = new Mapv.Layer({
-        mapv: mapv, // 对应的mapv实例
-        zIndex: -10, // 图层层级
-        paneName: 'mapPane',
-        dataType: 'point', // 数据类型，点类型
-        data: data, // 数据
-        drawType: 'density', // 展示形式
-        drawOptions: densityDrawOptions
-    });
-    layer.setMapv(null);
 
     $("#commission-modal").on("show.bs.modal",function(e){
       $("#area-tip").alert().addClass("hidden");
@@ -86,7 +74,7 @@ $(function(){
 
     $("#commission-save").click(function(){
       var data = {};
-      var atype = 0;
+      var atype = 1;
       var stationId = $("#station-id").val();
       var index = $("#ploygon-index").val();
       var ploygon = ploygons[index];
@@ -144,8 +132,8 @@ $(function(){
                             latitude: latitude,
                             longitude:longitude,
                             distance: distance,
-                            atype: atype,
                             code:code,
+                            atype:atype,
                             station_id:stationId,
                             commission_id: commissionId,
                             points:pos}
@@ -326,88 +314,7 @@ $(function(){
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
     
-    var jqXhr; 
-    $("#draw-test-btn").click(function(){
-      $("#choose-check-tip strong").text("");
-      $("#choose-density-modal").modal("show"); 
-    });
-    $("#cancel-density-btn").click(function(){
-      if(jqXhr){
-        jqXhr.abort();
-      }
-      $("#choose-density-modal").modal("hide"); 
-    });
-    $("#choose-density-btn").click(function(){
-      var startDateValue = $("#start-date-text").val();
-      var endDateValue = $("#end-date-text").val();
-      var displayChecked = $("#display-density-checkbox").is(':checked');
-      if(displayChecked){
-        layer.setMapv(mapv);
-        if(startDateValue){
-          $("#choose-density-btn").prop( "disabled", true );
-          $("#choose-density-btn").toggleClass("disabled");
-          $("#choose-density-btn i").toggleClass("hide");
-   
-          //var dataUrlBase = "http://10.3.23.247:8081/kettle/trans/ordersLntAndLat";
-          var dataUrlBase = $("#java-service-url").val();
-          //var dataUrlBase = "http://10.230.3.111:8080/price/ordersLntAndLat";
-          var city_name = cityName;
-          var express_company_name= stationName;
-          var start_date = startDateValue;
-          var year = start_date.split("-")[0];
-          var month = start_date.split("-")[1];
-          var end_date  = endDateValue;
-          var dataUrl = dataUrlBase + "/stations/"+stationId+"/orders?" + 
-            "year="+  year  + "&month=" + month
-           
-          // dataUrl  = "http://10.3.23.247:8080/kettle/runTrans";
-          jqXhr = $.ajax({
-            url: dataUrl 
-          }).done(function(result){
-               var optionStr = ""
-               console.log(result);
-               if(result.length == 0){
-                var opts = notify.failOpt("无数据！","暂无密度数据.请核对当前选择的时间.");
-                new PNotify(opts);
-                layer.setMapv(null);
-               }else{
-                //var jsonResult = JSON.parse(result)
-                layer.setData(result); 
-               }
- 
-                //var opts = notify.failOpt("出错了！",jsonResult.error);
-                   //---暂时修改禅道bug  查询数据不存在.请核对当前选择的时间.  此处应从接口处修改
-            }).fail(function(jqXHR,status){
-              console.log(status); 
-            }).always(function(){
-              $("#choose-density-btn" ).prop( "disabled", false );
-              if($("#choose-density-btn").hasClass("disabled")){
-                $("#choose-density-btn").removeClass("disabled");
-              }
-              $("#choose-density-btn i").toggleClass("hide");
-              $("#choose-density-modal").modal("hide"); 
-            });
-          
-        }else{
-          $("#choose-check-tip strong").text("请选择月份！");
-          $("#choose-check-tip").removeClass("hidden");
-        } 
-      }else{
-        layer.setMapv(null);
-        $("#choose-density-modal").modal("hide"); 
-        //  layer.setData([]); 
-      }
-    });
-
-    $('#start-date').datetimepicker({
-      format: 'YYYY-MM',
-      locale: 'zh-cn'
-    });
-    $('#end-date').datetimepicker({
-      format: 'YYYY-MM-DD',
-      locale: 'zh-cn'
-    });
-    /**
+   /**
     $("#start-date").on("dp.change", function (e) {
         $('#end-date').data("DateTimePicker").minDate(e.date);
     });

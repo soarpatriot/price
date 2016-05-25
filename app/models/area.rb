@@ -6,6 +6,12 @@ class Area < ActiveRecord::Base
   has_many :densities
   has_many :points, as: :pointable, dependent: :destroy
 
+  has_many :express_areas
+  has_many :expressmen, through: :express_areas
+
+  enum atype: [:commission,:delivery]
+
+
   def include_point? point 
     px = point[:lantitude] 
     py = point[:longitude] 
