@@ -83,7 +83,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 
-  gem 'capistrano', '3.2.1'
+  gem 'capistrano', '3.5.0'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rvm'
