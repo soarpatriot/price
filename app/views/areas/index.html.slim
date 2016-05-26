@@ -13,23 +13,25 @@
       .form-group.station-select-group
         = label_tag "站点："
         select id="station_id" class="form-control" name="station_id"
-    p
-      .form-group.station-select-group
-        = label_tag "创建时间："
-        #created-date-start.input-group.data
-          input id="created-start-text" name="created_start" type="text" class="form-control" value="#{params[:created_start]}"
-          span.input-group-addon
-            span.fa.fa-calendar
-        span ~
-        #created-date-end.input-group.data
-          input id="created-end-text" type="text" name="created_end" class="form-control" value="#{params[:created_end]}"
-          span.input-group-addon
-            span.fa.fa-calendar
+      //
+        p
+        .form-group.station-select-group
+          = label_tag "创建时间："
+          #created-date-start.input-group.data
+            input id="created-start-text" name="created_start" type="text" class="form-control" value="#{params[:created_start]}"
+            span.input-group-addon
+              span.fa.fa-calendar
+          span ~
+          #created-date-end.input-group.data
+            input id="created-end-text" type="text" name="created_end" class="form-control" value="#{params[:created_end]}"
+            span.input-group-addon
+              span.fa.fa-calendar
 
       button type="button" id="search-areas" class="btn btn-primary" 查询
       .btn-group
         button type="button" id="export-areas" class="btn btn-warning" 导出
-      .btn-group
+      //
+       .btn-group
         button type="button" id="export-areas-detail" class="btn btn-warning" 导出明细
 
 
@@ -47,8 +49,6 @@
         th 区域编号
         th 距站点距离
         th 区域面积
-        th 追加金额
-        th 创建时间 
         th 操作
     tbody
       - @areas.each do |area| 
@@ -62,9 +62,6 @@
           td 
             - unless area.mian.nil?
               | #{area.mian} 平方公里 
-          td = "#{area.commission.try(:price) || 0 }"
-          td = "#{area.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
-          td = "#{area.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
           td
             .btn-group
               = link_to  "编辑", edit_area_url(area), class:"btn btn-warning"

@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       get 'export'
       get 'export_detail'
     end
+    member do 
+      post 'expressmen'
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

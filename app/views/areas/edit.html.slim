@@ -1,8 +1,12 @@
 .row
   .col-xs-6.col-xs-offset-3
     .expressman-container
+      p.alert.alert-info
+        | 列表中没有找到相应配送员？ &nbsp;
+        = link_to  "更新配送员", expressmen_area_url(@area),method: :post, class:"btn btn-warning", id: "update-expressmen"
+        
       = simple_form_for @area do |f|
         = f.error_notification
-        = f.association :expressmen, require: true, collection: Expressman.all, label_method: :name, value_method: :id 
+        = f.association :expressmen, require: true, collection: @expressmen, label_method: :name, value_method: :id 
         = f.button :submit, '更新', class: "btn btn-primary"
 

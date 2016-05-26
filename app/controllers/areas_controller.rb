@@ -9,12 +9,48 @@ class AreasController < ApplicationController
       format.html
     end
   end
-  
+  def expressmen
+    @area = Area.find(params[:id])
+    result = pms_expressmen
+    result_hash = JSON.parse(result, {:symbolize_names => true})
+    code = result_hash[:code]
+    data = result_hash[:data]
+    if code.try(:to_i) == 200
+      data.each do | e | 
+        #h = Hash.new
+        ex = Expressman.where(id: e[:employeeId]).first
+        if ex.nil?
+          ex = Expressman.new 
+          ex.id = e[:employeeId]
+          ex.name = e[:employeename]
+          ex.mobile = e[:cellphone]
+        else
+          ex.id = e[:employeeId]
+          ex.name = e[:employeename]
+          ex.mobile = e[:cellphone]
+        end
+        ex.save
+        #logger.info "e :#{h[:id]}"
+        #e.delete(:employeeId)
+        #e.delete(:employeename)
+        #e.delete(:cellphone)
+      end 
+    end
+    redirect_to edit_area_url(@area)
+  end  
+  def pms_expressmen
+    pms_url = Settings.pms_base_url
+    role_id = 7
+    RestClient.get "#{pms_url}/role/#{role_id}/employees?id=#{role_id}"
+
+  end
   def edit 
     @area = Area.find(params[:id])
+    @expressmen = Expressman.all
   end 
   def update 
     @area = Area.find(params[:id])
+    
     if @area.update area_params
       redirect_to areas_url
     else
