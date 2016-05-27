@@ -73,8 +73,7 @@ class AreasController < ApplicationController
     station_id = params[:station_id]
     created_start = params[:created_start]
     created_end = params[:created_end]
-
-    @areas = Area.where(atype: atype) 
+    @areas = Area.all
     if station_id.blank?
       city = City.find(city_id) unless city_id.blank? 
       if city.nil?
@@ -87,6 +86,7 @@ class AreasController < ApplicationController
       @areas = @areas.where(station_id: station_id) 
     end
    
+    @areas = @areas.where(atype: atype) 
     @areas = @areas.where("areas.created_at >= ? ", created_start) unless created_start.blank?
     @areas = @areas.where("areas.created_at <= ? ", created_end) unless created_end.blank?
  
