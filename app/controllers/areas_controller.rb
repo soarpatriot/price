@@ -9,12 +9,13 @@ class AreasController < ApplicationController
       format.html
     end
   end
-  def expressmen
+  def get_expressmen station_id
     @area = Area.find(params[:id])
-    result = pms_expressmen
+    result = pms_expressmen station_id
     result_hash = JSON.parse(result, {:symbolize_names => true})
     code = result_hash[:code]
     data = result_hash[:data]
+    expressmen = []
     if code.try(:to_i) == 200
       data.each do | e | 
         #h = Hash.new
@@ -34,19 +35,20 @@ class AreasController < ApplicationController
         #e.delete(:employeeId)
         #e.delete(:employeename)
         #e.delete(:cellphone)
+        expressmen << ex
       end 
     end
-    redirect_to edit_area_url(@area)
+    expressmen
+    #redirect_to edit_area_url(@area)
   end  
-  def pms_expressmen
+  def pms_expressmen id
     pms_url = Settings.pms_base_url
-    role_id = 7
-    RestClient.get "#{pms_url}/role/#{role_id}/employees?id=#{role_id}"
+    RestClient.get "#{pms_url}/expresscompanys/#{id}/employees"
 
   end
   def edit 
     @area = Area.find(params[:id])
-    @expressmen = Expressman.all
+    @expressmen = get_expressmen @area.station_id 
   end 
   def update 
     @area = Area.find(params[:id])

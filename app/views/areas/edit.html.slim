@@ -1,7 +1,8 @@
 .row
   .col-xs-6.col-xs-offset-3
     .expressman-container
-      p.alert.alert-info
+      //
+       p.alert.alert-info
         | 列表中没有找到相应配送员？ &nbsp;
         = link_to  "更新配送员", expressmen_area_url(@area),method: :post, class:"btn btn-warning", id: "update-expressmen"
         
