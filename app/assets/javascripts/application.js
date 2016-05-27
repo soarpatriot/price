@@ -48,6 +48,7 @@
 
 //= require draw
 //= require station-areas
+//= require station-delivery
 //= require station-delivery-areas
 
 //= require district-select

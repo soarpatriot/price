@@ -1,6 +1,6 @@
 
 .content-wraper
-  = form_tag("/stations",method: :get, class:"form-inline",id: "station-form") do 
+  = form_tag("/stations/delivery",method: :get, class:"form-inline",id: "station-delivery-form") do 
     input type="hidden" value="#{params[:city_id]}" id="city_selected"
     .form-group.station-select-group
       = label_tag "省："
