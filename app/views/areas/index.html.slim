@@ -47,8 +47,11 @@
         th 站点名称 
         th 区域名称
         th 区域编号
-        th 距站点距离
-        th 区域面积
+        th 城市
+       
+        //
+          th 距站点距离
+          th 区域面积
         th 操作
     tbody
       - @areas.each do |area| 
@@ -56,10 +59,13 @@
           td = "#{area.station.try(:description)}" 
           td = "#{area.label}" 
           td = "#{area.code}" 
-          td 
+          th = "#{area.station.try(:stationable).try(:description)}" 
+          //
+           td 
             - unless area.distance.nil?
               | #{area.distance/1000} 千米 
-          td 
+          //
+           td 
             - unless area.mian.nil?
               | #{area.mian} 平方公里 
           td
