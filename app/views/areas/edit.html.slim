@@ -10,4 +10,6 @@
         = f.error_notification
         = f.association :expressmen, require: true, collection: @expressmen, label_method: :name, value_method: :id 
         = f.button :submit, '更新', class: "btn btn-primary"
+        span &nbsp;&nbsp;&nbsp;
+        = link_to '返回', areas_url, class: "btn btn-warning"
 
