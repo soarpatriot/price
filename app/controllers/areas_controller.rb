@@ -23,11 +23,13 @@ class AreasController < ApplicationController
         if ex.nil?
           ex = Expressman.new 
           ex.id = e[:employeeId]
+          ex.code = e[:employeecode]
           ex.name = e[:employeename]
           ex.mobile = e[:cellphone]
         else
           ex.id = e[:employeeId]
           ex.name = e[:employeename]
+          ex.code = e[:employeecode]
           ex.mobile = e[:cellphone]
         end
         ex.save
@@ -74,9 +76,12 @@ class AreasController < ApplicationController
     h = Hash.new 
     h = common_params h
     @area = Area.find(params[:id])
-    h[:city] = @area.station.try(:stationable).try(:description)
+    city_desc = @area.station.try(:stationable).try(:description)
+    h[:city] = city_desc 
     h[:work_station] = @area.station.try(:description)
-    h[:work_station_code] = @area.station.id
+    h[:work_station_code] = @area.code
+    h[:work_station_addr_city] = city_desc
+    h[:work_station_addr_detail] = @area.station.address
     h[:cp_code] = "K_RFD" 
     h[:company_name] = "如风达" 
     h[:oper_type] = 0
@@ -86,7 +91,6 @@ class AreasController < ApplicationController
       area_str_arr << "#{a.longitude},#{a.lantitude}" 
     end
     area_str = area_str_arr.join(";")
-
     @area.expressmen.each do |man| 
       h[:phone] = man.mobile
       h[:cp_user_id] = man.id
