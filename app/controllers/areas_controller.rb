@@ -50,9 +50,74 @@ class AreasController < ApplicationController
     @area = Area.find(params[:id])
     @expressmen = get_expressmen @area.station_id 
   end 
+
+  def sign_params h 
+    sign_str = ""
+    top_secret = Settings.top_secret
+    h.keys.sort.each do |k|
+      sign_str << "#{k}#{h[k]}"
+    end
+    sign_str = top_secret + sign_str + top_secret
+    Digest::MD5.hexdigest(sign_str)
+  end
+  def common_params h
+    h[:method] = Settings.top_method
+    h[:app_key] = Settings.top_key
+    h[:timestamp] = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
+    h[:format] = Settings.top_format
+    h[:v] = Settings.top_version
+    h[:sign_method] = Settings.top_sign_method
+    h 
+  end
+  
   def update 
+    h = Hash.new 
+    h = common_params h
     @area = Area.find(params[:id])
-    
+    h[:city] = @area.station.try(:stationable).try(:description)
+    h[:work_station] = @area.station.try(:description)
+    h[:work_station_code] = @area.station.id
+    h[:cp_code] = "K_RFD" 
+    h[:company_name] = "如风达" 
+    h[:oper_type] = 0
+     
+    area_str_arr = [] 
+    @area.points.each  do |a| 
+      area_str_arr << "#{a.longitude},#{a.lantitude}" 
+    end
+    area_str = area_str_arr.join(";")
+
+    @area.expressmen.each do |man| 
+      h[:phone] = man.mobile
+      h[:cp_user_id] = man.id
+      h[:employee_no] = man.code unless man.code.blank?
+      h[:name] = man.name
+      h[:oper_type] = 2
+      h.delete :sign
+      signed = sign_params h
+      h[:sign] = signed.upcase
+      resp = RestClient.post Settings.top_url, h
+      logger.info resp
+    end
+
+    @expressmen = Expressman.find(params[:area][:expressman_ids].reject(&:blank?)) 
+    @expressmen.each do |man|
+      h[:scope] = area_str 
+      h[:phone] = man.mobile
+      h[:cp_user_id] = man.id
+      h[:employee_no] = man.code unless man.code.blank?
+      h[:name] = man.name
+      h[:oper_type] = 0
+      h.delete :sign
+      signed = sign_params h
+      h[:sign] = signed.upcase
+      resp = RestClient.post Settings.top_url, h
+      logger.info resp
+    end
+
+
+    # resp = RestClient::Request.execute(method: :post,url: Settings.top_url,
+    #                            timeout: 10, payload:h )
     if @area.update area_params
       redirect_to areas_url
     else
