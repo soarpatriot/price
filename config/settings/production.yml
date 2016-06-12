@@ -1,3 +1,28 @@
-host: "http://localhost:3000"
+domain: "localhost"
+
+protocol: "http"
+host: "localhost"
 asset_host: "http://localhost:3000"
-paginate_per_page: 2
+api_base_url: "http://localhost:9000/v1"
+api_base_internal_url: "http://localhost:9000/v1"
+
+app_key: "1234567890"
+
+top_method: "cainiao.yima.postman.info.import"
+top_key: "1023382223"
+top_secret: "sandbox502e2ada6c273c09a615e6b30"
+top_url: "https://gw.api.tbsandbox.com/router/rest"
+top_sign_method: "md5"
+top_version: "2.0"
+top_format: "json"
+
+swagger_default_url: "http://api.cityhub.me/v1/swagger_doc"
+pms_base_url: "http://pms-service.wltest.com"
+
+java_service_url: "http://commission-services.wltest.com"
+syn_station_url: "http://commission-services.wltest.com/stations"
+
+redis_server: "localhost"
+redis_port: "6379"
+redis_db_num: 0
+redis_namespace: "sidekiq"

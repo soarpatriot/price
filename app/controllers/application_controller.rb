@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, prepend:true
   
+  before_action  :allow_iframe
   before_action :authorized!
   before_action :authenticate_login! 
-  after_action  :allow_iframe
 
   layout :layout_by_signin
 
@@ -57,7 +57,8 @@ class ApplicationController < ActionController::Base
     end
    
     def allow_iframe 
-      response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://login.wuliusys.com"
+      #response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://login.wuliusys.com"
+      response.headers["X-FRAME-OPTIONS"] = "GOFORIT"
     end
 
     def not_allowed

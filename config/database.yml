@@ -22,4 +22,4 @@ test:
 
 production:
   <<: *defaults
-  database: price_production
+  database: price_development
