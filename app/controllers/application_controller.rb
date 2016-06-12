@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
       end
     end
     def authorized!
-      cookie_value = !cookies[:LoginUserInfo] 
+      cookie_value = cookies[:LoginUserInfo] 
       origin_url = request.original_url
       logger.info "origin_url: #{origin_url}"
       if Rails.env.production?
