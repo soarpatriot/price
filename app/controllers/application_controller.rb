@@ -62,7 +62,8 @@ class ApplicationController < ActionController::Base
     end
 
     def not_allowed
-      render :status => 422, :format => [:html], :layout => false, file: "#{Rails.root}/public/422"
+      redirect_to "/422" 
+      #render :status => 422, :format => [:html], :layout => false, file: "#{Rails.root}/public/422"
       #respond_to do |format|
       #  format.html { render file: "#{Rails.root}/public/422", layout: false, status: 422 }
       #end
