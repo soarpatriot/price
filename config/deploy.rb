@@ -31,7 +31,7 @@ namespace :deploy do
       within current_path do
         unless test("[ -f #{fetch(:thin_pid)} ]")
           info ">>>>>> starting thin"
-          execute :bundle, "exec thin start -C #{fetch(:thin_config)}"
+          execute :bundle, "exec thin start -C #{fetch(:thin_config)} --threaded"
         else
           error ">>>>>> thin already started"
         end

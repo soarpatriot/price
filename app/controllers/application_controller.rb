@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
    
     def allow_iframe 
       #response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM https://login.wuliusys.com"
-      response.headers["X-FRAME-OPTIONS"] = "GOFORIT"
+      #response.headers["X-FRAME-OPTIONS"] = "GOFORIT"
     end
 
     def not_allowed
