@@ -61,9 +61,10 @@ class ApplicationController < ActionController::Base
     end
 
     def not_allowed
-      respond_to do |format|
-        format.html { render file: "#{Rails.root}/public/422", layout: false, status: :not_allowed }
-      end
+      render :status => 422, :format => [:html], :layout => false, file: "#{Rails.root}/public/422"
+      #respond_to do |format|
+      #  format.html { render file: "#{Rails.root}/public/422", layout: false, status: 422 }
+      #end
     end
 
 end
