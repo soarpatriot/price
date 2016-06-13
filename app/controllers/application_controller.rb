@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
    
     def allow_iframe 
       #response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM #{Settings.parent_frame}"
-      response.headers["Content-Security-Policy"] = "frame-ancestors 'self'  *.wltest.net"
+      response.headers["Content-Security-Policy"] = "frame-ancestors  *.wltest.com"
       #response.headers["X-FRAME-OPTIONS"] = "GOFORIT"
     end
 
