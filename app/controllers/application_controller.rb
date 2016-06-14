@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, prepend:true
   
   before_action  :allow_iframe
-  before_action :authorized!
+  #before_action :authorized!
   before_action :authenticate_login! 
 
   layout :layout_by_signin
@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
     end
    
     def allow_iframe 
-      #response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM #{Settings.parent_frame}"
+      response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM #{Settings.parent_frame}"
       response.headers["Content-Security-Policy"] = "frame-ancestors  #{Settings.parent_frame}"
       #response.headers["X-FRAME-OPTIONS"] = "GOFORIT"
     end
