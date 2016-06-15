@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, prepend:true
   
   before_action  :allow_iframe
-  #before_action :authorized!
+  before_action :authorized!
   before_action :authenticate_login! 
 
   layout :layout_by_signin
@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
         end
         code = re_pms origin_url, cookie_value
         logger.info "code: #{code}"
-        unless code == "200"
+        unless code == "200" or code == "4040"
           not_allowed 
         end
       end
