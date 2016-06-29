@@ -1,12 +1,16 @@
 
 $(function(){
   if( $("#stations-delivery").length > 0){
-   
+    $("#province_id").select2({ width: '100px' ,language:"zh-CN" ,theme:"bootstrap"}); 
+    $("#city_id").select2({ width: '100px' , language:"zh-CN",theme:"bootstrap" }); 
+
+
+
     $("#province_id").change(function(){
       $("#station-delivery-form").submit();
     });
     var provinceId =  $("#province_id").val();
-    console.log("province:"+provinceId);
+    //console.log("province:"+provinceId);
     if(provinceId){
 
       var cityUrl = api.baseUrl + "/provinces/" + provinceId + "/cities.json?api_key=" + api.appKey

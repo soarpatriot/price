@@ -24,7 +24,8 @@
 //= require moment 
 //= require bootstrap-datetimepicker
 //= require moment/zh-cn
-//= require select2
+//= require select2-full
+//= require select2_locale_zh-CN
 
 //= require pnotify.core
 //= require notify
@@ -51,6 +52,7 @@
 //= require station-delivery
 //= require station-delivery-areas
 
+//= require city-index
 //= require district-select
 //= require station-select
 

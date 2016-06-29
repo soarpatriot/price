@@ -3,7 +3,11 @@
 $(function(){
   if($("#areas-index").length > 0) {
 
-       
+    $("#province_id").select2({ width: '100px' ,language:"zh-CN" ,theme:"bootstrap"}); 
+    $("#city_id").select2({ width: '100px' , language:"zh-CN",theme:"bootstrap" }); 
+    $("#station_id").select2({ width: '150px' ,language: "zh-CN",theme:"bootstrap" }); 
+ 
+    
     var provinceId =  $("#province_id").val();
     var citySelected = $("#city_selected").val();
     var stationSelected = $("#station_selected").val();
@@ -71,7 +75,7 @@ $(function(){
       var cityOption = "";
       var citySelected = $("#city_selected").val();
       $.get(cityUrl,{id:provinceId},function(cities){
-         console.log("cities:"+ cities);
+         //console.log("cities:"+ cities);
          cityOption += '<option value=""></option>'; 
          $.each(cities,function(index,city){
            cityOption += '<option value="'+city.id+'">'+city.description+'</option>'; 
