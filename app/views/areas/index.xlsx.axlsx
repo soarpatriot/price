@@ -8,7 +8,7 @@ wb.add_worksheet(name: "stations") do |sheet|
     area_str = ""
     express_str = ""
     area.expressmen.each do |e|
-      express_str += "#{e.name}(#{e.mobile}),"
+      express_str += "#{e.name}(编号： #{e.code}, 手机号： #{e.mobile}),"
     end
     area.points.each  do |a| 
       area_str += "#{a.lantitude},#{a.longitude};" 
