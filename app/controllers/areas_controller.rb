@@ -101,6 +101,7 @@ class AreasController < ApplicationController
       signed = sign_params h
       h[:sign] = signed.upcase
       resp = RestClient.post Settings.top_url, h
+      logger.info h.to_json 
       logger.info resp
     end
 
@@ -115,6 +116,7 @@ class AreasController < ApplicationController
       h.delete :sign
       signed = sign_params h
       h[:sign] = signed.upcase
+      logger.info h.to_json 
       resp = RestClient.post Settings.top_url, h
       logger.info resp
     end
