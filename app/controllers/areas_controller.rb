@@ -131,7 +131,7 @@ class AreasController < ApplicationController
     end
   end
   def export
-    search_area Area.atypes[:delivery]   
+    search_delivery Area.atypes[:delivery]   
     render xlsx: "index"
   end 
 
@@ -139,6 +139,27 @@ class AreasController < ApplicationController
     search_area Area.atypes[:commission]   
     render xlsx: "detail"
   end  
+  def search_delivery atype
+    province_id = params[:province_id]
+    city_id = params[:city_id]
+    station_id = params[:station_id]
+    @areas = Area.all
+    if station_id.blank?
+      city = City.find(city_id) unless city_id.blank? 
+      if city.nil?
+        province = Province.find(province_id) unless province_id.blank? 
+        @areas = province.areas unless province.nil?
+      else
+        @areas = city.areas
+      end 
+    else
+      @areas = @areas.where(station_id: station_id) 
+    end
+   
+    @areas = @areas.where(atype: atype).joins(:station).includes(:expressmen).includes(:points)
+ 
+  end
+
 
   def search_area atype
     province_id = params[:province_id]

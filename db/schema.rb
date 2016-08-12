@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160525091559) do
+ActiveRecord::Schema.define(version: 20160812063440) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -137,6 +137,9 @@ ActiveRecord::Schema.define(version: 20160525091559) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "points", ["pointable_id"], name: "index_points_on_pointable_id", using: :btree
+  add_index "points", ["pointable_type"], name: "index_points_on_pointable_type", using: :btree
 
   create_table "provinces", force: true do |t|
     t.string   "description"
