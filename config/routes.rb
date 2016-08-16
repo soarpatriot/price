@@ -34,10 +34,13 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   resources :stations do 
     member do 
+      get 'syn_all'
       get 'area'
+      get 'expressmen'
       get 'delivery_area'
     end
     collection do 
+      get 'men'
       get 'export'
       get 'delivery'
     end

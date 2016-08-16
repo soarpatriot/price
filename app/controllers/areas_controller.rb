@@ -9,6 +9,8 @@ class AreasController < ApplicationController
       format.html
     end
   end
+
+
   def get_expressmen station_id
     @area = Area.find(params[:id])
     result = pms_expressmen station_id

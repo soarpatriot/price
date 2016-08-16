@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812063440) do
+ActiveRecord::Schema.define(version: 20160816091608) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 20160812063440) do
     t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "station_id"
+    t.integer  "etype",      default: 0
   end
 
   create_table "keys", force: true do |t|

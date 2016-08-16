@@ -1,0 +1,46 @@
+
+.content-wraper
+  //
+    = simple_form_for @station do |f|
+          = f.error_notification
+          = f.association :expressmen, require: true, collection: @station.expressmen, label_method: :name, value_method: :id 
+          = f.button :submit, '更新', class: "btn btn-primary"
+          span &nbsp;&nbsp;&nbsp;
+          = link_to '返回', areas_url, class: "btn btn-warning"
+
+  - @result.each do |r| 
+    p.alert.alert-info 
+      | id:#{r[:cp_user_id]}, 姓名：#{r[:name]}, code: #{r[:employee_no]}, 手机：#{r[:phone]}, 
+      - if r[:is_success] 
+        span.label.label-success = " 同步结果： #{r[:message]}"
+      - else
+        span.label.label-warning = " 同步结果： #{r[:message]}"
+  p
+    = link_to '同步全部', syn_all_station_url(@station), class: "btn btn-warning"
+  table.table 
+   tr 
+     th #ID 
+     th 编号
+     th 名字
+     th 手机号
+     th 状态
+   - @station.expressmen.each do |expressman| 
+     tr
+       td = "#{expressman.id}" 
+       td = "#{expressman.code}" 
+       td = "#{expressman.name}" 
+       td = "#{expressman.mobile}" 
+       td 
+        -  if expressman.syned?
+          span.label.label-success
+            | 已同步
+            span.badge #{station.areas.size}
+        - else 
+          span.label.label-danger 未同步
+       td 
+         .btn-group
+           //
+             = link_to  "编辑", edit_station_url(station), class:"btn btn-warning"
+             = link_to  "编辑站点区域", area_station_url(station), class:"btn btn-primary"
+
+
