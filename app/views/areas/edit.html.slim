@@ -1,15 +1,25 @@
 .content-wraper
   .row
-    .col-xs-6.col-xs-offset-3
+    .col-xs-6
       .expressman-container
         //
          p.alert.alert-info
           | 列表中没有找到相应配送员？ &nbsp;
           = link_to  "更新配送员", expressmen_area_url(@area),method: :post, class:"btn btn-warning", id: "update-expressmen"
           
-        = simple_form_for @area do |f|
+        = form_tag( area_url(@area), method: :put ,id: "area-info-form") do 
+          input type="hidden" value="#{params[:station_id]}" id="station_selected"
+          p
+            .form-group.man-select-group
+              = label_tag "选择要同步的配送员："
+              = select_tag "man_ids", options_from_collection_for_select(@station_expressmen, "id","name",params[:id]), class: "form-control", multiple: true
+          button type="submit" id="search-areas" class="btn btn-primary" 同步
+          | &nbsp;&nbsp;&nbsp;
+          = link_to '返回', areas_url, class: "btn btn-warning"
+        // 
+          = simple_form_for @area do |f|
           = f.error_notification
-          = f.association :expressmen, require: true, collection: @expressmen, label_method: :name, value_method: :id 
+          = f.input :expressman, require: true, collection: @station_expressmen, label_method: :name, value_method: :id 
           = f.button :submit, '更新', class: "btn btn-primary"
           span &nbsp;&nbsp;&nbsp;
           = link_to '返回', areas_url, class: "btn btn-warning"
@@ -26,6 +36,9 @@
       button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse_search_#{i}" aria-expanded="false" aria-controls="collapseExample" 详情
       div class="collapse" id="collapse_search_#{i}"
         .well #{r.inspect} 
+  - if @result.size > 0 
+    p 更新结果
+ 
   - @result.each_with_index do |r,i| 
     div.alert.alert-info 
       | id:#{r[:cp_user_id]}, 姓名：#{r[:name]}, code: #{r[:employee_no]}, 手机：#{r[:phone]}, 

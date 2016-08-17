@@ -54,12 +54,13 @@ class AreasController < ApplicationController
     @search_result = []
     @result = []
     @area = Area.find(params[:id])
-    @expressmen = get_expressmen @area.station_id 
+    @station_expressmen = get_expressmen @area.station_id 
   end 
 
  
   def update 
     @area = Area.find(params[:id])
+    @station_expressmen = get_expressmen @area.station_id 
     area_str_arr = [] 
     @area.points.each  do |a| 
       area_str_arr << "#{a.longitude},#{a.lantitude}" 
@@ -68,7 +69,9 @@ class AreasController < ApplicationController
 
     @result = [] 
     @search_result = []
-    @expressmen = Expressman.find(params[:area][:expressman_ids].reject(&:blank?)) 
+    ids = params[:man_ids].split(",")
+    @expressmen = Expressman.find(ids) 
+    # @expressmen = Expressman.find(params[:man_ids].reject(&:blank?)) 
     @expressmen.each do |man|
        exist_result= is_exist_in_guoguo man.id        
        exist_result = add_man_extra exist_result, man
@@ -94,6 +97,17 @@ class AreasController < ApplicationController
          logger.info h.to_json 
          
          h = save_or_update_to_guoguo h
+         if h[:success_response] 
+           if h[:success_response][:is_success]
+             ea = man.express_areas.where(expressman_id: man.id).first
+             unless ea 
+               man.areas << @area
+             end 
+             man.syned!
+             man.save
+           end
+
+         end
          @result << h 
        end
     end
@@ -101,7 +115,6 @@ class AreasController < ApplicationController
 
     # resp = RestClient::Request.execute(method: :post,url: Settings.top_url,
     #                            timeout: 10, payload:h )
-    @area.update area_params
     render "edit"
   end
   def export
