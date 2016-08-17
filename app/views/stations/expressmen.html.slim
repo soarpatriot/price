@@ -7,14 +7,44 @@
           = f.button :submit, '更新', class: "btn btn-primary"
           span &nbsp;&nbsp;&nbsp;
           = link_to '返回', areas_url, class: "btn btn-warning"
-
-  - @result.each do |r| 
-    p.alert.alert-info 
+  - if @search_result.size > 0 
+    p 查询结果
+  - @search_result.each_with_index do |r, i|
+    div.alert.alert-warning 
+      | #{man_basic(r)}
+      - if r[:is_error]   || r[:error_response] || r[:result][:is_success] == false 
+        span.label.label-danger 查询失败
+      - else 
+        span.label.label-success 查询成功
+      | &nbsp;&nbsp;&nbsp;
+      button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse_search_#{i}" aria-expanded="false" aria-controls="collapseExample" 详情
+      div class="collapse" id="collapse_search_#{i}"
+        .well #{r.inspect} 
+  - @result.each_with_index do |r,i| 
+    div.alert.alert-info 
       | id:#{r[:cp_user_id]}, 姓名：#{r[:name]}, code: #{r[:employee_no]}, 手机：#{r[:phone]}, 
-      - if r[:is_success] 
-        span.label.label-success = " 同步结果： #{r[:message]}"
-      - else
-        span.label.label-warning = " 同步结果： #{r[:message]}"
+      - if r[:oper_type] == 0
+        span.badge 新增 
+      - if r[:oper_type] == 1
+        span.badge 修改 
+      - if r[:oper_type] == 2
+        span.badge 删除
+      - if r[:success_response] 
+        - if r[:success_response][:is_success] 
+          span.label.label-success = " 同步结果： #{r[:message]}"
+        - else
+          span.label.label-warning = " 同步结果： #{r[:message]}"
+      - if r[:error_response]
+          span.label.label-danger = " 同步结果： #{r[:message]}"
+          span.lable.label-warning = "#{guoguo_error(r)}"
+      - if r[:is_success] == false
+          span.label.label-success = " 同步结果： #{r[:message]}"
+     
+      | &nbsp;&nbsp;&nbsp;
+      button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse_syn_#{i}" aria-expanded="false" aria-controls="collapseExample" 详情
+      div class="collapse" id="collapse_syn_#{i}"
+        .well #{r.inspect} 
+ 
   p
     = link_to '同步全部', syn_all_station_url(@station), class: "btn btn-warning"
   table.table 
@@ -34,7 +64,6 @@
         -  if expressman.syned?
           span.label.label-success
             | 已同步
-            span.badge #{station.areas.size}
         - else 
           span.label.label-danger 未同步
        td 

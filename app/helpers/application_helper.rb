@@ -56,4 +56,15 @@ module ApplicationHelper
   def auth 
 
   end
+ 
+  def man_basic r 
+    "id:#{r[:cp_user_id]}, 姓名：#{r[:name]}, code: #{r[:employee_no]}, 手机：#{r[:phone]}, "
+  end 
+  def guoguo_error r
+    
+          "code: #{r[:error_response][:code]}, msg: #{r[:error_response][:msg]}, 
+          subcode: #{r[:error_response][:subcode]}, 
+          submsg: #{r[:error_response][:submsg]}, 
+          requestid: #{r[:error_response][:request_id]}"
+  end
 end

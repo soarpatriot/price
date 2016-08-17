@@ -51,86 +51,58 @@ class AreasController < ApplicationController
 
   end
   def edit 
+    @search_result = []
+    @result = []
     @area = Area.find(params[:id])
     @expressmen = get_expressmen @area.station_id 
   end 
 
-  def sign_params h 
-    sign_str = ""
-    top_secret = Settings.top_secret
-    h.keys.sort.each do |k|
-      sign_str << "#{k}#{h[k]}"
-    end
-    sign_str = top_secret + sign_str + top_secret
-    Digest::MD5.hexdigest(sign_str)
-  end
-  def common_params h
-    h[:method] = Settings.top_method
-    h[:app_key] = Settings.top_key
-    h[:timestamp] = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
-    h[:format] = Settings.top_format
-    h[:v] = Settings.top_version
-    h[:sign_method] = Settings.top_sign_method
-    h 
-  end
-  
+ 
   def update 
-    h = Hash.new 
-    h = common_params h
     @area = Area.find(params[:id])
-    city_desc = @area.station.try(:stationable).try(:description)
-    h[:city] = city_desc 
-    h[:work_station] = @area.station.try(:description)
-    h[:work_station_code] = @area.code
-    h[:work_station_addr_city] = city_desc
-    h[:work_station_addr_detail] = @area.station.address
-    h[:cp_code] = "K_RFD" 
-    h[:company_name] = "如风达" 
-    h[:oper_type] = 0
-     
     area_str_arr = [] 
     @area.points.each  do |a| 
       area_str_arr << "#{a.longitude},#{a.lantitude}" 
     end
     area_str = area_str_arr.join(";")
-    @area.expressmen.each do |man| 
-      h[:phone] = man.mobile
-      h[:cp_user_id] = man.id
-      h[:employee_no] = man.code unless man.code.blank?
-      h[:name] = man.name
-      h[:oper_type] = 2
-      h.delete :sign
-      signed = sign_params h
-      h[:sign] = signed.upcase
-      resp = RestClient.post Settings.top_url, h
-      logger.info h.to_json 
-      logger.info resp
-    end
 
+    @result = [] 
+    @search_result = []
     @expressmen = Expressman.find(params[:area][:expressman_ids].reject(&:blank?)) 
     @expressmen.each do |man|
-      h[:scope] = area_str 
-      h[:phone] = man.mobile
-      h[:cp_user_id] = man.id
-      h[:employee_no] = man.code unless man.code.blank?
-      h[:name] = man.name
-      h[:oper_type] = 0
-      h.delete :sign
-      signed = sign_params h
-      h[:sign] = signed.upcase
-      logger.info h.to_json 
-      resp = RestClient.post Settings.top_url, h
-      logger.info resp
+       exist_result= is_exist_in_guoguo man.id        
+       exist_result = add_man_extra exist_result, man
+       @search_result << exist_result
+       unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
+
+         h = basic_params @area     
+         man_exist = exist_result[:result][:data]
+         if man_exist 
+          man.syned!
+          h[:oper_type] = 1
+         else
+          h[:oper_type] = 0
+         end
+         h[:scope] = area_str 
+         h[:phone] = man.mobile
+         h[:cp_user_id] = man.id
+         h[:employee_no] = man.code unless man.code.blank?
+         h[:name] = man.name
+         h.delete :sign
+         signed = sign_params h
+         h[:sign] = signed.upcase
+         logger.info h.to_json 
+         
+         h = save_or_update_to_guoguo h
+         @result << h 
+       end
     end
 
 
     # resp = RestClient::Request.execute(method: :post,url: Settings.top_url,
     #                            timeout: 10, payload:h )
-    if @area.update area_params
-      redirect_to areas_url
-    else
-      render "edit"
-    end
+    @area.update area_params
+    render "edit"
   end
   def export
     search_delivery Area.atypes[:delivery]   
@@ -191,5 +163,19 @@ class AreasController < ApplicationController
   def area_params
     params.require(:area).permit(:name, :mobile,:id, :code, :expressman_ids=>[])
   end
-
+  def basic_params area
+    h = Hash.new 
+    h = common_params h
+    city_desc = area.station.try(:stationable).try(:description)
+    h[:city] = city_desc 
+    h[:work_station] = area.station.try(:description)
+    h[:work_station_code] = area.code
+    h[:work_station_addr_city] = city_desc
+    h[:work_station_addr_detail] = area.station.address
+    h[:cp_code] = "K_RFD" 
+    h[:company_name] = "如风达" 
+    
+    h 
+ 
+  end
 end

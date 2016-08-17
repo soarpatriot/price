@@ -70,5 +70,92 @@ class ApplicationController < ActionController::Base
       #  format.html { render file: "#{Rails.root}/public/422", layout: false, status: 422 }
       #end
     end
+    
 
+
+
+
+  #guoguo interface
+  def is_exist_in_guoguo user_id
+    h = Hash.new
+    h = common_params h
+    h[:cp_code] = "K_RFD" 
+    h[:cp_user_id] = user_id
+    h[:method]  = Settings.top_search_man_method
+    h.delete :sign
+    signed = sign_params h
+    h[:sign] = signed.upcase
+ 
+    begin  
+      resp = RestClient.post Settings.top_url, h
+      result_hash = JSON.parse(resp, {:symbolize_names => true})
+      logger.info result_hash 
+      result = result_hash[:cainiao_yima_postmaninfo_is_insert_response]
+      error_result = result_hash[:error_response]
+      h[:result] = result
+      h[:error_response] = error_result
+    rescue Exception => e
+          h[:is_error] = true
+          h[:message] = "果果server 错误，查询失败!"
+          logger.info  "exception e:  #{e}"
+    end
+    h 
+  end 
+
+  def save_or_update_to_guoguo h
+    begin  
+      resp = RestClient.post Settings.top_url, h
+      result_hash = JSON.parse(resp, {:symbolize_names => true})
+      logger.info result_hash 
+      success_response = result_hash[:cainiao_yima_postman_info_import_response]
+      error_response = result_hash[:error_response]
+      if success_response 
+        h[:success_response] = success_response
+        if success_response[:is_success]
+          h[:message] = "已同步成功!"
+        else 
+          h[:message] = "同步失败!"
+        end
+      end
+
+      if error_response
+        h[:error_response] = error_response
+        h[:message] = "同步失败!"
+      end 
+
+    rescue Exception => e
+      h[:is_success] = false
+      h[:message] = "果果server 错误，同步失败!"
+      logger.info  "exception e:  #{e}"
+    end 
+    h
+  end
+
+  def add_man_extra h, man
+    h[:phone] = man.mobile
+    h[:cp_user_id] = man.id
+    h[:employee_no] = man.code unless man.code.blank?
+    h[:name] = man.name
+    h
+  end
+
+  def sign_params h 
+    sign_str = ""
+    top_secret = Settings.top_secret
+    h.keys.sort.each do |k|
+      sign_str << "#{k}#{h[k]}"
+    end
+    sign_str = top_secret + sign_str + top_secret
+    Digest::MD5.hexdigest(sign_str)
+  end
+  def common_params h
+    h[:method] = Settings.top_method
+    h[:app_key] = Settings.top_key
+    h[:timestamp] = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
+    h[:format] = Settings.top_format
+    h[:v] = Settings.top_version
+    h[:sign_method] = Settings.top_sign_method
+    h 
+  end
+ 
 end
