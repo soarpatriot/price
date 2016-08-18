@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816091608) do
+ActiveRecord::Schema.define(version: 20160818023418) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20160816091608) do
     t.datetime "updated_at"
     t.integer  "stationable_id"
     t.string   "stationable_type"
+    t.integer  "stype",                       default: 0
   end
 
   add_index "stations", ["description"], name: "index_stations_on_description", using: :btree

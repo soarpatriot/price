@@ -10,4 +10,5 @@ class Station < ActiveRecord::Base
   has_many :densities, through: :areas
   belongs_to :stationable, polymorphic: true
   
+  enum stype: [:normal,:imported]
 end

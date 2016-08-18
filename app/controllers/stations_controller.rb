@@ -7,7 +7,7 @@ class StationsController < ApplicationController
    end
 
    def men 
-    search_station
+    search_imported_station
    end 
    
    def syn_all
@@ -66,7 +66,24 @@ class StationsController < ApplicationController
      end
  
    end
-   
+   def search_imported_station
+     @station = Station.new
+     province_id = params[:province_id]
+     city_id = params[:city_id]
+
+     @stations = Station.imported 
+     if province_id.blank?
+       params[:city_id] = ""
+       @stations = @stations.page params[:page] 
+     else 
+       if city_id.blank?
+         @stations = Province.find(province_id).stations.imported.page params[:page]  
+       else
+         @stations = City.find(city_id).stations.imported.page params[:page] 
+       end 
+     end
+ 
+   end 
    def edit 
    end 
 
