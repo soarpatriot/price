@@ -11,4 +11,6 @@ class Station < ActiveRecord::Base
   belongs_to :stationable, polymorphic: true
   
   enum stype: [:normal,:imported]
+  
+  scope :imported, -> {where stype: Station.stypes[:imported]}
 end
