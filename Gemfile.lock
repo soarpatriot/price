@@ -340,6 +340,9 @@ GEM
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
     ruby-ole (1.2.11.8)
+    rubyXL (3.1.0)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.0.0)
     rubyzip (1.1.0)
     safe_yaml (1.0.4)
     sass (3.4.19)
@@ -496,6 +499,7 @@ DEPENDENCIES
   rails (= 4.1.13)
   rest-client
   rspec-rails
+  rubyXL
   rubyzip (= 1.1.0)
   sass-rails (~> 5.0.1)
   select2-rails

@@ -1,15 +1,59 @@
 class StationsController < ApplicationController
 
-   before_action :set_station, only: [:update,:edit,:area,:delivery_area,:express,:destroy, :expressmen,:syn_all]
+   before_action :set_station, only: [:update,:edit,:area,:delivery_area,:express,:destroy, :expressmen,:syn_all,:man, :selected_man]
 
    def index
     search_station
    end
-
+   
+  
    def men 
     search_imported_station
    end 
    
+   def selected_man
+    @result = [] 
+    @search_result = []
+    ids = params[:man_ids].split(",")
+    @expressmen = Expressman.find(ids) 
+    # @expressmen = Expressman.find(params[:man_ids].reject(&:blank?)) 
+    @expressmen.each do |man|
+       exist_result= is_exist_in_guoguo man.id        
+       exist_result = add_man_extra exist_result, man
+       @search_result << exist_result
+       unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
+         h = basic_params_station @station
+         man_exist = exist_result[:result][:data]
+         if man_exist 
+          man.syned!
+          h[:oper_type] = 1
+         else
+          man.no_syn
+          h[:oper_type] = 0
+         end
+         h[:phone] = man.mobile
+         h[:cp_user_id] = man.id
+         h[:employee_no] = man.code unless man.code.blank?
+         h[:name] = man.name
+         h.delete :sign
+         signed = sign_params h
+         h[:sign] = signed.upcase
+         logger.info h.to_json 
+         
+         h = save_or_update_to_guoguo h
+         if h[:success_response] 
+           if h[:success_response][:is_success]
+             man.syned!
+           end
+
+         end
+         @result << h 
+       end
+    end
+
+    render "expressmen"
+
+   end  
    def syn_all
      @result = [] 
      @search_result = []
@@ -35,7 +79,13 @@ class StationsController < ApplicationController
          h[:sign] = signed.upcase
          logger.info h.to_json 
         
-        h = save_or_update_to_guoguo h
+         h = save_or_update_to_guoguo h
+         if h[:success_response] 
+           if h[:success_response][:is_success]
+             man.syned!
+           end
+         end
+ 
         @result << h 
        
        end
@@ -169,5 +219,40 @@ class StationsController < ApplicationController
     h[:company_name] = "如风达" 
     h
 
+   end
+
+   def man 
+     @result = [] 
+     @search_result = []
+     man = Expressman.find(params[:expressman_id])
+     exist_result= is_exist_in_guoguo man.id        
+     exist_result = add_man_extra exist_result, man
+     @search_result << exist_result
+     unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
+       h = basic_params_station @station
+       man_exist = exist_result[:result][:data]
+       if man_exist 
+         man.no_syn!
+         h[:oper_type] = 2
+         h[:phone] = man.mobile
+         h[:cp_user_id] = man.id
+         h[:employee_no] = man.code unless man.code.blank?
+         h[:name] = man.name
+         h.delete :sign
+         signed = sign_params h
+         h[:sign] = signed.upcase
+         logger.info h.to_json 
+        
+         h = save_or_update_to_guoguo h
+         if h[:success_response] 
+           if h[:success_response][:is_success]
+             man.no_syn!
+           end
+         end
+ 
+       end
+       @result << h 
+    end  
+    render "expressmen"
    end
 end

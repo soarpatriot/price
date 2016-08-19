@@ -1,0 +1,43 @@
+- if @search_result.size > 0 
+  p 查询结果
+- @search_result.each_with_index do |r, i|
+  div.alert.alert-warning 
+    | #{man_basic(r)}
+    - if r[:is_error]   || r[:error_response] || r[:result][:is_success] == false 
+      
+      span.label.label-danger 查询失败
+    - else 
+      - if r[:result][:data]  
+        span.label.label-danger 配送员已存在果果系统
+      - else 
+        span.label.label-info 配送员信息未在果果系统查询到
+    | &nbsp;&nbsp;&nbsp;
+    button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse_search_#{i}" aria-expanded="false" aria-controls="collapseExample" 详情
+    div class="collapse" id="collapse_search_#{i}"
+      .well #{r.inspect} 
+- @result.each_with_index do |r,i| 
+  div.alert.alert-info 
+    | id:#{r[:cp_user_id]}, 姓名：#{r[:name]}, code: #{r[:employee_no]}, 手机：#{r[:phone]}, 
+    - if r[:oper_type] == 0
+      span.badge 新增 
+    - if r[:oper_type] == 1
+      span.badge 修改 
+    - if r[:oper_type] == 2
+      span.badge 删除
+    - if r[:success_response] 
+      - if r[:success_response][:is_success] 
+        span.label.label-success = " 同步结果： #{r[:message]}"
+      - else
+        span.label.label-warning = " 同步结果： #{r[:message]}"
+    - if r[:error_response]
+        span.label.label-danger = " 同步结果： #{r[:message]}"
+        span.lable.label-warning = "#{guoguo_error(r)}"
+    - if r[:is_success] == false
+        span.label.label-success = " 同步结果： #{r[:message]}"
+   
+    | &nbsp;&nbsp;&nbsp;
+    button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapse_syn_#{i}" aria-expanded="false" aria-controls="collapseExample" 详情
+    div class="collapse" id="collapse_syn_#{i}"
+      .well #{r.inspect} 
+
+

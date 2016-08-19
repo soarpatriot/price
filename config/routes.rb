@@ -32,12 +32,23 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
+  resources :expressmen do 
+    collection do 
+      post 'imports'
+      put 'guoguo'
+      get 'exports'
+    end
+  
+  end
+
   resources :stations do 
     member do 
       get 'syn_all'
       get 'area'
       get 'expressmen'
       get 'delivery_area'
+      put 'selected_man'
+      delete 'man'
     end
     collection do 
       get 'men'

@@ -8,6 +8,9 @@ ul.nav.nav-sidebar
    = link_to "配送员区域", delivery_stations_url
  li class="#{(params[:controller].end_with?('stations') and params[:action].end_with?('men'))? 'active':''}"
    = link_to "站点配送员", men_stations_url
+
+ li class="#{(params[:controller].end_with?('expressmen') and params[:action].end_with?('index'))? 'active':''}"
+   = link_to "导入配送员", expressmen_url
  
  li class="#{params[:controller].end_with?('commissions')? 'active':''}"
    = link_to "区域定价", commissions_url

@@ -1,0 +1,10 @@
+
+.content-wraper
+  
+  = link_to '返回导入', expressmen_url, class:"btn btn-info"
+  p
+  - if @result.size == 0 
+    .alert.alert-warning 
+      | 暂无需要导入的配送员
+  = render "shared/syn_result" 
+
