@@ -100,7 +100,8 @@ class AreasController < ApplicationController
          if h[:success_response] 
            if h[:success_response][:is_success]
              ea = man.express_areas.where(expressman_id: man.id).first
-             unless ea 
+             logger.info "area is nil? #{ea.nil?}"  
+             if ea.nil? 
                man.areas << @area
              end 
              man.syned!
