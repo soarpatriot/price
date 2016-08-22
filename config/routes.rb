@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       get 'expressmen'
       get 'delivery_area'
       put 'selected_man'
+      get 'edit_expressman'
+      patch 'update_expressman'
       delete 'man'
     end
     collection do 

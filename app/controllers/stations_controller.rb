@@ -6,7 +6,20 @@ class StationsController < ApplicationController
     search_station
    end
    
-  
+   def edit_expressman 
+    man_id = params[:expressman_id]
+    @expressman = Expressman.find(man_id)
+    
+   end
+   def update_expressman 
+    @expressman = Expressman.find(params[:expressman_id])
+    if @expressman.update(expressman_params)
+      redirect_to expressmen_station_url(@expressman.station)
+    else
+      render :edit_expressman
+    end
+ 
+   end
    def men 
     search_imported_station
    end 
@@ -255,4 +268,10 @@ class StationsController < ApplicationController
     end  
     render "expressmen"
    end
+
+   private
+    def expressman_params
+      params.require(:expressman).permit(:name, :code, :mobile)
+    end
+
 end

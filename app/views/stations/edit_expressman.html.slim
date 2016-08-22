@@ -1,0 +1,11 @@
+
+.content-wraper
+  = simple_form_for @expressman, url: update_expressman_station_url(expressman_id: @expressman.id) do |f|
+    = f.error_notification
+    //
+      = f.association :stationable, require: true, collection: City.all, label_method: :description, value_method: :id 
+    = f.input :name
+    = f.input :code
+    = f.input :mobile 
+    = f.button :submit, '更新', class: "btn btn-primary"
+
