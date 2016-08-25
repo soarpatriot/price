@@ -34,6 +34,7 @@
        th 名字
        th 手机号
        th 状态
+       th 操作
      - @area.expressmen.each do |expressman| 
        tr
          td = "#{expressman.id}" 
@@ -46,4 +47,5 @@
               | 已同步
           - else 
             span.label.label-danger 未同步
-   
+         td 
+          = link_to '同步删除到裹裹', man_area_url(id: @area.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete

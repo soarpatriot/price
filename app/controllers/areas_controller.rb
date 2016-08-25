@@ -192,4 +192,42 @@ class AreasController < ApplicationController
     h 
  
   end
+
+  def man 
+     @area = Area.find(params[:id])
+     @station_expressmen = get_expressmen @area.station_id 
+     @result = [] 
+     @search_result = []
+     man = Expressman.find(params[:expressman_id])
+     exist_result= is_exist_in_guoguo man.id        
+     exist_result = add_man_extra exist_result, man
+     @search_result << exist_result
+     unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
+       h = basic_params @area
+       man_exist = exist_result[:result][:data]
+       if man_exist 
+         man.no_syn!
+         h[:oper_type] = 2
+         h[:phone] = man.mobile
+         h[:cp_user_id] = man.id
+         h[:employee_no] = man.code unless man.code.blank?
+         h[:name] = man.name
+         h.delete :sign
+         signed = sign_params h
+         h[:sign] = signed.upcase
+         logger.info h.to_json 
+        
+         h = save_or_update_to_guoguo h
+         if h[:success_response] 
+           if h[:success_response][:is_success]
+             man.no_syn!
+           end
+         end
+ 
+       end
+       @result << h 
+    end  
+    render "edit"
+   end
+
 end

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
     member do 
       post 'expressmen'
+      delete 'man'
     end
   end
 
