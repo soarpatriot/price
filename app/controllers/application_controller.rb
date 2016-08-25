@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
    
       end
     end
-     
+    def current_user_hash 
+      cookie_value = cookies[:LoginUserInfo]
+      user_info cookie_value
+      
+    end 
     def authenticate_login!
       # cookies[:LoginUserInfo] = "aaa"
       if cookies[:LoginUserInfo].nil?
@@ -103,6 +107,7 @@ class ApplicationController < ActionController::Base
   end 
 
   def save_or_update_to_guoguo h
+    log_guoguo_opt h
     begin  
       resp = RestClient.post Settings.top_url, h
       result_hash = JSON.parse(resp, {:symbolize_names => true})
@@ -157,5 +162,33 @@ class ApplicationController < ActionController::Base
     h[:sign_method] = Settings.top_sign_method
     h 
   end
- 
+
+  def user_info cookie_value
+      unless cookie_value.nil?
+        price_url = Settings.java_service_url
+        begin 
+          url = "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user = RestClient::Request.execute(method: :get, url: url,
+                   timeout: 3, open_timeout: 2)
+          #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user_hash = JSON.parse user, symbolize_names: true 
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+  
+        user_hash
+        
+      end
+  end
+  def log_guoguo_opt h 
+    user_hash = current_user_hash
+
+    unless user_hash.nil?  
+      logger.info "user id: #{user[:id]}, user name: #{user[:name]}, user code: #{user[:code]}"
+      GuoGuoLog.create user_id: user[:id], user_name: user[:name], 
+        user_code: user[:code], 
+        expressman_id: h[:cp_user_id], gtype: h[:oper_type]
+    end
+   
+  end 
 end
