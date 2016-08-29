@@ -41,8 +41,9 @@
         - else 
           span.label.label-danger 未同步
        td 
+        .btn-group
           = link_to '修改配送员信息', edit_expressman_station_url(id: @station.id, expressman_id: expressman.id),class:"btn btn-warning"
-          = link_to '同步删除到果果', man_station_url(id: @station.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete
+          = link_to '同步删除到裹裹', man_station_url(id: @station.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete
            //
              = link_to  "编辑", edit_station_url(station), class:"btn btn-warning"
              = link_to  "编辑站点区域", area_station_url(station), class:"btn btn-primary"

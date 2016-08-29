@@ -13,10 +13,19 @@ class StationsController < ApplicationController
    end
    def update_expressman 
     @expressman = Expressman.find(params[:expressman_id])
+
     if @expressman.update(expressman_params)
-      redirect_to expressmen_station_url(@expressman.station)
+      @result = [] 
+      @search_result = []
+      man = @expressman
+      exist_result= is_exist_in_guoguo man.id        
+      exist_result = add_man_extra exist_result, man
+      @search_result << exist_result
+      h = syn_one_man(exist_result, man) 
+      @result << h 
+      render :show_expressman
     else
-      render :edit_expressman
+      render :show_expressman
     end
  
    end
@@ -273,5 +282,36 @@ class StationsController < ApplicationController
     def expressman_params
       params.require(:expressman).permit(:name, :code, :mobile)
     end
+  def syn_one_man exist_result,man  
+    unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
+       
+      h = basic_params_station man.station
+      man_exist = exist_result[:result][:data]
+      if man_exist 
+        man.syned!
+        h[:oper_type] = 1
+      else
+        man.no_syn!
+        h[:oper_type] = 0
+      end
+      h[:phone] = man.mobile
+      h[:cp_user_id] = man.id
+      h[:employee_no] = man.code unless man.code.blank?
+      h[:name] = man.name
+      h.delete :sign
+      signed = sign_params h
+      h[:sign] = signed.upcase
+      logger.info h.to_json 
+      
+      h = save_or_update_to_guoguo h
+      if h[:success_response] 
+        if h[:success_response][:is_success]
+          man.syned!
+        end
+      end
 
+      h 
+    end  
+ 
+  end
 end
