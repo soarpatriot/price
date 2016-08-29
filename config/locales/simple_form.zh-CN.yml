@@ -23,6 +23,10 @@ zh-CN:
         longitude: '纬度'
         edit: 
           sumbit: '站点'
+      expressman: 
+        name: "名字"
+        code: "编码"
+        mobile: "手机号"
       commission:
         name: '名称'
         price: '提成'

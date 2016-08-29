@@ -2,46 +2,12 @@ zh-CN:
   activerecord:
       models:
         user: "用户"
-        information: "信息"
-        shop: "商店"
-        activity: "商品促销"
-        post: "闲置"
         city: "市"
         area: "区域"
+        expressman: "配送员"
       attributes:
         city: 
            province: "省，直辖市"
-        shop:
-           title: "商店名称"
-           description: "经营描述"
-           image: "店铺照片"
-           contact: "联系人"
-           phone: "电话"
-           address: "地址"
-        activity:
-           title: "促销或商品"
-           description: "描述"
-           image: "照片"
-           price: "价格"
-        user:
-          name: "用户名"
-          avatar: "头像"
-          email: "邮箱"
-          password: "密码"
-          password_confirmation:  "确认密码"
-        information:
-          title: "标题"
-          category: "类别"
-          price: "价格"
-          description: "详细描述"
-          image: "图片"
-          publish: "发布"
-          contact: "联系人"
-          qq: "QQ"
-          mobile_number: "手机号码"
-          weixin: "微信"
-        post:
-          description: "描述"
         area:
           expressmen: "关联配送员"
       errors:
