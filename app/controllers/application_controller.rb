@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   protected 
     def layout_by_signin
 
-      unless cookies[:LoginUserInfo].nil?
+      unless cookies[:LoginUserInfo].nil? || cookie[:access_token].nil?
         "bare"
       else
         unless user_signed_in?
@@ -23,10 +23,18 @@ class ApplicationController < ActionController::Base
    
       end
     end
+
     def current_user_hash 
-      cookie_value = cookies[:LoginUserInfo]
-      user_info cookie_value
-      
+      unless cookies[:access_token].nil? 
+        access_token  = cookies[:access_token] 
+        logger.info "access_token: " + access_token
+      else 
+        if !cookies[:LoginUserInfo].nil? 
+          cookie_value = cookies[:LoginUserInfo]
+          user_info cookie_value
+        end
+      end
+
     end 
     def authenticate_login!
       # cookies[:LoginUserInfo] = "aaa"
@@ -162,6 +170,11 @@ class ApplicationController < ActionController::Base
     h[:v] = Settings.top_version
     h[:sign_method] = Settings.top_sign_method
     h 
+  end
+
+
+  def user_new_info access_token 
+     access_token 
   end
 
   def user_info cookie_value
