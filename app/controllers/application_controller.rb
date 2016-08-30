@@ -25,9 +25,8 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user_hash 
-      unless cookies[:access_token].nil? 
-        access_token  = cookies[:access_token] 
-        logger.info "access_token: " + access_token
+      unless access_token_value.nil? 
+        logger.info "access_token_value: #{access_token_value}"  
       else 
         if !cookies[:LoginUserInfo].nil? 
           cookie_value = cookies[:LoginUserInfo]
@@ -38,26 +37,30 @@ class ApplicationController < ActionController::Base
     end 
     def authenticate_login!
       # cookies[:LoginUserInfo] = "aaa"
-      if cookies[:LoginUserInfo].nil?
+      if cookies[:LoginUserInfo].nil? and cookies[:access_token].nil?
         authenticate_user!
       end
     end
     def authorized!
-      cookie_value = cookies[:LoginUserInfo] 
-      origin_url_arr = request.original_url.split "?"
-      origin_url = origin_url_arr[0]
-      logger.info "origin_url: #{origin_url}"
-      if Rails.env.production?
-        if cookie_value.nil?
-          logger.info "cookie_value is nil"
-          not_allowed 
-          return 
+      if access_token_value.nil? 
+        cookie_value = cookies[:LoginUserInfo] 
+        origin_url_arr = request.original_url.split "?"
+        origin_url = origin_url_arr[0]
+        logger.info "origin_url: #{origin_url}"
+        if Rails.env.production?
+          if cookie_value.nil?
+            logger.info "cookie_value is nil"
+            not_allowed 
+            return 
+          end
+          code = re_pms origin_url, cookie_value
+          logger.info "code: #{code}"
+          unless code == "200" or code == "4040"
+            not_allowed 
+          end
         end
-        code = re_pms origin_url, cookie_value
-        logger.info "code: #{code}"
-        unless code == "200" or code == "4040"
-          not_allowed 
-        end
+      else 
+        logger.info "access_token_value: #{access_token_value}"  
       end
     end
 
@@ -205,4 +208,9 @@ class ApplicationController < ActionController::Base
     end
    
   end 
+
+  def access_token_value 
+    cookies[:access_token]
+  end
+
 end
