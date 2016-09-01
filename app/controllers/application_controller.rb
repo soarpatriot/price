@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   protected 
     def layout_by_signin
 
-      unless cookies[:LoginUserInfo].nil? || cookies[:access_token].nil?
+      if !cookies[:LoginUserInfo].nil? || !cookies[:access_token].nil?
         "bare"
       else
         unless user_signed_in?
