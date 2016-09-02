@@ -61,6 +61,11 @@ class ApplicationController < ActionController::Base
         end
       else 
         logger.info "access_token_value: #{access_token_value}"  
+        code = pms_right_v2 origin_url, access_token_value
+        logger.info "rights v2 code: #{code}"
+        unless code == "200" or code == "4040"
+          not_allowed 
+        end
       end
     end
 
@@ -72,6 +77,14 @@ class ApplicationController < ActionController::Base
  
     end
    
+    def pms_right_v2 origin_url, access_token 
+      right_url = "#{Settings.pms_base_url}/V2/rights/#{access_token}/url?url=#{origin_url}"
+      response = RestClient.get right_url
+      result_hash = JSON.parse response,:symbolize_names => true
+      result_hash[:code]
+
+    end 
+
     def allow_iframe 
       response.headers.except! 'X-Frame-Options'
       #response.headers["X-FRAME-OPTIONS"] = "ALLOW-FROM #{Settings.parent_frame}"
