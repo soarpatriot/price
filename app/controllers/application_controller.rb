@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
     end
    
     def pms_right_v2 origin_url, access_token 
-      right_url = "#{Settings.pms_base_url}/V2/rights/#{access_token}/url?url=#{origin_url}"
+      right_url = "#{Settings.pms_base_url}/v2/rights/#{access_token}/url?url=#{origin_url}"
       response = RestClient.get right_url
       result_hash = JSON.parse response,:symbolize_names => true
       result_hash[:code]
