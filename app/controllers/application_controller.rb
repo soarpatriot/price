@@ -213,8 +213,9 @@ class ApplicationController < ActionController::Base
       end
   end
   def log_guoguo_opt h 
+    logger.info "log into guoguo"
     user = current_user_hash
-
+    logger.info "obtain user"
     unless user.nil?  
       logger.info "user id: #{user[:id]}, user name: #{user[:name]}, user code: #{user[:code]}"
       GuoGuoLog.create user_id: user[:id], user_name: user[:name], 
