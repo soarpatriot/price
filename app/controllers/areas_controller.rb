@@ -97,6 +97,8 @@ class AreasController < ApplicationController
          logger.info h.to_json 
          
          h = save_or_update_to_guoguo h
+         logger.info "save or update"  
+         logger.info h.to_json 
          if h[:success_response] 
            if h[:success_response][:is_success]
              ea = man.express_areas.where(area_id: @area.id ).first
