@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :man_messages
   require 'sidekiq/web'
   devise_for :admins
   devise_for :users

@@ -1,0 +1,13 @@
+= simple_form_for(@man_message) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :is_success
+    = f.input :status_message
+    = f.input :courier_name
+    = f.input :courier_mobile
+    = f.input :account_id
+    = f.input :employee_no
+
+  .form-actions
+    = f.button :submit

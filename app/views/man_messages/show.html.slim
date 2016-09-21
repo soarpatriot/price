@@ -1,0 +1,24 @@
+p#notice = notice
+
+p
+  strong Is success:
+  = @man_message.is_success
+p
+  strong Status message:
+  = @man_message.status_message
+p
+  strong Courier name:
+  = @man_message.courier_name
+p
+  strong Courier mobile:
+  = @man_message.courier_mobile
+p
+  strong Account:
+  = @man_message.account_id
+p
+  strong Employee no:
+  = @man_message.employee_no
+
+= link_to 'Edit', edit_man_message_path(@man_message)
+'|
+= link_to 'Back', man_messages_path

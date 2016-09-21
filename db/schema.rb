@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825061917) do
+ActiveRecord::Schema.define(version: 20160921084946) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20160825061917) do
     t.datetime "updated_at"
     t.integer  "station_id"
     t.integer  "etype",      default: 0
+    t.integer  "guoguo"
   end
 
   create_table "guo_guo_logs", force: true do |t|
@@ -125,6 +126,17 @@ ActiveRecord::Schema.define(version: 20160825061917) do
     t.datetime "updated_at"
     t.integer  "ktype"
     t.string   "api_secret"
+  end
+
+  create_table "man_messages", force: true do |t|
+    t.integer  "is_success"
+    t.string   "status_message"
+    t.string   "courier_name"
+    t.string   "courier_mobile"
+    t.string   "account_id"
+    t.string   "employee_no"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "orders", force: true do |t|

@@ -3,6 +3,7 @@ class Expressman < ActiveRecord::Base
   has_many :express_areas
   has_many :areas, through: :express_areas
   enum etype: [:no_syn,:syned,:imported ]
+  enum guoguo: [:not_verify, :verified ]
 
   scope :imported, -> {where etype: Expressman.etypes[:imported]}
 

@@ -1,0 +1,31 @@
+h1 Listing man_messages
+
+table
+  thead
+    tr
+      th Is success
+      th Status message
+      th Courier name
+      th Courier mobile
+      th Account
+      th Employee no
+      th
+      th
+      th
+
+  tbody
+    - @man_messages.each do |man_message|
+      tr
+        td = man_message.is_success
+        td = man_message.status_message
+        td = man_message.courier_name
+        td = man_message.courier_mobile
+        td = man_message.account_id
+        td = man_message.employee_no
+        td = link_to 'Show', man_message
+        td = link_to 'Edit', edit_man_message_path(man_message)
+        td = link_to 'Destroy', man_message, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Man message', new_man_message_path
