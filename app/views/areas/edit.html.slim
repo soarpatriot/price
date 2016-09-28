@@ -2,7 +2,7 @@
   .row 
     .col-xs-12
       h3.text-centered  = @area.station.description 
-      p 区域名称："#{@area.label}"
+      p 区域名称：#{@area.label}
   .row
     .col-xs-6
       .expressman-container
@@ -13,13 +13,17 @@
           
         = form_tag( area_url(@area), method: :put ,id: "area-info-form") do 
           input type="hidden" value="#{params[:station_id]}" id="station_selected"
+          input type="hidden" value="#{params[:province_id]}" id="province_selected"
+          input type="hidden" value="#{params[:city_id]}" id="city_selected"
           p
             .form-group.man-select-group
               = label_tag "选择要同步的配送员："
               = select_tag "man_ids", options_from_collection_for_select(@station_expressmen, "id","name",params[:id]), class: "form-control", multiple: true
           button type="submit" id="search-areas" class="btn btn-primary" 同步
           | &nbsp;&nbsp;&nbsp;
-          = link_to '返回', areas_url, class: "btn btn-warning"
+          = link_to '返回', areas_url(province_id: @area.province_id, 
+            city_id: @area.city_id, 
+            station_id: @area.station_id), class: "btn btn-warning"
         // 
           = simple_form_for @area do |f|
           = f.error_notification
@@ -53,4 +57,4 @@
             span.label.label-danger 未同步
 
          td 
-          = link_to '删除', man_area_url(id: @area.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete
+           = link_to '删除', man_area_url(id: @area.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete

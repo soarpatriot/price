@@ -10,7 +10,17 @@ class Area < ActiveRecord::Base
   has_many :expressmen, through: :express_areas
 
   enum atype: [:commission,:delivery]
-
+  
+  def province_id
+    self.try(:city).try(:province).try(:id)
+  end
+ 
+  def city_id 
+    self.try(:city).try(:id)
+  end
+  def city
+    station.try(:stationable)
+  end
 
   def include_point? point 
     px = point[:lantitude] 

@@ -61,6 +61,9 @@ class AreasController < ApplicationController
   def update 
     @area = Area.find(params[:id])
     @station_expressmen = get_expressmen @area.station_id 
+    @station_id = params[:station_id]
+    @city_id = params[:city_id]
+    @province_id = params[:province_id]
     area_str_arr = [] 
     @area.points.each  do |a| 
       area_str_arr << "#{a.longitude},#{a.lantitude}" 
@@ -158,6 +161,7 @@ class AreasController < ApplicationController
     created_start = params[:created_start]
     created_end = params[:created_end]
     @areas = Area.all
+    @areas.unscoped unless atype.nil?
     if station_id.blank?
       city = City.find(city_id) unless city_id.blank? 
       if city.nil?
@@ -232,7 +236,10 @@ class AreasController < ApplicationController
        @result << h 
     end  
 =end
-    render "edit"
+    redirect_to edit_area_url(id: @area.id, 
+                              province_id: params[:province_id],
+                              station_id: params[:station_id],
+                              city_id: params[:city_id])
    end
 
 end

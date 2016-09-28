@@ -70,7 +70,10 @@
               | #{area.mian} 平方公里 
           td
             .btn-group
-              = link_to  "编辑", edit_area_url(area), class:"btn btn-warning"
+              = link_to  "编辑", edit_area_url(id: area.id, province_id: params[:province_id], 
+                city_id: params[:city_id],
+                station_id: params[:station_id]), 
+                class:"btn btn-warning"
  
   .row
     .col-lg-12.toolbar
