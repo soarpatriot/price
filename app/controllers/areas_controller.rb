@@ -201,6 +201,8 @@ class AreasController < ApplicationController
      @result = [] 
      @search_result = []
      man = Expressman.find(params[:expressman_id])
+     ExpressArea.where(expressman: man, area: @area).delete_all 
+=begin     
      exist_result= is_exist_in_guoguo man.id        
      exist_result = add_man_extra exist_result, man
      @search_result << exist_result
@@ -229,6 +231,7 @@ class AreasController < ApplicationController
        end
        @result << h 
     end  
+=end
     render "edit"
    end
 

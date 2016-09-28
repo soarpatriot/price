@@ -1,4 +1,8 @@
 .content-wraper
+  .row 
+    .col-xs-12
+      h3.text-centered  = @area.station.description 
+      p 区域名称："#{@area.label}"
   .row
     .col-xs-6
       .expressman-container
@@ -34,7 +38,6 @@
        th 名字
        th 手机号
        th 状态
-       th 裹裹认证
        th 操作
      - @area.expressmen.each do |expressman| 
        tr
@@ -48,12 +51,6 @@
               | 已同步
           - else 
             span.label.label-danger 未同步
+
          td 
-          -  if expressman.verified?
-            span.label.label-success
-              | 已认证
-          - else 
-            span.label.label-danger 未认证 
- 
-         td 
-          = link_to '同步删除到裹裹', man_area_url(id: @area.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete
+          = link_to '删除', man_area_url(id: @area.id, expressman_id: expressman.id),class:"btn btn-danger", data: {:confirm => '确定删除吗？'}, :method => :delete
