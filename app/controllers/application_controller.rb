@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
     def current_user_hash 
       unless access_token_value.nil? 
         logger.info "access_token_value: #{access_token_value}"  
+        c_hash = []
         begin 
           url = "#{pms_base_url}/employees/token?token=#{access_token_value}"
           user = RestClient::Request.execute(method: :get, url: url,
@@ -36,10 +37,10 @@ class ApplicationController < ActionController::Base
           c_hash[:id]  = user_hash[:employeeid]
           c_hash[:name] = user_hash[:employeename]
           c_hash[:code] = user_hash[:employeecode]
-          c_hash
         rescue  Exception => e
           logger.info  "exception e:  #{e}"
         end
+        c_hash
  
       else 
         if !cookies[:LoginUserInfo].nil? 
