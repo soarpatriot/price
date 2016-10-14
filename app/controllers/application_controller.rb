@@ -29,11 +29,12 @@ class ApplicationController < ActionController::Base
         logger.info "access_token_value: #{access_token_value}"  
         c_hash = []
         begin 
-          url = "#{pms_base_url}/employees/token?token=#{access_token_value}"
+          url = "#{Settings.pms_base_url}/v2/employees/token?token=#{access_token_value}"
           user = RestClient::Request.execute(method: :get, url: url,
                    timeout: 3, open_timeout: 2)
           #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
           user_hash = JSON.parse user, symbolize_names: true 
+          logger.info "user hash #{user_hash.to_json}"
           c_hash[:id]  = user_hash[:employeeid]
           c_hash[:name] = user_hash[:employeename]
           c_hash[:code] = user_hash[:employeecode]
