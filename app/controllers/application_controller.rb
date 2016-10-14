@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     def current_user_hash 
       unless access_token_value.nil? 
         logger.info "access_token_value: #{access_token_value}"  
-        c_hash = []
+        c_hash = {}
         begin 
           url = "#{Settings.pms_base_url}/v2/employees/token?token=#{access_token_value}"
           user = RestClient::Request.execute(method: :get, url: url,
