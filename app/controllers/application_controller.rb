@@ -27,6 +27,20 @@ class ApplicationController < ActionController::Base
     def current_user_hash 
       unless access_token_value.nil? 
         logger.info "access_token_value: #{access_token_value}"  
+        begin 
+          url = "#{pms_base_url}/employees/token?token=#{access_token_value}"
+          user = RestClient::Request.execute(method: :get, url: url,
+                   timeout: 3, open_timeout: 2)
+          #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user_hash = JSON.parse user, symbolize_names: true 
+          c_hash[:id]  = user_hash[:employeeid]
+          c_hash[:name] = user_hash[:employeename]
+          c_hash[:code] = user_hash[:employeecode]
+          c_hash
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+ 
       else 
         if !cookies[:LoginUserInfo].nil? 
           cookie_value = cookies[:LoginUserInfo]
@@ -219,12 +233,15 @@ class ApplicationController < ActionController::Base
     logger.info "obtain user"
     logger.info user.to_json
     unless user.nil?  
-
       logger.info "user not nil"
       logger.info "user id: #{user[:id]}, user name: #{user[:name]}, user code: #{user[:code]}"
       GuoGuoLog.create user_id: user[:id], user_name: user[:name], 
         user_code: user[:code], 
-        expressman_id: h[:cp_user_id], gtype: h[:oper_type]
+        expressman_id: h[:cp_user_id], 
+        gtype: h[:oper_type],
+        expressman_code: h[:employee_no],
+        expressman_name: h[:name],
+        expressman_mobile: h[:phone]
     end
    
   end 
