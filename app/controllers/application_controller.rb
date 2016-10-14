@@ -148,7 +148,7 @@ class ApplicationController < ActionController::Base
   end 
 
   def save_or_update_to_guoguo h
-    # log_guoguo_opt h
+    log_guoguo_opt h
     begin  
       resp = RestClient.post Settings.top_url, h
       result_hash = JSON.parse(resp, {:symbolize_names => true})
