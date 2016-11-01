@@ -7,11 +7,11 @@ wb.add_worksheet(name: "stations") do |sheet|
       #area_desc = "提成区域：#{size}个 \n "
       station.areas.each do | area |
         #area_desc += "#{area.commission.name}: #{area.commission.price}\n"
-        sheet.add_row [station.stationable.province.description, station.stationable.description,station.description,station.address, station.longitude, station.lantitude, area.label,area.code,area.mian,area.latitude,area.longitude,area.distance,area.commission.try(:price)]
+        sheet.add_row [station.stationable.try(:province).try(:description), station.stationable.try(:description),station.description,station.address, station.longitude, station.lantitude, area.label,area.code,area.mian,area.latitude,area.longitude,area.distance,area.commission.try(:price)]
       end
     else
       #area_desc = "提成区域：无 "
-      sheet.add_row [station.stationable.try(:province).try(:description), station.stationable.description,station.description,station.address, station.longitude, station.lantitude, '无','无','无','无','无','无','无']
+      sheet.add_row [station.stationable.try(:province).try(:description), station.stationable.try(:description),station.description,station.address, station.longitude, station.lantitude, '无','无','无','无','无','无','无']
     end 
  
 
