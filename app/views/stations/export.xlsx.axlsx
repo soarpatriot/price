@@ -11,7 +11,7 @@ wb.add_worksheet(name: "stations") do |sheet|
       end
     else
       #area_desc = "提成区域：无 "
-      sheet.add_row [station.stationable.province.description, station.stationable.description,station.description,station.address, station.longitude, station.lantitude, '无','无','无','无','无','无','无']
+      sheet.add_row [station.stationable.try(:province).try(:description), station.stationable.description,station.description,station.address, station.longitude, station.lantitude, '无','无','无','无','无','无','无']
     end 
  
 
