@@ -16,6 +16,23 @@ namespace :sidekiq do
      end
     end
   end 
+  task :stop do
+    invoke :"rvm:hook"
+    on roles :app do
+      within current_path do
+        with rails_env: fetch(:rails_env) do 
+          if test("[ -f #{fetch(:sidekiq_pid)} ]")
+            info ">>>>>> stopping sidekiq"
+            execute :bundle, "exec sidekiqctl stop #{fetch(:sidekiq_pid)} 0"
+          else
+            error ">>>>>> sidekiq already stopped"
+          end
+   
+        end
+     end
+    end
+  end 
+
 
   task :update_config do
     on roles :web do
