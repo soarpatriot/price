@@ -61,61 +61,28 @@ class AreasController < ApplicationController
   def update 
     @area = Area.find(params[:id])
     @station_expressmen = get_expressmen @area.station_id 
-    @station_id = params[:station_id]
-    @city_id = params[:city_id]
-    @province_id = params[:province_id]
-    area_str_arr = [] 
-    @area.points.each  do |a| 
-      area_str_arr << "#{a.longitude},#{a.lantitude}" 
-    end
-    area_str = area_str_arr.join(";")
+    #@station_id = params[:station_id]
+    #@city_id = params[:city_id]
+    #@province_id = params[:province_id]
+    #area_str_arr = [] 
+    #@area.points.each  do |a| 
+    #  area_str_arr << "#{a.longitude},#{a.lantitude}" 
+    #end
+    #area_str = area_str_arr.join(";")
 
     @result = [] 
     @search_result = []
+    if params[:man_ids].blank?
+      return render "edit"
+    end
     ids = params[:man_ids].split(",")
     @expressmen = Expressman.find(ids) 
     # @expressmen = Expressman.find(params[:man_ids].reject(&:blank?)) 
     @expressmen.each do |man|
-       exist_result= is_exist_in_guoguo man.id        
-       exist_result = add_man_extra exist_result, man
-       @search_result << exist_result
-       unless exist_result[:is_error]   || exist_result[:error_response] || exist_result[:result][:is_success] == false
-
-         h = basic_params @area     
-         man_exist = exist_result[:result][:data]
-         if man_exist 
-          man.syned!
-          h[:oper_type] = 1
-         else
-          h[:oper_type] = 0
-         end
-         h[:scope] = area_str 
-         h[:phone] = man.mobile
-         h[:cp_user_id] = man.id
-         h[:employee_no] = man.code unless man.code.blank?
-         h[:name] = man.name
-         h.delete :sign
-         signed = sign_params h
-         h[:sign] = signed.upcase
-         logger.info h.to_json 
-         
-         h = save_or_update_to_guoguo h
-         logger.info "save or update"  
-         logger.info h.to_json 
-         if h[:success_response] 
-           if h[:success_response][:is_success]
-             ea = man.express_areas.where(area_id: @area.id ).first
-             logger.info "area is nil? #{ea.nil?}"  
-             if ea.nil? 
-               man.areas << @area
-             end 
-             man.syned!
-             man.save
-           end
-
-         end
-         @result << h 
-       end
+      ea = man.express_areas.where(area_id: @area.id ).first
+      if ea.nil? 
+        man.areas << @area
+      end 
     end
 
 
