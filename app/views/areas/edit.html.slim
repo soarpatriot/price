@@ -1,4 +1,5 @@
 .content-wraper
+  h1.text-center 添加区域配送员
   .row 
     .col-xs-12
       h3.text-centered  = @area.station.description 
@@ -17,13 +18,13 @@
           input type="hidden" value="#{params[:city_id]}" id="city_selected"
           p
             .form-group.man-select-group
-              = label_tag "选择要同步的配送员："
+              = label_tag "选择要添加的配送员："
               = select_tag "man_ids", options_from_collection_for_select(@station_expressmen, "id","name",params[:id]), class: "form-control", multiple: true
-          button type="submit" id="search-areas" class="btn btn-primary" 同步
+          button type="submit" id="search-areas" class="btn btn-primary" 添加
           | &nbsp;&nbsp;&nbsp;
           = link_to '返回', areas_url(province_id: @area.province_id, 
             city_id: @area.city_id, 
-            station_id: @area.station_id), class: "btn btn-warning"
+            station_id: @area.station_id), class: "btn btn-default"
         // 
           = simple_form_for @area do |f|
           = f.error_notification
@@ -41,7 +42,6 @@
        th 编号
        th 名字
        th 手机号
-       th 状态
        th 操作
      - @area.expressmen.each do |expressman| 
        tr
@@ -49,7 +49,8 @@
          td = "#{expressman.code}" 
          td = "#{expressman.name}" 
          td = "#{expressman.mobile}" 
-         td 
+         //
+          td 
           -  if expressman.syned?
             span.label.label-success
               | 已同步
