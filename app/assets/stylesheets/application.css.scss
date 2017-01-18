@@ -28,6 +28,9 @@
 @import "font-awesome";
 @import "compass";
 
+body {
+  overflow-y: scroll;
+}
 html, body, .main-content,  #map-container{
   height: 100%;
 }
