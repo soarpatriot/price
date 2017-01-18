@@ -140,3 +140,14 @@ html, body, .main-content,  #map-container{
     cursor: inherit;
     display: block;
 }
+
+::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #F5F5F5;
+}
