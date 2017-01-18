@@ -149,6 +149,7 @@ html, body, .main-content,  #map-container{
 }
 ::-webkit-scrollbar-thumb {
   background-color: #999;
+  visibility: visible;
 }
 ::-webkit-scrollbar {
   width: 6px;
