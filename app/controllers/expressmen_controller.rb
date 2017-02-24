@@ -5,26 +5,25 @@ class ExpressmenController < ApplicationController
   end
   
   def imports 
+  #  if params[:expressmen]
+      # uploader = ExpressmanUploader.new
 
-    if params[:expressmen]
-      uploader = ExpressmanUploader.new
-
-      uploader.store!(params[:expressmen]) 
-      workbook = RubyXL::Parser.parse(uploader.file.file)
-      sheet1 = workbook.worksheets[0]
-      check_result = Expressman.check_xls sheet1  
-      if check_result[:has_error]
-        redirect_to expressmen_url, alert: check_result[:tips]
-      else 
-        Expressman.save_xls_expressmen(sheet1)
-        redirect_to expressmen_url, alert: '上传保存成功！'
-      end 
+  #    uploader.store!(params[:expressmen]) 
+  #   workbook = RubyXL::Parser.parse(uploader.file.file)
+  #    sheet1 = workbook.worksheets[0]
+  #    check_result = Expressman.check_xls sheet1  
+  #    if check_result[:has_error]
+  #      redirect_to expressmen_url, alert: check_result[:tips]
+  #    else 
+  #      Expressman.save_xls_expressmen(sheet1)
+  #      redirect_to expressmen_url, alert: '上传保存成功！'
+  #    end 
       
-    else
+  #  else
 
-      redirect_to expressmen_url, alert: '请上传文件！'
-    end
-
+  #    redirect_to expressmen_url, alert: '请上传文件！'
+  #  end
+    
    #sheet1.sheet_data.each do |row|
     #  logger.info row[0]
     #end
