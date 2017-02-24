@@ -36,7 +36,6 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   resources :expressmen do 
     collection do 
-      post 'imports'
       put 'guoguo'
       get 'exports'
     end
