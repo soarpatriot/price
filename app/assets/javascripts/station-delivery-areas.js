@@ -117,7 +117,7 @@ $(function(){
         $("#area-tip").text("名称不能大于6个字符！");
         return;
       }
-      var cookieValue = getCookie("LoginUserInfo"); 
+      var cookieValue = getCookie("access_token");
       console.log("cookieValue: "+cookieValue);
       $.ajax({url:api.baseUrl + "/areas/exists?api_key=" + api.appKey, data:{area_id:areaId,station_id:stationId,code:code}})
          .done(function(flag){
