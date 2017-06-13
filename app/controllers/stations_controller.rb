@@ -136,7 +136,10 @@ class StationsController < ApplicationController
          @stations = City.find(city_id).stations.page params[:page] 
        end 
      end
- 
+     ids = authed_station_ids
+     unless ids.length == 0
+      @stations = @stations.where(id: ids) 
+     end
    end
    def search_imported_station
      @station = Station.new

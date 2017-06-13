@@ -252,4 +252,25 @@ class ApplicationController < ActionController::Base
     cookies[:access_token]
   end
 
+  def authed_station_ids 
+      ids_arr = []
+      logger.info "authed ids"  
+      unless access_token_value.nil? 
+        logger.info "access_token_value: #{access_token_value}"  
+        begin 
+          url = "#{Settings.pms_base_url}/v2/employees/dataauth?token=#{access_token_value}"
+          rights = RestClient::Request.execute(method: :get, url: url,
+                   timeout: 3, open_timeout: 2)
+          #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          rights_arr = JSON.parse rights, symbolize_names: true 
+          logger.info "user hash #{rights_arr.to_json}"
+          ids_arr = rights_arr.map{|r| r.deptId}
+          # ids_str =ids.join(",")
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+      end 
+      ids_arr
+  end 
+ 
 end
