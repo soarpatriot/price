@@ -160,14 +160,6 @@ ActiveRecord::Schema.define(version: 20170317093357) do
     t.string   "code"
   end
 
-  create_table "people", force: true do |t|
-    t.string   "name"
-    t.string   "mobile"
-    t.string   "identity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "points", force: true do |t|
     t.decimal  "lantitude",      precision: 15, scale: 10
     t.decimal  "longitude",      precision: 15, scale: 10
