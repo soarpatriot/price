@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021064431) do
+ActiveRecord::Schema.define(version: 20170317093357) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -192,14 +192,14 @@ ActiveRecord::Schema.define(version: 20161021064431) do
   create_table "stations", force: true do |t|
     t.string   "description"
     t.text     "address"
-    t.float    "lantitude",        limit: 24
-    t.float    "longitude",        limit: 24
+    t.decimal  "lantitude",        precision: 15, scale: 10
+    t.decimal  "longitude",        precision: 15, scale: 10
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "stationable_id"
     t.string   "stationable_type"
-    t.integer  "stype",                       default: 0
+    t.integer  "stype",                                      default: 0
   end
 
   add_index "stations", ["description"], name: "index_stations_on_description", using: :btree

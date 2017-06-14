@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   protected 
     def layout_by_signin
 
-      if !cookies[:LoginUserInfo].nil? || !cookies[:access_token].nil?
+      if !cookies[:access_token].nil?
         "bare"
       else
         unless user_signed_in?
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
     end 
     def authenticate_login!
       # cookies[:LoginUserInfo] = "aaa"
-      if cookies[:LoginUserInfo].nil? and cookies[:access_token].nil?
+      if cookies[:access_token].nil?
         authenticate_user!
       end
     end
@@ -63,21 +63,7 @@ class ApplicationController < ActionController::Base
       origin_url = origin_url_arr[0]
    
       logger.info "origin_url: #{origin_url}"
-      if access_token_value.nil? 
-        cookie_value = cookies[:LoginUserInfo] 
-        if Rails.env.production?
-          if cookie_value.nil?
-            logger.info "cookie_value is nil"
-            not_allowed 
-            return 
-          end
-          code = re_pms origin_url, cookie_value
-          logger.info "code: #{code}"
-          unless code == "200" or code == "4040"
-            not_allowed 
-          end
-        end
-      else 
+      unless access_token_value.nil? 
         logger.info "access_token_value: #{access_token_value}"  
         code = pms_right_v2 origin_url, access_token_value
         logger.info "rights v2 code: #{code}"
@@ -252,4 +238,25 @@ class ApplicationController < ActionController::Base
     cookies[:access_token]
   end
 
+  def authed_station_ids 
+      ids_arr = []
+      logger.info "authed ids"  
+      unless access_token_value.nil? 
+        logger.info "access_token_value: #{access_token_value}"  
+        begin 
+          url = "#{Settings.pms_base_url}/v2/employees/dataauth?token=#{access_token_value}"
+          rights = RestClient::Request.execute(method: :get, url: url,
+                   timeout: 3, open_timeout: 2)
+          #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          rights_arr = JSON.parse rights, symbolize_names: true 
+          logger.info "user hash #{rights_arr.to_json}"
+          ids_arr = rights_arr.map{|r| r[:deptId]}
+          # ids_str =ids.join(",")
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+      end 
+      ids_arr
+  end 
+ 
 end
