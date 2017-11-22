@@ -125,6 +125,18 @@ class StationsController < ApplicationController
      @station = Station.new
      province_id = params[:province_id]
      city_id = params[:city_id]
+     @stations = Station.all 
+
+     ids = authed_station_ids
+     unless ids.length == 0
+      len = ids.length
+      temp = []
+      for i in 0..len do 
+        piece_ids = ids.slice(i*1000, 1000+1000*i)
+        temp =  @stations.where(id: piece_ids) + temp
+      end
+      @stations = temp
+     end
 
      if province_id.blank?
        params[:city_id] = ""
@@ -135,16 +147,6 @@ class StationsController < ApplicationController
        else
          @stations = City.find(city_id).stations.page params[:page] 
        end 
-     end
-     ids = authed_station_ids
-     unless ids.length == 0
-      len = ids.length
-      temp = []
-      for i in 0..len do 
-        piece_ids = ids.slice(i*1000, 1000+1000*i)
-        temp =  @stations.where(id: piece_ids) + temp
-      end
-      @stations = temp
      end
    end
    def search_imported_station
