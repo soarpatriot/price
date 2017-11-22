@@ -138,7 +138,13 @@ class StationsController < ApplicationController
      end
      ids = authed_station_ids
      unless ids.length == 0
-      @stations = @stations.where(id: ids) 
+      len = ids.length
+      temp = []
+      for i in 0..len do 
+        piece_ids = ids.slice(i*1000, 1000+1000*i)
+        temp =  @stations.where(id: piece_ids) + temp
+      end
+      @stations = temp
      end
    end
    def search_imported_station
