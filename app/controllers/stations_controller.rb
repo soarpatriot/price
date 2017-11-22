@@ -144,7 +144,11 @@ class StationsController < ApplicationController
         piece_ids = ids.slice(i*1000, 1000+1000*i)
         temp =  @stations.where(id: piece_ids) + temp
       end
-      @stations = temp
+      if temp.size == 0
+        @stations = Station.where(id: 1111111111111111111111)
+      else
+        @stations = temp
+      end
      end
      @stations = @stations.page params[:page]
    end
