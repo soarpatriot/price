@@ -146,7 +146,7 @@ class StationsController < ApplicationController
       end
       @stations = temp
      end
-     @stations = @stations.page parms[:page]
+     @stations = @stations.page params[:page]
    end
    def search_imported_station
      @station = Station.new
