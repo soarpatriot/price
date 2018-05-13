@@ -22,6 +22,9 @@ staging:
   <<: *defaults
   database: price_test
 
+stage:
+  <<: *defaults
+  database: price_test
 test:
   <<: *defaults
   database: price_test
